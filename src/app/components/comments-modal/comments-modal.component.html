@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Comments</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-avatar>
+        <img [src]="post?.authorAvatar" />
+      </ion-avatar>
+      <ion-card-subtitle>{{
+        getUserLabel(post?.authorId, post?.authorRole)
+      }}</ion-card-subtitle>
+      <ion-card-title>{{ post?.content }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="post?.imageUrl">
+      <img [src]="post.imageUrl" alt="Post image" />
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list class="comment-thread">
+    <ng-container *ngFor="let comment of post?.comments">
+      <ion-item class="comment-item">
+        <ion-avatar slot="start">
+          <img [src]="comment.authorAvatar" />
+        </ion-avatar>
+        <ion-label class="ion-text-wrap">
+          <h3>{{ getUserLabel(comment.authorId, comment.authorRole) }}</h3>
+          <ion-note>{{
+            comment.timestamp?.toDate() | date : "short"
+          }}</ion-note>
+          <p>{{ comment.content }}</p>
+        </ion-label>
+      </ion-item>
+
+      <!-- Display replies -->
+      <ion-list class="reply-list">
+        <ion-item *ngFor="let reply of comment.replies" class="reply-item">
+          <ion-avatar slot="start">
+            <img [src]="reply.authorAvatar" />
+          </ion-avatar>
+          <ion-label class="ion-text-wrap">
+            <h3>{{ getUserLabel(reply.authorId, reply.authorRole) }}</h3>
+            <p>{{ reply.content }}</p>
+            <ion-note>{{
+              reply.timestamp?.toDate() | date : "short"
+            }}</ion-note>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <!-- Reply input -->
+      <ion-item lines="none" class="reply-input">
+        <ion-input
+          [(ngModel)]="newReply[comment.id]"
+          placeholder="Reply..."
+        ></ion-input>
+        <ion-button
+          fill="clear"
+          (click)="
+            replyToComment(comment, newReply[comment.id]);
+            newReply[comment.id] = ''
+          "
+        >
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item lines="none" class="comment-input">
+      <ion-avatar slot="start">
+        <img [src]="userAvatar" />
+      </ion-avatar>
+      <ion-input
+        [(ngModel)]="newComment"
+        (ionInput)="newComment = $event.target.value"
+        placeholder="Add a comment..."
+      ></ion-input>
+      <ion-button
+        fill="clear"
+        (click)="addComment(post, newComment); newComment = ''"
+      >
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

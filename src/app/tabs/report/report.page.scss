@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ion-header {
+  --background: #990008;
+  --color: white;
+}
+
+ion-content {
+  background-color: #f7f7f7;
+  position: relative;
+}
+
+
+.background-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../../../assets/logo-no-text.png"); 
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.report-container {
+  position: relative;
+  max-width: 28rem; 
+  margin: auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.text-red-700 {
+  color: #990008;
+}
+
+.rounded-input {
+  --background: #f1f1f1;
+  --border-radius: 0.75rem;
+  padding: 0.5rem;
+}
+
+ion-item.rounded-input ion-input,
+ion-item.rounded-input ion-textarea {
+  border-radius: 0.75rem;
+  background-color: #f1f1f1;
+}
+
+ion-button {
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+.image-preview-container {
+  text-align: center;
+}
+
+.image-preview-container img {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}

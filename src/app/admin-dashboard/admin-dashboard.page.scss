@@ -1,0 +1,504 @@
+.selected {
+  --color: var(--ion-color-primary);
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+.calendar-container {
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0 auto;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1000;
+  width: 16rem;
+  margin-top: 4%;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0);
+}
+
+.main-content {
+  margin-left: 16rem;
+  padding: 1rem;
+  width: calc(100% - 16rem);
+  overflow-y: auto;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.bg-black {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.max-h-full {
+  max-height: 100%;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050 !important;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+.modal-container {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transform: scale(0.8);
+  animation: zoomIn 0.3s forwards;
+}
+
+.modal-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.close-icon:hover {
+  color: #ff3b30;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.8);
+  }
+}
+:host {
+  #map {
+    width: 100%;
+    height: 400px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+  }
+}
+
+:host ::ng-deep {
+  .calendar-container {
+    @apply bg-white rounded-lg shadow-lg p-6;
+
+    .fc-toolbar-title {
+      @apply text-xl font-bold text-gray-800;
+    }
+
+    .fc-button-primary {
+      @apply bg-red-700 border-red-700 text-white px-4 py-2 rounded;
+
+      &:hover {
+        @apply bg-red-800 border-red-800;
+      }
+
+      &:not(:disabled):active,
+      &:not(:disabled).fc-button-active {
+        @apply bg-red-800 border-red-800;
+      }
+    }
+
+    .fc-scrollgrid {
+      @apply border-gray-200;
+    }
+
+    .fc-col-header-cell {
+      @apply bg-gray-50;
+
+      .fc-col-header-cell-cushion {
+        @apply text-gray-700 font-semibold py-3;
+      }
+    }
+
+    .fc-daygrid-day {
+      @apply hover:bg-gray-50;
+
+      .fc-daygrid-day-number {
+        @apply text-gray-700 font-medium;
+      }
+    }
+
+    .fc-event {
+      @apply bg-red-600 border-red-700 cursor-pointer;
+
+      &:hover {
+        @apply bg-red-700;
+      }
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      width: 90%;
+    }
+
+    .fc-day-today {
+      @apply bg-red-50;
+    }
+
+    .fc-timegrid-slot {
+      @apply border-gray-100;
+    }
+
+    .fc-timegrid-slot-label {
+      @apply text-gray-600;
+    }
+
+    .fc-list-day-cushion {
+      @apply bg-gray-50;
+    }
+
+    .fc-list-event:hover td {
+      @apply bg-gray-50;
+    }
+
+    .fc-popover {
+      @apply bg-white shadow-lg rounded-lg;
+
+      .fc-popover-header {
+        @apply bg-gray-50 px-4 py-2;
+      }
+
+      .fc-popover-body {
+        @apply p-2;
+      }
+    }
+  }
+}
+
+.fc-toolbar-title {
+  font-size: 1.2rem;
+}
+
+.fc-button-primary {
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+}
+
+.fc-daygrid-day,
+.fc-timegrid-slot,
+.fc-col-header-cell {
+  min-width: 80px;
+}
+
+.modal-content {
+  pointer-events: auto;
+  z-index: 1051;
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    height: 100vh;
+    width: 16rem;
+  }
+  .main-content {
+    margin-left: 16rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  .main-content {
+    width: 100%;
+  }
+  .sidebar {
+    margin-top: 15%;
+  }
+
+  .calendar-container {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .fc-event {
+    font-size: 0.75rem;
+  }
+
+  .fc-toolbar-title {
+    font-size: 1rem;
+  }
+
+  .fc-button-primary {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .fc-col-header-cell,
+  .fc-daygrid-day {
+    font-size: 0.75rem;
+    padding: 0.3rem;
+  }
+
+  .fc-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 768px) {
+  .calendar-container {
+    max-width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  :host ::ng-deep .calendar-container {
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  :host ::ng-deep .fc-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  :host ::ng-deep .fc-toolbar-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  :host ::ng-deep .fc-button-primary {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  :host ::ng-deep .fc-col-header-cell,
+  :host ::ng-deep .fc-daygrid-day {
+    font-size: 0.75rem;
+    padding: 0.3rem;
+  }
+
+  :host ::ng-deep .fc-event {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 768px) {
+  .event-form-container {
+    width: 100vw;
+    height: 100vh;
+    padding: 1rem;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .event-form-container h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .event-form-container .close-icon,
+  .event-form-container ion-button[fill="clear"] {
+    position: absolute;
+    top: 2rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: #333;
+    z-index: 1060;
+  }
+
+  .event-form-container ion-input,
+  .event-form-container ion-select,
+  .event-form-container ion-textarea,
+  .event-form-container input,
+  .event-form-container label {
+    width: 100%;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .event-form-container {
+    width: 100vw;
+    margin-left: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1050;
+    overflow-y: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .event-form-container {
+    width: calc(100%);
+
+    position: relative;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .modal-overlay2 {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+  }
+
+  .modal-container2 {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  .close-icon2 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+  }
+}
+.max-h-96 {
+  max-height: 24rem;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.hover\:shadow-md:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* New Modal Styling */
+.modal-content {
+  max-width: 600px;
+  border-radius: 10px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

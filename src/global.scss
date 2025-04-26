@@ -1,0 +1,23 @@
+@import "@ionic/angular/css/core.css";
+@import "../node_modules/leaflet/dist/leaflet.css";
+@import "../node_modules/leaflet-control-geocoder/dist/Control.Geocoder.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+// /* FullCalendar Styles */
+// @import "../node_modules/@fullcalendar/core/index.css";
+// @import "../node_modules/@fullcalendar/daygrid/index.css";
+// @import "../node_modules/@fullcalendar/timegrid/index.css";
+// @import "../node_modules/@fullcalendar/list/index.css";
+
+/* Optional CSS utils */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+@import "@ionic/angular/css/palettes/dark.system.css";

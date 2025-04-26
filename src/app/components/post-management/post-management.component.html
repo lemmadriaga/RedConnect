@@ -1,0 +1,108 @@
+<div class="flex flex-col h-full">
+  <!-- Header Section with Search, Filter, and Sort Options -->
+  <div class="bg-white p-4 shadow">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <!-- Search Input -->
+      <div class="flex-1">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange($event)"
+          placeholder="Search posts..."
+          class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+        />
+      </div>
+      <!-- Filter and Sort Options -->
+      <div class="flex gap-4 items-center">
+        <div class="flex items-center gap-2">
+          <label class="text-sm text-gray-600">Filter by:</label>
+          <select
+            [(ngModel)]="currentFilter"
+            (change)="onFilterChange($event.target.value)"
+            class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            <option value="all">All Posts</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+          </select>
+        </div>
+        <!-- <div class="flex items-center gap-2">
+          <label class="text-sm text-gray-600">Sort by:</label>
+          <select
+            [(ngModel)]="currentSort"
+            (change)="onSortChange($event.target.value)"
+            class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Posts List Section -->
+  <div class="flex-1 overflow-auto p-6 bg-gray-50">
+    <div *ngIf="filteredPosts.length > 0; else noPostsFound">
+      <div
+        *ngFor="let post of filteredPosts"
+        class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-4"
+      >
+        <div class="p-6">
+          <!-- Post Header -->
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center space-x-3">
+              <img
+                [src]="post.authorAvatar || 'assets/default-avatar.png'"
+                class="w-12 h-12 rounded-full object-cover"
+                alt="Author avatar"
+              />
+              <div>
+                <h3 class="font-semibold text-gray-900">
+                  {{ post.authorName }}
+                </h3>
+                <span class="text-sm text-gray-500">{{
+                  post.timestamp.toDate() | date : "medium"
+                }}</span>
+              </div>
+            </div>
+            <!-- Action Buttons -->
+            <div class="flex space-x-2">
+              <button
+                (click)="approvePost(post)"
+                *ngIf="post.approved === false"
+                class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+              >
+                Approve
+              </button>
+              <button
+                (click)="deletePost(post)"
+                class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          <!-- Post Content -->
+          <div class="prose max-w-none">
+            <p class="text-gray-600">{{ post.content }}</p>
+          </div>
+          <!-- Post Image (if available) -->
+          <div *ngIf="post.imageUrl" class="mt-4 flex justify-center">
+            <img
+              [src]="post.imageUrl"
+              alt="Post Image"
+              class="max-w-full max-h-60 rounded-lg object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- No posts found message -->
+    <ng-template #noPostsFound>
+      <div class="text-center text-gray-500">
+        No posts found matching your criteria
+      </div>
+    </ng-template>
+  </div>
+</div>

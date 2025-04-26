@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+ion-header {
+    --background: transparent !important; 
+  }
+  
+  ion-toolbar {
+    --background: transparent !important; 
+  }
+  
+  ion-content {
+    --background: transparent !important; 
+  }
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: transparent;
+}
+
+.background-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../../../assets/logo-no-text.png");
+  background-size: cover;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #a00;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.profile-image:hover .upload-overlay {
+  opacity: 1;
+}
+
+.upload-overlay ion-icon {
+  font-size: 2rem;
+  color: white;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--ion-color-medium);
+}
+
+ion-list {
+  width: 100%;
+}
+
+ion-item {
+  --background: #fff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    --background: #e2e6ea;
+  }
+}
+
+button {
+  width: 100%;
+  background-color: #990008;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #a00;
+  }
+}

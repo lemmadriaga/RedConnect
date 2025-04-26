@@ -1,0 +1,784 @@
+<ion-header class="bg-red-700">
+  <ion-toolbar color="danger">
+    <div class="flex items-center justify-between px-4 py-2">
+      <div class="flex items-center space-x-2">
+        <ion-button
+          fill="clear"
+          (click)="toggleSidebar()"
+          class="lg:hidden text-white"
+        >
+          <ion-icon name="menu-outline"></ion-icon>
+        </ion-button>
+        <img src="assets/logo-no-text.png" alt="Logo" class="w-10 h-10" />
+        <h1 class="text-white text-xl font-bold">Admin Dashboard</h1>
+      </div>
+      <ion-button fill="clear" (click)="logout()" class="text-white">
+        Logout
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="dashboard-container flex flex-col lg:flex-row h-full">
+    <!-- Sidebar -->
+    <div
+      [ngClass]="{
+          'active': !isSidebarVisible,   
+          'block lg:w-64 lg:h-full lg:block': true, 
+          'bg-gray-100': true,
+          'border-r': true,
+          'fixed': true
+        }"
+      class="sidebar"
+    >
+      <nav class="mt-4">
+        <div
+          *ngFor="let tab of tabs"
+          (click)="selectTab(tab)"
+          class="px-4 py-3 cursor-pointer transition-colors duration-200"
+          [class.bg-red-700]="tab.active"
+          [class.text-white]="tab.active"
+          [class.hover:bg-red-600]="!tab.active"
+        >
+          <div class="flex items-center space-x-3">
+            <ion-icon [name]="tab.icon" class="text-xl"></ion-icon>
+            <span>{{ tab.label }}</span>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div
+      [ngClass]="{'ml-0': !isSidebarVisible, 'lg:ml-64': isSidebarVisible}"
+      class="main-content flex-1 p-6 overflow-y-auto"
+    >
+      <!-- Dashboard Overview -->
+      <div *ngIf="currentTab === 'Dashboard'" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <!-- Total Users Card -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center space-x-3">
+              <ion-icon name="people" class="text-3xl text-red-700"></ion-icon>
+              <div>
+                <h3 class="text-gray-500">Total Users</h3>
+                <p class="text-2xl font-bold">{{ totalUsers }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- User Ratings Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-4">User Ratings</h3>
+            <canvas id="ratingsChart"></canvas>
+          </div>
+
+          <!-- Monthly User Registrations Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-4">
+              Monthly User Registrations
+            </h3>
+            <canvas id="monthlyRegistrationsChart"></canvas>
+          </div>
+
+          <!-- Event Analytics Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-4">Event Analytics Chart</h3>
+            <canvas id="eventChart"></canvas>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-4">Next Event Predictions</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Predicted Registrations -->
+              <div
+                class="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-6 shadow hover:shadow-lg transition duration-300"
+              >
+                <h4 class="text-gray-600 text-lg font-semibold mb-2">
+                  Predicted Absentees
+                </h4>
+                <p
+                  class="text-5xl font-bold text-red-700"
+                  *ngIf="predictedRegistrations !== 0; else noData"
+                >
+                  {{ predictedRegistrations }}
+                </p>
+              </div>
+
+              <!-- Predicted Attendees -->
+              <div
+                class="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-6 shadow hover:shadow-lg transition duration-300"
+              >
+                <h4 class="text-gray-600 text-lg font-semibold mb-2">
+                  Predicted Attendees
+                </h4>
+                <p
+                  class="text-5xl font-bold text-red-700"
+                  *ngIf="predictedAttendees !== 0; else noData"
+                >
+                  {{ predictedAttendees }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Calculation Details -->
+            <div class="mt-6">
+              <h4 class="text-lg font-semibold mb-2">Calculation Details</h4>
+              <ul class="text-gray-600 text-sm space-y-2">
+                <li>
+                  <strong>Average No-Show Growth Rate:</strong>
+                  {{ averageRegistrationGrowthRate | percent: '1.2-2' }}
+                </li>
+                <li>
+                  <strong>Average Attendee Growth Rate:</strong>
+                  {{ averageAttendeeGrowthRate | percent: '1.2-2' }}
+                </li>
+                <li>
+                  <strong>Last Event Absentees:</strong> {{ lastRegistrations }}
+                </li>
+                <li>
+                  <strong>Last Event Attendees:</strong> {{ lastAttendees }}
+                </li>
+              </ul>
+              <p class="text-gray-500 text-sm mt-4">
+                <em
+                  >*Predictions are based on historical data using calculated
+                  growth rates.</em
+                >
+              </p>
+            </div>
+          </div>
+
+          <!-- No Data Template -->
+          <ng-template #noData>
+            <p class="text-gray-400 text-lg">Not Available</p>
+          </ng-template>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-4">Recent Events</h3>
+            <div class="overflow-y-auto max-h-96 space-y-4">
+              <!-- Event List -->
+              <div
+                *ngFor="let event of sortedEvents"
+                class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow duration-200"
+              >
+                <!-- Event Thumbnail -->
+                <img
+                  [src]="event.thumbnailUrl || 'assets/default-thumbnail.png'"
+                  alt="Event Thumbnail"
+                  class="w-20 h-20 object-cover rounded-lg"
+                />
+                <!-- Event Details -->
+                <div class="flex-1">
+                  <h4 class="text-gray-800 font-semibold text-lg">
+                    {{ event.title }}
+                  </h4>
+                  <p class="text-gray-500 text-sm">
+                    {{ event.date | date: 'mediumDate' }}
+                  </p>
+                  <p class="text-gray-500 text-sm">
+                    {{ event.location || 'Location not provided' }}
+                  </p>
+                </div>
+                <!-- View Details Button -->
+                <ion-button
+                  color="danger"
+                  fill="outline"
+                  size="small"
+                  (click)="viewEventDetails(event.id)"
+                >
+                  View Details
+                </ion-button>
+              </div>
+
+              <!-- No Events Placeholder -->
+              <div
+                *ngIf="sortedEvents.length === 0"
+                class="text-gray-500 text-center mt-4"
+              >
+                No events available.
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Analytics Rankings with Sticky Title -->
+
+          <!-- Department Distribution Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-4">Users per Department</h3>
+            <canvas id="departmentChart"></canvas>
+          </div>
+        </div>
+
+        <!-- User Feedback Section -->
+        <div class="bg-white rounded-lg shadow p-6 mt-6">
+          <h3 class="text-lg font-semibold mb-4">User Feedback</h3>
+          <div *ngIf="paginatedFeedbackList.length > 0; else noFeedback">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div
+                *ngFor="let feedback of paginatedFeedbackList"
+                class="bg-gray-50 rounded-lg p-4 shadow"
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <h4 class="text-gray-800 font-bold">
+                    {{ feedback.name || 'Anonymous' }}
+                  </h4>
+                  <p class="text-gray-500 text-sm">
+                    {{ convertToDate(feedback.createdAt) | date: 'medium' }}
+                  </p>
+                </div>
+                <div class="flex items-center mb-2">
+                  <span class="mr-2 font-bold">Rating:</span>
+                  <ion-icon
+                    *ngFor="let star of [1, 2, 3, 4, 5]"
+                    [name]="star <= feedback.rating ? 'star' : 'star-outline'"
+                    class="star-icon text-yellow-400 text-xl"
+                  ></ion-icon>
+                </div>
+                <p class="text-gray-800">{{ feedback.comment }}</p>
+              </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="flex justify-center mt-4 space-x-2">
+              <ion-button
+                *ngFor="let page of feedbackTotalPages"
+                (click)="goToFeedbackPage(page)"
+                [fill]="feedbackCurrentPage === page ? 'solid' : 'outline'"
+              >
+                {{ page }}
+              </ion-button>
+            </div>
+          </div>
+          <ng-template #noFeedback>
+            <p class="text-gray-500">No feedback available.</p>
+          </ng-template>
+        </div>
+      </div>
+      <!--Postings-->
+      <div *ngIf="currentTab === 'Postings'" class="space-y-6">
+        <app-post-management></app-post-management>
+      </div>
+      <!--Calendar-->
+      <div *ngIf="currentTab === 'Calendar'" class="space-y-6">
+        <h2 class="text-2xl font-bold mb-4">Calendar</h2>
+        <div class="calendar-container">
+          <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+        </div>
+      </div>
+
+      <!-- Event Details Modal -->
+      <div
+        *ngIf="showEventDetailsModall"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
+        style="z-index: 1000"
+      >
+        <div
+          class="modal-content bg-white w-full max-w-md h-auto p-4 rounded-lg shadow-lg relative overflow-y-auto"
+          style="max-height: 60vh"
+        >
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold">{{ selectedEvent?.title }}</h2>
+            <ion-button fill="clear" (click)="closeEventDetailsModall()"
+              >Close</ion-button
+            >
+          </div>
+          <p>
+            <strong>Date and Time:</strong> {{
+            convertToDate(selectedEvent?.date) | date: 'medium' }}
+          </p>
+          <p><strong>Location:</strong> {{ selectedEvent?.location }}</p>
+          <p><strong>Description:</strong> {{ selectedEvent?.description }}</p>
+          <p><strong>Duration:</strong> {{ selectedEvent?.duration }} hours</p>
+          <p>
+            <strong>Invited:</strong> {{ selectedEvent?.invited?.join(', ') }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Events Management -->
+      <div *ngIf="currentTab === 'Events'" class="space-y-6">
+        <h2 class="text-2xl font-bold mb-4">Events Management</h2>
+        <ion-button color="danger" (click)="openEventForm()"
+          >Create an Event</ion-button
+        >
+        <div class="flex space-x-2 items-center">
+          <label class="text-gray-600 font-semibold">Filter by Invited:</label>
+          <select [(ngModel)]="selectedInvitedType" (change)="filterEvents()">
+            <option value="">All</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+          </select>
+        </div>
+
+        <div
+          *ngIf="!showEventForm"
+          class="event-list mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <div
+            *ngFor="let event of filteredEvents"
+            class="bg-white rounded-lg shadow-lg p-6"
+          >
+            <img
+              [src]="event.thumbnailUrl"
+              alt="Event Thumbnail"
+              class="w-full h-40 object-cover rounded-lg mb-4"
+            />
+            <h3 class="text-lg font-bold mb-2">{{ event.title }}</h3>
+            <p class="text-gray-600 text-sm mb-2">
+              <strong>Date:</strong> {{ convertToDate(event.date) | date:
+              'mediumDate' }}
+            </p>
+            <p class="text-gray-600 text-sm mb-2">
+              <strong>Time:</strong> {{ event.time }}
+            </p>
+            <p class="text-gray-600 text-sm mb-2">
+              <strong>Location:</strong> {{ event.location }}
+            </p>
+            <p class="text-gray-600 text-sm mb-2">
+              <strong>Description:</strong> {{ event.description }}
+            </p>
+            <p class="text-gray-600 text-sm">
+              <strong>Invited:</strong> {{ event.invited.join(', ') }}
+            </p>
+
+            <!-- Details, Edit, and Delete Buttons -->
+            <div class="flex space-x-2 mt-4">
+              <ion-button (click)="eventDetails(event.id)" color="danger"
+                >Details</ion-button
+              >
+              <ion-button (click)="editEvent(event)" color="danger"
+                >Edit</ion-button
+              >
+              <ion-button (click)="deleteEvent(event.id)" color="danger"
+                >Delete</ion-button
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="showEventForm"
+        class="event-form-container absolute inset-y-0 right-0 bg-white rounded-lg shadow-lg overflow-y-auto"
+      >
+        <div class="p-6">
+          <ion-button
+            fill="clear"
+            (click)="closeEventForm()"
+            class="close-icon mt-7"
+          >
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center pt-4">
+            Create Event
+          </h2>
+
+          <form (ngSubmit)="submitEventForm()" class="space-y-4">
+            <!-- Event Title -->
+            <div>
+              <label class="block text-gray-600 mb-2 font-medium"
+                >Event Title</label
+              >
+              <ion-input
+                [(ngModel)]="eventForm.title"
+                name="title"
+                required
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+              ></ion-input>
+            </div>
+
+            <!-- Date and Time in Two Columns -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Date Input -->
+              <div>
+                <label class="block text-gray-600 mb-2 font-medium">Date</label>
+                <input
+                  type="date"
+                  [(ngModel)]="eventForm.date"
+                  name="date"
+                  required
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                />
+              </div>
+              <!-- Time Input -->
+              <div>
+                <label class="block text-gray-600 mb-2 font-medium">Time</label>
+                <input
+                  type="time"
+                  [(ngModel)]="eventForm.time"
+                  name="time"
+                  required
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-600 mb-2 font-medium"
+                  >Event Duration (hours)</label
+                >
+                <ion-input
+                  type="number"
+                  [(ngModel)]="eventForm.duration"
+                  name="duration"
+                  required
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                ></ion-input>
+              </div>
+            </div>
+
+            <!-- Location Input Field -->
+            <div>
+              <label class="block text-gray-600 mb-2 font-medium"
+                >Location</label
+              >
+              <ion-input
+                [(ngModel)]="eventForm.location"
+                name="location"
+                required
+                (ionBlur)="setLocationFromAddress()"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+              >
+              </ion-input>
+            </div>
+
+            <!-- Map Container -->
+            <div class="mt-4">
+              <label class="block text-gray-600 mb-2 font-medium"
+                >Event Location</label
+              >
+              <div
+                id="map"
+                class="w-full h-64 rounded-lg border border-gray-300"
+              ></div>
+              <p class="text-sm mt-2 text-gray-500">
+                Latitude: {{ eventForm.latitude }}, Longitude: {{
+                eventForm.longitude }}
+              </p>
+            </div>
+            <!-- Latitude and Longitude Fields -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-gray-600 mb-2 font-medium"
+                  >Latitude</label
+                >
+                <ion-input
+                  type="number"
+                  [(ngModel)]="eventForm.latitude"
+                  name="latitude"
+                  required
+                  (ionBlur)="updateMarkerPosition()"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                >
+                </ion-input>
+              </div>
+              <div>
+                <label class="block text-gray-600 mb-2 font-medium"
+                  >Longitude</label
+                >
+                <ion-input
+                  type="number"
+                  [(ngModel)]="eventForm.longitude"
+                  name="longitude"
+                  required
+                  (ionBlur)="updateMarkerPosition()"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                >
+                </ion-input>
+              </div>
+            </div>
+
+            <!-- Invited Select -->
+            <div>
+              <label class="block text-gray-600 mb-2 font-medium"
+                >Who are Invited</label
+              >
+              <ion-select
+                [(ngModel)]="eventForm.invited"
+                name="invited"
+                multiple="true"
+                required
+                class="w-full border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 p-3"
+              >
+                <ion-select-option value="Student">Student</ion-select-option>
+                <ion-select-option value="Faculty">Faculty</ion-select-option>
+              </ion-select>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label class="block text-gray-600 mb-2 font-medium"
+                >Description</label
+              >
+              <ion-textarea
+                [(ngModel)]="eventForm.description"
+                name="description"
+                rows="4"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+              ></ion-textarea>
+            </div>
+
+            <!-- File Upload -->
+            <div>
+              <label class="block text-gray-600 mb-2 font-medium"
+                >Upload Thumbnail</label
+              >
+              <div
+                class="border-2 border-dashed border-gray-300 rounded-lg p-4"
+              >
+                <input
+                  type="file"
+                  (change)="uploadThumbnail($event)"
+                  class="w-full"
+                  accept="image/*"
+                />
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-end space-x-4 mt-6">
+              <ion-button
+                expand="block"
+                color="medium"
+                (click)="closeEventForm()"
+                class="px-6"
+              >
+                Cancel
+              </ion-button>
+              <ion-button
+                expand="block"
+                type="submit"
+                color="danger"
+                class="px-6"
+              >
+                Create Event
+              </ion-button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Event Details Modal -->
+      <!-- Event Details Modal -->
+      <div
+        *ngIf="showEventDetailsModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
+      >
+        <div
+          class="bg-white w-full max-w-lg h-auto p-4 rounded-lg shadow-lg relative overflow-y-auto"
+          style="max-height: 60vh"
+        >
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold">Event Attendees</h2>
+            <ion-button fill="clear" (click)="closeEventDetailsModal()"
+              >Close</ion-button
+            >
+          </div>
+          <div class="flex space-x-4 mb-4">
+            <ion-select
+              placeholder="Filter by Department"
+              [(ngModel)]="selectedDepartment"
+            >
+              <ion-select-option *ngFor="let dept of uniqueDepartments"
+                >{{ dept }}</ion-select-option
+              >
+            </ion-select>
+
+            <ion-select
+              placeholder="Filter by Section"
+              [(ngModel)]="selectedSection"
+            >
+              <ion-select-option *ngFor="let section of uniqueSections"
+                >{{ section }}</ion-select-option
+              >
+            </ion-select>
+
+            <!-- <ion-select
+              placeholder="Filter by Status"
+              [(ngModel)]="selectedStatus"
+            >
+              <ion-select-option value="present">Present</ion-select-option>
+              <ion-select-option value="registered"
+                >Registered</ion-select-option
+              >
+            </ion-select> -->
+          </div>
+          <div class="flex justify-between items-center mb-4">
+            <!-- Filter by Status Dropdown -->
+            <ion-select
+              placeholder="Filter by Status"
+              [(ngModel)]="selectedStatus"
+              class="mr-4"
+            >
+              <ion-select-option value="present">Present</ion-select-option>
+              <ion-select-option value="registered"
+                >Registered</ion-select-option
+              >
+            </ion-select>
+
+            <!-- Download PDF Button -->
+            <ion-button color="danger" (click)="downloadPDF()">
+              Download PDF
+            </ion-button>
+          </div>
+
+          <!-- Attendee List Table -->
+          <table class="w-full border border-gray-300 rounded-lg mb-4">
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="p-2 text-left">Name</th>
+                <th class="p-2 text-left">Department</th>
+                <th class="p-2 text-left">Section</th>
+                <th class="p-2 text-left">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let attendee of attendeeList">
+                <td class="p-2 border-b border-gray-200">
+                  {{ attendee.name }}
+                </td>
+                <td class="p-2 border-b border-gray-200">
+                  {{ attendee.department }}
+                </td>
+                <td class="p-2 border-b border-gray-200">
+                  {{ attendee.section }}
+                </td>
+                <td class="p-2 border-b border-gray-200">
+                  {{ attendee.status }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Department Distribution Chart -->
+          <div class="mb-4">
+            <h3 class="text-md font-semibold mb-2">Attendees by Department</h3>
+            <canvas id="attendeesDepartmentChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="currentTab === 'Reports'" class="space-y-6">
+        <h3 class="text-2xl font-semibold mb-4">User Reports</h3>
+        <div *ngIf="paginatedReportList.length > 0; else noReports">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div
+              *ngFor="let report of paginatedReportList"
+              class="bg-gray-50 rounded-lg p-4 shadow"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="text-gray-800 font-bold">{{ report.title }}</h4>
+                <p class="text-gray-500 text-sm">
+                  {{ convertToDate(report.createdAt) | date: 'medium' }}
+                </p>
+              </div>
+              <p class="text-gray-600 mb-2">
+                <strong>From:</strong> {{ report.userName || 'Anonymous' }}
+              </p>
+              <p class="text-gray-600 mb-2">
+                <strong>Description:</strong> {{ report.description }}
+              </p>
+              <img
+                *ngIf="report.imageUrl"
+                [src]="report.imageUrl"
+                alt="Report Image"
+                class="w-full h-32 object-cover rounded-lg mb-2"
+              />
+
+              <div class="flex justify-end">
+                <ion-button
+                  *ngIf="!report.solved"
+                  color="success"
+                  (click)="markAsSolved(report.id)"
+                  >Mark as Solved</ion-button
+                >
+                <ion-badge color="danger" *ngIf="report.solved"
+                  >Solved</ion-badge
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination Controls -->
+          <div class="flex justify-center mt-4 space-x-2">
+            <ion-button
+              *ngFor="let page of reportTotalPages"
+              (click)="goToReportPage(page)"
+              [fill]="reportCurrentPage === page ? 'solid' : 'outline'"
+              >{{ page }}</ion-button
+            >
+          </div>
+        </div>
+        <ng-template #noReports>
+          <p class="text-gray-500">No reports available.</p>
+        </ng-template>
+      </div>
+      <div
+        *ngIf="showReportDetailsModal"
+        class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+        (click)="closeReportDetailsModal()"
+      >
+        <div
+          class="relative bg-white rounded-lg shadow-lg p-6 max-w-lg w-full"
+          (click)="$event.stopPropagation()"
+        >
+          <button
+            class="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+            (click)="closeReportDetailsModal()"
+          >
+            ×
+          </button>
+          <h4 class="text-lg font-semibold mb-2">
+            {{ selectedReport?.title }}
+          </h4>
+          <p class="mb-2">
+            <strong>From:</strong> {{ selectedReport?.userName || 'Anonymous' }}
+          </p>
+          <p class="mb-4">
+            <strong>Description:</strong> {{ selectedReport?.description }}
+          </p>
+          <img
+            *ngIf="selectedReport?.imageUrl"
+            [src]="selectedReport.imageUrl"
+            alt="Report Image"
+            class="w-full h-48 object-cover rounded-lg"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Dashboard Event Details Modal -->
+  <div
+    *ngIf="showDashboardEventDetailsModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
+  >
+    <div
+      class="bg-white w-full max-w-lg h-auto p-4 rounded-lg shadow-lg relative overflow-y-auto"
+    >
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold">{{ selectedDashboardEvent?.title }}</h2>
+        <ion-button fill="clear" (click)="closeDashboardEventDetailsModal()"
+          >Close</ion-button
+        >
+      </div>
+      <p>
+        <strong>Date:</strong> {{ selectedDashboardEvent?.date | date: 'medium'
+        }}
+      </p>
+      <p>
+        <strong>Time:</strong> {{ selectedDashboardEvent?.time || 'No time
+        specified' }}
+      </p>
+      <p>
+        <strong>Location:</strong> {{ selectedDashboardEvent?.location || 'No
+        location provided' }}
+      </p>
+      <p>
+        <strong>Description:</strong> {{ selectedDashboardEvent?.description ||
+        'No description available' }}
+      </p>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.feedback-modal-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0;
+}
+
+.feedback-modal-container {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 90%;
+  width: 400px;
+  max-height: 80vh;
+  margin: auto;
+  margin-top: 50%;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  font-size: 1.2rem;
+  color: #990008;
+}
+
+.feedback-item {
+  margin-bottom: 15px;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+}
+
+.star-icon {
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.star-icon:hover,
+.star-icon.active {
+  color: #fbbf24;
+}
+
+.submit-button {
+  background-color: #990008;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  width: 100px;
+}
+
+.submit-button:hover {
+  background-color: #cc000a;
+}
+
+.background-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.icon-animation {
+  position: absolute;
+  font-size: 50px;
+  color: rgba(255, 0, 0, 0.7);
+  animation: move 10s infinite ease-in-out;
+}
+
+@keyframes move {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(100px, 200px) scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(200px, 0) scale(1);
+    opacity: 0.7;
+  }
+}

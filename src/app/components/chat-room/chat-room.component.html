@@ -1,0 +1,65 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="user-info">
+      <ion-avatar slot="start">
+        <img
+          [src]="
+            otherUser?.profilePictureUrl || './assets/profile-placeholder.jpg'
+          "
+        />
+      </ion-avatar>
+      <div class="user-details">
+        <ion-label class="user-name">{{
+          otherUser?.fullName || "User"
+        }}</ion-label>
+        <ion-label class="user-status" [class.online]="otherUser?.isOnline">
+          {{ otherUser?.isOnline ? "Active Now" : "Offline" }}
+        </ion-label>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true">
+  <div class="message-list">
+    <div
+      *ngFor="let message of messages"
+      class="message-item"
+      [ngClass]="{ 'own-message': message.senderId === currentUserId }"
+    >
+      <div class="message-content">
+        <p>{{ message.content }}</p>
+        <small class="timestamp">{{
+          message.timestamp | date : "short"
+        }}</small>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input
+        [(ngModel)]="newMessage"
+        placeholder="Type a message..."
+        (keyup.enter)="sendMessage()"
+      ></ion-input>
+      <ion-button
+        slot="end"
+        (click)="sendMessage()"
+        [disabled]="!newMessage.trim()"
+      >
+        <ion-icon name="send"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <div class="text-counter" *ngIf="newMessage?.length">
+      {{ newMessage.length }}/1000
+    </div>
+  </ion-toolbar>
+</ion-footer>

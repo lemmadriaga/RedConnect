@@ -1,0 +1,62 @@
+
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #9B0000; 
+    z-index: 9999;
+  }
+  
+  
+  .splash-icon {
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+
+  .loading-bar {
+    width: 80%;
+    height: 4px;
+    background-color: #0000; 
+    margin-top: 20px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  
+
+  .loading-progress {
+    width: 0;
+    height: 100%;
+    background-color: #ffff; 
+    animation: loadingAnimation 3s ease-in-out forwards;
+  }
+  
+
+  @keyframes loadingAnimation {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  

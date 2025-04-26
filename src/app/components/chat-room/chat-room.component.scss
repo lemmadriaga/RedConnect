@@ -1,0 +1,218 @@
+:host {
+  --message-bg-color: #e9ecef;
+  --own-message-bg-color: #900;
+  --message-text-color: #343a40;
+  --own-message-text-color: #ffffff;
+  --timestamp-color: #6c757d;
+  --border-radius: 18px;
+  --avatar-size: 40px;
+  --max-message-width: 75%;
+  --input-max-height: 100px;
+}
+
+ion-header {
+  ion-toolbar {
+    --background: #ffffff;
+    --border-width: 0;
+    --min-height: 60px;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+
+      ion-avatar {
+        width: var(--avatar-size);
+        height: var(--avatar-size);
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+
+      .user-details {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+
+        .user-name {
+          font-weight: 600;
+          font-size: 16px;
+          color: #000;
+          margin-bottom: 2px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .user-status {
+          font-size: 12px;
+          color: var(--timestamp-color);
+
+          &.online {
+            color: #28a745;
+
+            &::before {
+              content: "";
+              display: inline-block;
+              width: 8px;
+              height: 8px;
+              background-color: currentColor;
+              border-radius: 50%;
+              margin-right: 4px;
+              vertical-align: middle;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+ion-content {
+  --background: #f8f9fa;
+
+  .message-list {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .message-item {
+      display: flex;
+      max-width: var(--max-message-width);
+
+      .message-content {
+        padding: 12px 16px;
+        background: var(--message-bg-color);
+        border-radius: var(--border-radius);
+        position: relative;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+
+        p {
+          margin: 0;
+          color: var(--message-text-color);
+          font-size: 14px;
+          line-height: 1.4;
+          overflow-wrap: break-word;
+          word-break: break-word;
+          hyphens: auto;
+          max-width: 100%;
+        }
+
+        .timestamp {
+          display: block;
+          font-size: 11px;
+          color: var(--timestamp-color);
+          margin-top: 4px;
+          white-space: nowrap;
+        }
+      }
+
+      &.own-message {
+        margin-left: auto;
+
+        .message-content {
+          background: var(--own-message-bg-color);
+
+          p {
+            color: var(--own-message-text-color);
+          }
+
+          .timestamp {
+            color: rgba(255, 255, 255, 0.8);
+          }
+        }
+      }
+    }
+  }
+}
+
+ion-footer {
+  background: #ffffff;
+  border-top: 1px solid #dee2e6;
+
+  ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+    padding: 0 8px;
+
+    ion-item {
+      --background: transparent;
+      --border-width: 0;
+      --inner-padding-end: 0;
+      --padding-start: 0;
+      --min-height: auto;
+
+      .input-container {
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+        padding: 8px 0;
+        gap: 8px;
+
+        ion-button {
+          --padding-start: 0;
+          --padding-end: 0;
+          width: 44px;
+          height: 44px;
+          margin: 0;
+          background-color: transparent !important;
+
+          ion-icon {
+            font-size: 20px;
+            color: #ff0000 !important;
+          }
+
+          &.button-disabled {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
+}
+
+.text-counter {
+  font-size: 12px;
+  color: var(--timestamp-color);
+  text-align: right;
+  padding: 4px 8px;
+  opacity: 0.7;
+}
+
+.character-limit-warning {
+  color: #dc3545;
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-item {
+  animation: messageAppear 0.3s ease-out;
+}
+
+.message-content {
+  max-width: 100%;
+  overflow-wrap: break-word;
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}

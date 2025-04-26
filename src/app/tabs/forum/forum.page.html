@@ -1,0 +1,121 @@
+<ion-header>
+  <div class="flex items-center justify-center py-2 px-4">
+    <div class="flex items-center space-x-2">
+      <img src="assets/logo-no-text.png" alt="BatStateU Logo" class="h-12 w-12" />
+      <h1 class="text-2xl font-bold text-red-700">BatStateU <span class="text-black">Connect+</span></h1>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content class="bg-gray-100">
+  <div class="max-w-2xl mx-auto p-4">
+    <!-- Create Post Card -->
+    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+      <div class="flex items-center space-x-3 mb-4">
+        <img
+          [src]="userData?.profilePictureUrl || './assets/profile-placeholder.jpg'"
+          class="w-10 h-10 rounded-full object-cover"
+          alt="Profile Picture"
+        />
+        <div class="flex-1">
+          <ion-textarea
+            [(ngModel)]="newPostContent"
+            placeholder="What's on your mind?"
+            class="w-full p-2 bg-gray-50 rounded-lg"
+            rows="3"
+          >
+          </ion-textarea>
+        </div>
+      </div>
+
+      <!-- Add Image Button and Hidden File Input -->
+      <div class="flex justify-between items-center">
+        <button
+          class="flex items-center space-x-2 text-gray-600 hover:text-gray-800"
+          (click)="fileInput.click()"
+        >
+          <ion-icon name="image-outline"></ion-icon>
+          <span>Add Image</span>
+        </button>
+        <input
+          type="file"
+          #fileInput
+          accept="image/*"
+          (change)="onImageSelected($event)"
+          style="display: none;"
+        />
+        <button (click)="createPost()" [disabled]="!newPostContent.trim() && !selectedImageUrl" style="background-color: #990008; color: white; border: none; padding: 10px 20px; border-radius: 5px;">
+          Post
+        </button>
+      </div>
+
+      <!-- Image Preview -->
+      <div *ngIf="selectedImageUrl" class="mt-4">
+        <img [src]="selectedImageUrl" alt="Selected Image" class="w-full rounded-lg" />
+      </div>
+    </div>
+
+    <!-- Posts List -->
+    <div class="space-y-6">
+      <div *ngFor="let post of posts" class="bg-white rounded-lg shadow-md">
+        <!-- Post Header -->
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-3">
+              <img
+                [src]="post.authorAvatar || '/assets/default-avatar.png'"
+                class="w-10 h-10 rounded-full object-cover"
+                alt="Author Picture"
+              />
+              <div>
+                <h3 class="font-semibold">{{ post.authorName }}</h3>
+                <p class="text-sm text-gray-500">{{ post.authorRole }}</p>
+                <p class="text-xs text-gray-400">
+                  {{ convertTimestampToDate(post.timestamp) ? (convertTimestampToDate(post.timestamp) | date) : 'Date unavailable' }}
+                </p>
+              </div>
+            </div>
+            <button fill="clear" (click)="deletePost(post)" *ngIf="post.userId === userData?.uid">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+
+          <!-- Post Content -->
+          <p class="text-gray-800 mb-4">{{ post.content }}</p>
+
+          <!-- Post Image (if any) -->
+          <div *ngIf="post.imageUrl" class="mt-4">
+            <img [src]="post.imageUrl" alt="Post Image" class="w-full rounded-lg" />
+          </div>
+
+          <!-- Post Actions -->
+          <div class="flex items-center justify-between pt-4 border-t">
+            <div class="flex space-x-6">
+              <button
+                (click)="toggleLike(post)"
+                class="flex items-center space-x-2"
+                [class.text-blue-600]="post.likes?.includes(userData?.uid)"
+              >
+                <ion-icon name="heart-outline"></ion-icon>
+                <span>{{ post.likes?.length || 0 }}</span>
+              </button>
+              <button
+                (click)="toggleDislike(post)"
+                class="flex items-center space-x-2"
+                [class.text-red-600]="post.dislikes?.includes(userData?.uid)"
+              >
+                <ion-icon name="thumbs-down-outline"></ion-icon>
+                <span>{{ post.dislikes?.length || 0 }}</span>
+              </button>
+              <button class="flex items-center space-x-2 text-gray-600" (click)="openCommentModal(post.id)">
+                <ion-icon name="chatbubble-outline"></ion-icon>
+                <span>Comment</span>
+              </button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

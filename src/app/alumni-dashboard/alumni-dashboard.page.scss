@@ -1,0 +1,78 @@
+ion-tab-bar {
+  --background: rgb(255, 255, 255);
+  border-radius: 16px 16px 0 0;
+  padding: 10px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-around;
+  transition: all 0.3s ease;
+}
+
+ion-tab-button {
+  --color: #6c757d;
+  --color-selected: #fff;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+
+  position: relative;
+  transition: all 0.3s ease;
+  border-radius: 25px;
+  flex: 1;
+  max-width: 20%;
+
+  ion-icon {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+  }
+
+  ion-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 8px;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 0.1s ease;
+  }
+
+  &.tab-selected {
+    --color: #fff;
+    background-color: rgba(0, 123, 255, 0.05);
+    max-width: 35%;
+    ion-icon {
+      transform: translateX(-4px);
+    }
+
+    ion-label {
+      opacity: 1;
+      max-width: 100px;
+    }
+  }
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+ion-tab-bar:has(.tab-selected) ion-tab-button:not(.tab-selected) {
+  max-width: 15%;
+}
+
+ion-tab-button:nth-child(3).tab-selected {
+  background-color: #990008;
+}
+ion-tab-button:nth-child(1).tab-selected {
+  background-color: #990008;
+}
+
+ion-tab-button:nth-child(2).tab-selected {
+  background-color: #990008;
+}
+ion-tab-button:nth-child(4).tab-selected {
+  background-color: #CFA865;
+}

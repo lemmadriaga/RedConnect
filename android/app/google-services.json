@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1092515088862",
+    "project_id": "bsu-connect-9a3d7",
+    "storage_bucket": "bsu-connect-9a3d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092515088862:android:613d437c4b05dad365f54f",
+        "android_client_info": {
+          "package_name": "io.bsu.connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092515088862-bptu2089unudemc66fhvhprfcqtm6tm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkyUnIfXrPdso-Qn7_rqwLMs6YjxQ9VNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092515088862-0tjag878vmq8am1t036qfh0982cqct2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

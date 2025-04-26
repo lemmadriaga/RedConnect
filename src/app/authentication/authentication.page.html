@@ -1,0 +1,267 @@
+<ion-header [translucent]="true"></ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense"> </ion-header>
+
+  <div class="container">
+    <div class="forms-container">
+      <div class="signin-signup">
+        <form
+          class="sign-in-form"
+          [formGroup]="loginForm"
+          novalidate
+          class="sign-in-form"
+        >
+          <ion-img src="./assets/LOGO.png" class="image1"></ion-img>
+          <h2 class="title">Sign in</h2>
+          <p>Enter your email and password below to Login.</p>
+          <div *ngIf="errorMessage" class="error-message">
+            <ion-text color="danger">{{ errorMessage }}</ion-text>
+          </div>
+          <div class="input-field">
+            <ion-icon name="mail" class="icon-left"></ion-icon>
+            <ion-input
+              type="text"
+              placeholder="Email"
+              class=".input-with-icon"
+              formControlName="email"
+            ></ion-input>
+          </div>
+          <div
+            *ngIf="loginForm.controls?.['email'].touched && loginForm.controls?.['email'].invalid"
+          >
+            <ion-text
+              *ngIf="loginForm.controls?.['email'].errors?.['required']"
+            >
+              Email is required
+            </ion-text>
+            <ion-text *ngIf="loginForm.controls?.['email'].errors?.['pattern']">
+              Enter a valid email
+            </ion-text>
+          </div>
+          <div class="input-field password-field">
+            <ion-icon name="lock-closed-outline" class="icon-left"></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Password"
+              class=".input-with-icon"
+              formControlName="password"
+            ></ion-input>
+            <ion-icon
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+              (click)="togglePasswordVisibility()"
+              class="password-toggle-icon"
+            ></ion-icon>
+   
+          </div>
+          
+          <div
+            *ngIf="loginForm.controls?.['password'].touched && loginForm.controls?.['password'].invalid"
+          >
+            <ion-text
+              *ngIf="loginForm.controls?.['password'].errors?.['required']"
+            >
+              Password is required
+            </ion-text>
+            <ion-text
+              *ngIf="loginForm.controls?.['password'].errors?.['pattern']"
+            >
+              Password must contain 8 characters
+            </ion-text>
+          </div>
+
+          <button
+            type="submit"
+            class="btn solid"
+            (click)="signIn()"
+            [disabled]="!loginForm.valid"
+          >
+            Login
+          </button>
+          <button
+          type="button"
+          class="forgot-password-btn "
+          (click)="resetPassword()"
+        >
+          Forgot Password?
+        </button>
+          <!-- <p class="social-text">Or Sign in with your Google account</p>
+          <a (click)="googleSignIn()" class="google-btn">
+            <ion-icon name="logo-google"></ion-icon> Continue with Google
+          </a> -->
+        </form>
+
+        <form
+          class="sign-up-form"
+          [formGroup]="regForm"
+          novalidate
+          class="sign-up-form"
+        >
+          <ion-img src="./assets/LOGO.png" class="image2"></ion-img>
+          <h2 class="title">Sign up</h2>
+          <div class="input-field">
+            <ion-icon name="person" class="icon-left"></ion-icon>
+            <ion-input
+              type="text"
+              formControlName="fullname"
+              placeholder="Full Name"
+              class=".input-with-icon"
+            ></ion-input>
+          </div>
+          <div
+            *ngIf="regForm.controls?.['fullname'].touched && regForm.controls?.['fullname'].invalid"
+          >
+            <ion-text
+              *ngIf="regForm.controls?.['fullname'].errors?.['required']"
+            >
+              Full Name is required
+            </ion-text>
+          </div>
+
+          <div class="input-field">
+            <ion-icon name="mail" class="icon-left"></ion-icon>
+            <ion-input
+              type="text"
+              formControlName="email"
+              placeholder="Email"
+              class=".input-with-icon"
+            ></ion-input>
+          </div>
+          <div
+            *ngIf="regForm.controls?.['email'].touched && regForm.controls?.['email'].invalid"
+          >
+            <ion-text *ngIf="regForm.controls?.['email'].errors?.['required']">
+              Email is required
+            </ion-text>
+            <ion-text *ngIf="regForm.controls?.['email'].errors?.['pattern']">
+              Enter a School Email
+            </ion-text>
+          </div>
+          <div class="input-field">
+            <ion-icon name="call" class="icon-left"></ion-icon>
+            <ion-input
+              type="tel"
+              formControlName="contact"
+              placeholder="Contact Number"
+              class="input-with-icon"
+            ></ion-input>
+          </div>
+          <div
+            *ngIf="regForm.controls?.['contact'].touched && regForm.controls?.['contact'].invalid"
+          >
+            <ion-text
+              *ngIf="regForm.controls?.['contact'].errors?.['required']"
+            >
+              Contact number is required
+            </ion-text>
+            <ion-text *ngIf="regForm.controls?.['contact'].errors?.['pattern']">
+              Enter a valid 11 digits mobile number
+            </ion-text>
+          </div>
+          <!-- <div class="input-field">
+            <ion-icon name="lock-closed" class="icon-left"></ion-icon>
+            <ion-input
+              type="password"
+              formControlName="password"
+              placeholder="Password"
+              class=".input-with-icon"
+            ></ion-input>
+          </div> -->
+          <div class="input-field">
+            <ion-icon name="lock-closed-outline" class="icon-left"></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Password"
+              class=".input-with-icon"
+              formControlName="password"
+              type="password"
+            ></ion-input>
+            <ion-icon
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+              (click)="togglePasswordVisibility()"
+              class="password-toggle-icon"
+            ></ion-icon>
+   
+          </div>
+          <div
+            *ngIf="regForm.controls?.['password'].touched && regForm.controls?.['password'].invalid"
+          >
+            <ion-text
+              *ngIf="regForm.controls?.['password'].errors?.['required']"
+            >
+              Password is required
+            </ion-text>
+            <ion-text
+              *ngIf="regForm.controls?.['password'].errors?.['pattern']"
+            >
+              Password must contain 8 characters
+            </ion-text>
+          </div>
+          <div class="input-field">
+            <ion-icon name="school" class="icon-left"></ion-icon>
+            <ion-select
+              formControlName="department"
+              placeholder="Select your department"
+            >
+              <ion-select-option value="CICS"
+                >College of Informatics and Computing Sciences
+                (CICS)</ion-select-option
+              >
+              <ion-select-option value="CET"
+                >College of Engineering Technology (CET)</ion-select-option
+              >
+              <ion-select-option value="CTE"
+                >College of Teacher Education (CTE)</ion-select-option
+              >
+              <ion-select-option value="CAS"
+                >College of Arts and Sciences (CAS)</ion-select-option
+              >
+              <ion-select-option value="CABEIHM"
+                >College of Accountancy, Business, Economics and International
+                Hospitality Management (CABEIHM)</ion-select-option
+              >
+            </ion-select>
+          </div>
+          <div
+            *ngIf="regForm.controls?.['department'].touched && regForm.controls?.['department'].invalid"
+          >
+            <ion-text
+              *ngIf="regForm.controls?.['department'].errors?.['required']"
+            >
+              Department selection is required
+            </ion-text>
+          </div>
+          <button type="submit" class="btn solid" (click)="signUp()">
+            Sign up
+          </button>
+          <!-- <p class="social-text">Or Sign up with your Google account</p>
+          <a (click)="googleSignIn()" class="google-btn">
+            <ion-icon name="logo-google"></ion-icon> Continue with Google
+          </a> -->
+        </form>
+      </div>
+    </div>
+
+    <div class="panels-container">
+      <div class="panel left-panel">
+        <div class="content">
+          <h3>Let's connect, spartan!</h3>
+          <p>
+            Become part of something bigger. Join us and be a part of the
+            Spartan legacy. <br />
+            Connect, learn, and grow with BatStateU Connect+ !
+          </p>
+
+          <button class="btn transparent" id="sign-up-btn">Sign up</button>
+        </div>
+      </div>
+      <div class="panel right-panel">
+        <div class="content">
+          <h3>Already have an account?</h3>
+          <p>Click the button to LOGIN!</p>
+          <button class="btn transparent" id="sign-in-btn">Sign in</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

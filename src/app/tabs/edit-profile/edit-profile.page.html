@@ -1,0 +1,68 @@
+<ion-header [translucent]="true" class="bg-white shadow-md">
+  <ion-toolbar class="flex items-center justify-between">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" >
+        <ion-icon name="arrow-back-outline" slot="icon-only" class="text-red-700 text-lg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="text-gray-800 font-semibold text-lg">Edit Profile</ion-title>
+    <ion-buttons slot="end">
+     
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content class="ion-padding">
+  
+  <div class="background-logo"></div>
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-image" (click)="uploadImage()">
+        <img
+          [src]="(userData$ | async)?.profilePictureUrl || './assets/profile-placeholder.jpg'"
+          alt="Profile picture"
+        />
+        <div class="upload-overlay">
+          <ion-icon name="camera"></ion-icon>
+        </div>
+      </div>
+      <h2>{{ (userData$ | async)?.fullName || 'User Name' }}</h2>
+      <p>Edit Profile</p>
+    </div>
+
+    <form [formGroup]="editForm" (ngSubmit)="updateProfile()" class="w-full max-w-md mx-auto">
+      <ion-list lines="none">
+        <ion-item class="mb-4">
+          <ion-label position="floating">Full Name</ion-label>
+          <ion-input type="text" formControlName="fullName"></ion-input>
+        </ion-item>
+
+        <ion-item class="mb-4">
+          <ion-label position="floating">Contact Number</ion-label>
+          <ion-input type="tel" formControlName="contact"></ion-input>
+        </ion-item>
+
+        <ion-item class="mb-4">
+          <ion-label position="stacked">Department</ion-label>
+          <ion-select formControlName="department" placeholder="Select Department">
+            <ion-select-option value="CICS">College of Informatics and Computing Sciences (CICS)</ion-select-option>
+            <ion-select-option value="CET">College of Engineering Technology (CET)</ion-select-option>
+            <ion-select-option value="CTE">College of Teacher Education (CTE)</ion-select-option>
+            <ion-select-option value="CAS">College of Arts and Sciences (CAS)</ion-select-option>
+            <ion-select-option value="CABEIHM">College of Accountancy, Business, Economics and International Hospitality Management (CABEIHM)</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <button
+        type="submit"
+        [disabled]="editForm.invalid"
+        class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 mt-6"
+      >
+        Save Changes
+      </button>
+    </form>
+  </div>
+</ion-content>

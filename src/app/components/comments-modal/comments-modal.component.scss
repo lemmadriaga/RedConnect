@@ -1,0 +1,77 @@
+ion-header {
+  --background: #f8f8f8;
+  --border-color: #ddd;
+}
+
+ion-title {
+  color: #333;
+}
+
+ion-list {
+  margin: 0;
+}
+
+ion-item {
+  padding: 10px;
+  --background: #fff;
+  --border-color: #ddd;
+}
+
+ion-footer {
+  --background: #f8f8f8;
+  padding: 10px;
+}
+
+.comment-thread {
+  .comment-item {
+    --padding-start: 8px;
+    --inner-padding-end: 8px;
+  }
+
+  .reply-list {
+    margin-left: 16px; 
+    padding-left: 24px; 
+    border-left: 1px solid var(--ion-color-light);
+  }
+
+  .reply-item {
+    --padding-start: 0;
+    --inner-padding-end: 8px;
+    font-size: 0.95em; 
+  }
+
+  .reply-input {
+    margin-left: 16px; 
+    padding-left: 24px; 
+    --padding-start: 0;
+  }
+
+  ion-avatar {
+    width: 36px; 
+    height: 36px;
+  }
+
+  .reply-item ion-avatar {
+    width: 32px; 
+    height: 32px;
+  }
+
+  ion-label {
+    margin-left: 8px;
+  }
+
+  h3 {
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+
+  ion-note {
+    font-size: 0.8em;
+    color: var(--ion-color-medium);
+  }
+}

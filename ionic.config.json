@@ -1,0 +1,7 @@
+{
+  "name": "BatStateU Connect +",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
