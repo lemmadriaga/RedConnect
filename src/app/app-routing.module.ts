@@ -86,7 +86,11 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./student-dashboard/profile/profile.module').then( m => m.ProfilePageModule)
+  },  {
+    path: 'hello',
+    loadChildren: () => import('./hello/hello.module').then( m => m.HelloPageModule)
   },
+
 
 
 ];

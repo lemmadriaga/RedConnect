@@ -11,6 +11,10 @@ import { PushNotifications } from '@capacitor/push-notifications';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit, OnDestroy {
+  isDarkMode = false; 
+  toggleDarkMode(){
+    document.body.classList.toggle('dark', this.isDarkMode)
+  }
   segmentValue: string = 'chats';
   recentChats: any[] = [];
   activeUsers: any[] = [];

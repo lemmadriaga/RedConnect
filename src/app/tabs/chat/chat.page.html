@@ -1,11 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Chat Page </ion-title>
+    <ion-buttons slot="end">
+      <ion-toggle
+        [(ngModel)]="isDarkMode"
+        (ionChange)="toggleDarkMode()"
+        labelPlacement="start"
+      >
+        Dark Mode
+      </ion-toggle>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <!-- Top image -->
   <div class="top-image">
     <img src="assets/top-chat.png" alt="SafeTalks Header" />
   </div>
 
-   <!-- Segment for switching between Chats and Active -->
-   <ion-segment [(ngModel)]="segmentValue" (ionChange)="onSegmentChange($event)" class="custom-segment">
+  <!-- Segment for switching between Chats and Active -->
+  <ion-segment
+    [(ngModel)]="segmentValue"
+    (ionChange)="onSegmentChange($event)"
+    class="custom-segment"
+  >
     <ion-segment-button value="chats" class="custom-segment-button">
       <ion-label>Chats</ion-label>
     </ion-segment-button>
@@ -16,25 +35,29 @@
 
   <!-- Chats Section -->
   <ion-list *ngIf="segmentValue === 'chats'" class="user-list">
-    <ion-item *ngFor="let chat of recentChats" lines="none" class="user-item" (click)="startChat(chat.otherParticipant.uid)">
+    <ion-item
+      *ngFor="let chat of recentChats"
+      lines="none"
+      class="user-item"
+      (click)="startChat(chat.otherParticipant.uid)"
+    >
       <ion-avatar slot="start">
-        <img [src]="chat.otherParticipant?.profilePictureUrl || './assets/profile-placeholder.jpg'" />
+        <img
+          [src]="chat.otherParticipant?.profilePictureUrl || './assets/profile-placeholder.jpg'"
+        />
       </ion-avatar>
-      
+
       <ion-label>
         <h2>{{ chat.otherParticipant?.fullName || 'Unknown User' }}</h2>
         <p>{{ chat.lastMessage?.content || 'No messages yet' }}</p>
       </ion-label>
-      
+
       <!-- Badge for unread messages -->
       <ion-badge *ngIf="chat.unreadCount > 0" color="danger" slot="end">
         {{ chat.unreadCount }}
       </ion-badge>
     </ion-item>
   </ion-list>
-  
-  
-  
 
   <!-- Active Section -->
   <ion-list *ngIf="segmentValue === 'active'" class="user-list active-section">
@@ -46,7 +69,12 @@
         <h2>{{ user.fullName || 'Unknown User' }}</h2>
         <p>{{ user.status || 'Active now' }}</p>
       </ion-label>
-      <ion-icon name="ellipse" color="success" slot="end" class="status-icon"></ion-icon>
+      <ion-icon
+        name="ellipse"
+        color="success"
+        slot="end"
+        class="status-icon"
+      ></ion-icon>
     </ion-item>
   </ion-list>
 </ion-content>

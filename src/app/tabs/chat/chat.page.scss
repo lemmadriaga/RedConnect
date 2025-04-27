@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+:host {
+  ion-content {
+    background: var(--ion-background-color);
+    color: var(--ion-text-color);
+  }
+  body.dark & {
+    ion-content {
+      background: black;
+      color: #ffffff;
+    }
+    ion-segment {
+      --background: #1f1f1f;
+      --color: #ffffff;
+    }
+    ion-item {
+      --background: #1f1f1f;
+      --color: #ffffff;
+    }
+  }
+}
+
 ion-content {
   --background: #f4f5f8;
 }
