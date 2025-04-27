@@ -26,13 +26,13 @@
 </ion-header>
 
 
-  <ion-content class="ion-no-padding ion-no-margin bg-transparent" [fullscreen]="true">
-    <div class="max-w-md mx-auto pt-16 h-full bg-gray-100 w-full dark:bg-darkBackground">
+  <ion-content class="ion-no-padding ion-no-margin bg-transparent w-full" [fullscreen]="true">
+    <div class="mx-auto pt-16 h-full bg-gray-100 w-full dark:bg-darkBackground px-4">
     
     
       <!-- Create Post Card -->
       
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md mx-4 my-6 p-4 flex flex-col items-center">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md my-6 p-4 flex flex-col items-center max-w-md mx-auto">
         <div class="flex items-center w-full mb-3">
           <img
             [src]="userData?.profilePictureUrl || './assets/profile-placeholder.jpg'"
