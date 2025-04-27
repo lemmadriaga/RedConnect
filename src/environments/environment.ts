@@ -4,15 +4,15 @@
 
 export const environment = {
   production: false,
-  firebaseConfig : {
-    apiKey: "AIzaSyBeySCat_sftR0gKHlZOnF6bz72r_oMyVA",
-    authDomain: "bsu-connect-9a3d7.firebaseapp.com",
-    projectId: "bsu-connect-9a3d7",
-    storageBucket: "bsu-connect-9a3d7.appspot.com",
-    messagingSenderId: "1092515088862",
-    appId: "1:1092515088862:web:fb1a6dcf01488c1e65f54f",
-    measurementId: "G-6QBY9DM5VC"
-  }
+  firebaseConfig: {
+    apiKey: 'AIzaSyBM7aXK7_kNMuK0w1z55M_l2vePvJLvWko',
+    authDomain: 'bsu-connect-d111d.firebaseapp.com',
+    projectId: 'bsu-connect-d111d',
+    storageBucket: 'bsu-connect-d111d.firebasestorage.app',
+    messagingSenderId: '987601637452',
+    appId: '1:987601637452:web:23f01bcd8d5902707da4e9',
+    measurementId: 'G-DRQMXDW212',
+  },
 };
 
 /*
