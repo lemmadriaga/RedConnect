@@ -20,6 +20,7 @@ export class ForumPage implements OnInit {
   newPostContent: string = '';
   selectedImageUrl: string | null = null;
   selectedImageFile: File | null = null;
+  isDarkMode: boolean = false;
 
   constructor(
     private modalController: ModalController,
@@ -39,6 +40,12 @@ export class ForumPage implements OnInit {
     });
     this.listenForNotifications();
   }
+
+  toggleDarkMode() {
+    document.body.classList.toggle('dark');
+    console.log('Dark mode toggled');
+  }
+
   listenForNotifications() {
     PushNotifications.addListener(
       'pushNotificationReceived',

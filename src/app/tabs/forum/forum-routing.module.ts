@@ -6,8 +6,8 @@ import { ForumPage } from './forum.page';
 const routes: Routes = [
   {
     path: '',
-    component: ForumPage
-  }
+    component: ForumPage,
+  },
 ];
 
 @NgModule({
