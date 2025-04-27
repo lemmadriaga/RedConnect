@@ -41,6 +41,23 @@ export class ForumPage implements OnInit {
     this.listenForNotifications();
   }
 
+  isCreatingPost = false;
+  isLoading = false;
+
+  openPostCreator() {
+    this.isCreatingPost = true;
+  }
+
+  cancelPostCreation() {
+    this.isCreatingPost = false;
+    this.newPostContent = '';
+    this.selectedImageUrl = null;
+  }
+
+  removeSelectedImage() {
+    this.selectedImageUrl = null;
+  }
+
   toggleDarkMode() {
     document.body.classList.toggle('dark');
     console.log('Dark mode toggled');
