@@ -1,6 +1,6 @@
 
 <ion-header class="ion-no-border">
-  <div class="sticky top-0 z-10 bg-white dark:bg-gray-900 shadow-sm">
+  <div class="sticky top-0 z-10 bg-white  dark:bg-gray-900 shadow-sm ">
     <!-- Top Navigation Bar -->
     <div class="flex items-center justify-between py-2 px-4">
       <!-- Logo and Brand -->
@@ -8,7 +8,7 @@
         <img src="assets/logo-no-text.png" alt="BatStateU Logo" class="h-10 w-10" />
         <h1 class="text-xl font-bold text-red-700 dark:text-red-400 ml-2">
           BatStateU <span class="text-darkBackground dark:text-darkText">Connect+</span>
-        </h1>
+        </h1> 
       </div>
       
       <!-- Right Side Actions -->
@@ -40,7 +40,7 @@
             alt="Profile Picture"
           />
           <div class="ml-3 flex-1">
-            <span class="block font-semibold text-gray-800 dark:text-white">{{ userData?.displayName || 'User' }}</span>
+            <span class="block font-semibold text-darkBackground dark:text-gray-100">{{ userData?.displayName || 'User' }}</span>
             <span class="block text-xs text-gray-500 dark:text-gray-400">Share your thoughts with the community</span>
           </div>
         </div>
@@ -88,7 +88,7 @@
   
   
       <!-- Posts Feed -->
-      <div class="space-y-4">
+      <div class="space-y-4 max-w-md mx-auto">
         <div *ngFor="let post of posts" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm mx-4">
           <!-- Post Header -->
           <div class="p-4">
