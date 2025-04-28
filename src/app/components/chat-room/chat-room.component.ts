@@ -6,7 +6,7 @@ import { Observable, Subscription, from, of } from 'rxjs';
 import { IonContent, IonTextarea } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { catchError, switchMap } from 'rxjs/operators';
-
+import { DarkModeService } from 'src/app/services/dark-mode.service';
 @Component({
   selector: 'app-chat-room',
   templateUrl: './chat-room.component.html',
@@ -15,11 +15,11 @@ import { catchError, switchMap } from 'rxjs/operators';
 export class ChatRoomComponent implements OnInit, OnDestroy {
   @ViewChild(IonContent, { static: false }) content: IonContent;
   @ViewChild('messageInput') messageInput: IonTextarea;
-
+  darkModeEnabled: boolean = false;
   chatId: string;
   messages: any[] = [];
   newMessage: string = '';
-  maxMessageLength: number = 1000; 
+  maxMessageLength: number = 1000;
   otherUser: any;
   currentUserId: string | null = null;
   private subscriptions: Subscription[] = [];
@@ -28,15 +28,19 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private chatService: ChatService,
     private authService: AuthenticationService,
-    private location: Location
+    private location: Location,
+    private darkModeService: DarkModeService
   ) {}
 
   ngOnInit() {
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.darkModeEnabled = isDarkMode;
+    });
     this.chatId = this.route.snapshot.paramMap.get('id');
     this.loadMessages();
     this.loadOtherUser();
     this.subscriptions.push(
-      from(this.authService.getCurrentUserId()).subscribe(userId => {
+      from(this.authService.getCurrentUserId()).subscribe((userId) => {
         this.currentUserId = userId;
         if (userId) {
           this.chatService.updateUserStatus(userId, true);
@@ -45,29 +49,26 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
       })
     );
   }
-  
+
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
     // Remove or comment out this line
     // if (this.currentUserId) {
     //   this.chatService.updateUserStatus(this.currentUserId, false);
     // }
   }
-  
-  
 
   goBack() {
     this.location.back();
   }
 
-
   loadMessages() {
     this.subscriptions.push(
       this.chatService.getMessages(this.chatId).subscribe(
         (messages) => {
-          this.messages = messages.map(msg => ({
+          this.messages = messages.map((msg) => ({
             ...msg,
-            timestamp: msg.timestamp?.toDate()
+            timestamp: msg.timestamp?.toDate(),
           }));
           this.scrollToBottom();
         },
@@ -95,9 +96,11 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     if (this.newMessage?.trim()) {
       const messageText = this.newMessage.trim();
       this.newMessage = ''; // Clear input first for better UX
-      
+
       try {
-        await this.chatService.sendMessage(this.chatId, messageText).toPromise();
+        await this.chatService
+          .sendMessage(this.chatId, messageText)
+          .toPromise();
         // Reset the input height
         const textarea = await this.messageInput.getInputElement();
         textarea.style.height = 'auto';
@@ -113,12 +116,12 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     const textarea = await this.messageInput.getInputElement();
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
-    
+
     // Optional: Enforce character limit
     if (this.newMessage.length > this.maxMessageLength) {
       this.newMessage = this.newMessage.substring(0, this.maxMessageLength);
     }
-    
+
     // Scroll to bottom when input grows
     this.scrollToBottom();
   }
@@ -148,6 +151,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   }
 
   getUserLabel(userId: string): string {
-    return userId === this.currentUserId ? 'You' : this.otherUser?.name || 'User';
+    return userId === this.currentUserId
+      ? 'You'
+      : this.otherUser?.name || 'User';
   }
 }
