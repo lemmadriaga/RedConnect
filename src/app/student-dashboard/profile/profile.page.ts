@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FeedbackService } from 'src/app/feedback.service';
 import { ModalController } from '@ionic/angular';
 import { FcmService } from 'src/app/fcm.service';
+import { DarkModeService } from 'src/app/services/dark-mode.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ import { FcmService } from 'src/app/fcm.service';
 export class ProfilePage implements OnInit {
   userData$: Observable<any>;
   notificationsEnabled = false;
+  darkModeEnabled: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -22,13 +24,21 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private feedbackService: FeedbackService,
     private modalController: ModalController,
-    private fcmService: FcmService
+    private fcmService: FcmService,
+    private darkModeService: DarkModeService
   ) {}
 
   async ngOnInit() {
     this.userData$ = this.authService.getUserData$();
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.darkModeEnabled = isDarkMode;
+    });
   }
 
+  toggleDarkMode() {
+    this.darkModeService.toggleDarkMode();
+  }
+  
   async uploadImage() {
     const input = document.createElement('input');
     input.type = 'file';
