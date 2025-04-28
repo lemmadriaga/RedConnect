@@ -30,13 +30,13 @@
 
       <!-- Add Image Button and Hidden File Input -->
       <div class="flex justify-between items-center">
-        <!-- <button
+        <button
           class="flex items-center space-x-2 text-gray-600 hover:text-gray-800"
           (click)="fileInput.click()"
         >
           <ion-icon name="image-outline"></ion-icon>
           <span>Add Image</span>
-        </button> -->
+        </button>
         <input
           type="file"
           #fileInput
@@ -44,7 +44,7 @@
           (change)="onImageSelected($event)"
           style="display: none;"
         />
-        <button (click)="createPost()" [disabled]="!newPostContent.trim() && !selectedImageUrl" style="background-color: #990008; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-left: 75%;">
+        <button (click)="createPost()" [disabled]="!newPostContent.trim() && !selectedImageUrl" style="background-color: #990008; color: white; border: none; padding: 10px 20px; border-radius: 5px;">
           Post
         </button>
       </div>

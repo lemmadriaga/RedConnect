@@ -4,6 +4,7 @@ import { PushNotifications } from '@capacitor/push-notifications';
 import { MessagingService } from './messaging.service';
 import { FcmService } from './fcm.service';
 import { IonicModule, Platform } from '@ionic/angular';
+import { DarkModeService } from './services/dark-mode.service';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,12 @@ export class AppComponent implements OnInit {
     private statusService: StatusService,
     private messagingService: MessagingService,
     private fcm: FcmService,
-    private platform: Platform
+    private platform: Platform,
+    private darkModeService: DarkModeService
   ) {
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.applyDarkMode(isDarkMode);
+    });
     this.platform
       .ready()
       .then(() => {
@@ -25,6 +30,13 @@ export class AppComponent implements OnInit {
       .catch((e) => {
         console.log('error fcm: ', e);
       });
+  }
+  private applyDarkMode(isDarkMode: boolean) {
+    if (isDarkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
   }
   async ngOnInit() {
     await PushNotifications.requestPermissions();

@@ -9,16 +9,20 @@
   }
   body.dark & {
     ion-content {
-      background: black;
+      --background: #181818;
       color: #ffffff;
     }
     ion-segment {
-      --background: #1f1f1f;
+      --background: #181818;
       --color: #ffffff;
+      border-color: #ffffff;
     }
     ion-item {
-      --background: #1f1f1f;
+      --background: #181818;
       --color: #ffffff;
+    }
+    .custom-segment{
+      --background:#181818;
     }
   }
 }
@@ -28,7 +32,7 @@ ion-content {
 }
 
 .top-image {
-  background: #f4f5f8;
+
   padding: 0;
   text-align: center;
 

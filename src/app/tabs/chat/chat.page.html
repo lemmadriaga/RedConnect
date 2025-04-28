@@ -1,22 +1,7 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title> Chat Page </ion-title>
-    <ion-buttons slot="end">
-      <ion-toggle
-        [(ngModel)]="isDarkMode"
-        (ionChange)="toggleDarkMode()"
-        labelPlacement="start"
-      >
-        Dark Mode
-      </ion-toggle>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <!-- Top image -->
   <div class="top-image">
-    <img src="assets/top-chat.png" alt="SafeTalks Header" />
+    <img [src]="topImage" alt="Chat Header" />
   </div>
 
   <!-- Segment for switching between Chats and Active -->

@@ -4,17 +4,15 @@ import { AuthenticationService } from '../../authentication.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PushNotifications } from '@capacitor/push-notifications';
-
+import { DarkModeService } from 'src/app/services/dark-mode.service';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit, OnDestroy {
-  isDarkMode = false; 
-  toggleDarkMode(){
-    document.body.classList.toggle('dark', this.isDarkMode)
-  }
+  darkModeEnabled: boolean = false;
+
   segmentValue: string = 'chats';
   recentChats: any[] = [];
   activeUsers: any[] = [];
@@ -25,10 +23,24 @@ export class ChatPage implements OnInit, OnDestroy {
   constructor(
     private chatService: ChatService,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private darkModeService: DarkModeService
   ) {}
-
+  private applyDarkMode(isDarkMode: boolean) {
+    if (isDarkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }
+  get topImage() {
+    return this.darkModeEnabled ? 'assets/top-chat-white.png' : 'assets/top-chat.png';
+  }
   ngOnInit() {
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.darkModeEnabled = isDarkMode;
+      this.applyDarkMode(isDarkMode);
+    });
     this.authService.getCurrentUserId().then((userId) => {
       this.currentUserId = userId;
       if (userId) {
@@ -95,7 +107,7 @@ export class ChatPage implements OnInit, OnDestroy {
   //   this.activeUsersSubscription = this.chatService.getActiveUsers().subscribe(
   //     (users) => {
   //       this.activeUsers = users
-  //         .filter((user) => user.id !== this.currentUserId) 
+  //         .filter((user) => user.id !== this.currentUserId)
   //         .map((user) => ({
   //           ...user,
   //           avatar: user.profilePictureUrl || './assets/profile-placeholder.jpg',
@@ -111,10 +123,13 @@ export class ChatPage implements OnInit, OnDestroy {
     this.activeUsersSubscription = this.chatService.getActiveUsers().subscribe(
       (users) => {
         this.activeUsers = users
-          .filter((user) => user.id !== this.currentUserId && user.role !== 'admin') 
+          .filter(
+            (user) => user.id !== this.currentUserId && user.role !== 'admin'
+          )
           .map((user) => ({
             ...user,
-            avatar: user.profilePictureUrl || './assets/profile-placeholder.jpg',
+            avatar:
+              user.profilePictureUrl || './assets/profile-placeholder.jpg',
           }));
         console.log('Active users:', this.activeUsers);
       },
@@ -123,8 +138,6 @@ export class ChatPage implements OnInit, OnDestroy {
       }
     );
   }
-  
-  
 
   onSegmentChange(event: any) {
     this.segmentValue = event.detail.value;
