@@ -1,8 +1,6 @@
-
-
 <ion-content class="ion-padding">
 
-  <div class="background-animation">
+  <div class="background-animation dark:bg-gray-900 shadow-sm">
     <ion-icon name="heart" class="icon-animation" style="top: 10%; left: 20%;"></ion-icon>
     <ion-icon name="star" class="icon-animation" style="top: 30%; left: 70%;"></ion-icon>
     <ion-icon name="thumbs-up" class="icon-animation" style="top: 50%; left: 40%;"></ion-icon>
@@ -10,8 +8,9 @@
   </div>
 
   <div class="top-image">
-    <img src="assets/top-event.png" alt="SafeTalks Header" />
+    <img [src]="darkModeEnabled ? 'assets/dark-top-event.png' : 'assets/top-event.png'" alt="Event Header"/>
   </div>
+  
   
   <div *ngIf="events.length > 0; else noEvents" class="event-list mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     <div *ngFor="let event of events" class="bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 p-6">
@@ -53,7 +52,7 @@
 
   <ng-template #noEvents>
     <div class="flex justify-center items-center h-full">
-      <p class="text-center text-gray-500 text-lg">No events available for your role.</p>
+      <p class="text-center text-gray-500 text-lg dark:text-white">No events available for your role.</p>
     </div>
   </ng-template>
 </ion-content>

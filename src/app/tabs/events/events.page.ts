@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthenticationService } from 'src/app/authentication.service';
 import { Router } from '@angular/router';
+import { DarkModeService } from 'src/app/services/dark-mode.service'; 
 @Component({
   selector: 'app-events-page',
   templateUrl: './events.page.html',
@@ -9,14 +10,19 @@ import { Router } from '@angular/router';
 })
 export class EventsPage implements OnInit {
   events: any[] = [];
+  darkModeEnabled: boolean = false;
 
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private darkModeService: DarkModeService 
   ) {}
 
   ngOnInit() {
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.darkModeEnabled = isDarkMode;
+    });
     this.authService.getUserRole$().subscribe((role) => {
       console.log('User role:', role);
 
@@ -47,7 +53,7 @@ export class EventsPage implements OnInit {
         });
     });
   }
-
+  
   registerEvent(event: any) {
     if (event.id) {
       this.router.navigate(['/event-details', event.id]);
