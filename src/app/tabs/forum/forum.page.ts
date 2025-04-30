@@ -21,6 +21,7 @@ export class ForumPage implements OnInit {
   selectedImageUrl: string | null = null;
   selectedImageFile: File | null = null;
   isDarkMode: boolean = false;
+  openedMenuPostId: string | null = null;
 
   constructor(
     private modalController: ModalController,
@@ -33,6 +34,7 @@ export class ForumPage implements OnInit {
   ngOnInit() {
     this.authService.getUserData$().subscribe((data) => {
       this.userData = data;
+      console.log(data);
     });
 
     this.forumService.getPosts().subscribe((posts) => {
@@ -185,6 +187,14 @@ export class ForumPage implements OnInit {
       });
       await alert.present();
     }
+  }
+
+  toggleMenu(postId: string) {
+    this.openedMenuPostId = this.openedMenuPostId === postId ? null : postId;
+  }
+
+  closeMenu() {
+    this.openedMenuPostId = null;
   }
 
   toggleLike(post: Post) {
