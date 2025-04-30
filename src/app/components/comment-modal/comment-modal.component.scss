@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global dark mode (Tailwind) */
+body.dark ion-toolbar {
+  --background: #1f2937; /* bg-gray-800 */
+  --color: #ffffff;
+}
+
+:host {
+  body.dark & {
+    ion-content {
+      --background: #1a1a2e; /* dark background */
+    }
+     
+  }
+}
+  
+ion-content {
+  --background: #f3f4f6; 
+}
+
+ion-header {
+  --background: #1a1a2e; /* dark header */
+}

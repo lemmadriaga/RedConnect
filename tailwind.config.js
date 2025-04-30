@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,ts}"],
+  content: [
+    "./src/**/*.{html,ts}", // Ensure this includes your component files
+  ],
   darkMode: "class", // <-- ADD THIS LINE
   theme: {
     extend: {
@@ -9,7 +11,7 @@ module.exports = {
         darkText: "#e0e0e0",
         lightBackground: "#ffffff",
         lightText: "#000000",
-        redDark: "#F97071"
+        redDark: "#F97071",
       },
     },
   },
