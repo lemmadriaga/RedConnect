@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-feedback-modal',
   templateUrl: './feedback-modal.page.html',
@@ -19,6 +19,7 @@ export class FeedbackModalPage {
     private alertController: AlertController,
     private router: Router,
     private auth: AngularFireAuth,
+    private location: Location
   ) {}
 
   setRating(star: number) {
@@ -89,6 +90,6 @@ export class FeedbackModalPage {
   
   
   close() {
-    this.router.navigate(['profile']); 
+    this.location.back();
   }
 }
