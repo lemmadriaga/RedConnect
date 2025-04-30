@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../authentication.service';
 import { Observable } from 'rxjs';
 import { AlertController, NavController } from '@ionic/angular';
+import { DarkModeService } from 'src/app/services/dark-mode.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,17 +13,22 @@ import { AlertController, NavController } from '@ionic/angular';
 export class EditProfilePage implements OnInit {
   editForm: FormGroup;
   userData$: Observable<any>;
+  darkModeEnabled: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private alertController: AlertController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private darkModeService: DarkModeService
   ) {}
 
   ngOnInit() {
     this.userData$ = this.authService.getUserData$();
     this.initializeForm();
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.darkModeEnabled = isDarkMode;
+    });
   }
 
   initializeForm() {
