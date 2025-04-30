@@ -3,22 +3,48 @@
 @tailwind utilities;
 
 :host {
-  ion-content {
-    background: var(--ion-background-color);
-    color: var(--ion-text-color);
-  }
   body.dark & {
     ion-content {
-      background: black;
-      color: #ffffff;
+      --background: oklch(21% 0.034 264.665);
     }
     ion-segment {
       --background: #1f1f1f;
       --color: #ffffff;
+      ion-label {
+        color: white;
+      }
     }
-    ion-item {
-      --background: #1f1f1f;
-      --color: #ffffff;
+
+    .custom-segment {
+      --background: oklch(27.8% 0.033 256.848);
+    }
+
+    .user-list {
+      background: oklch(27.8% 0.033 256.848);
+      ion-label {
+        h2 {
+          color: white;
+          font-weight: 500;
+        }
+      }
+    }
+    .active-section {
+      background: oklch(27.8% 0.033 256.848);
+
+      ion-item {
+        --background: oklch(27.8% 0.033 256.848);
+        --color: #ffffff;
+      }
+
+      .user-item {
+        background: oklch(27.8% 0.033 256.848);
+      }
+
+      ion-label {
+        h2 {
+          color: white;
+        }
+      }
     }
   }
 }
@@ -28,7 +54,6 @@ ion-content {
 }
 
 .top-image {
-  background: #f4f5f8;
   padding: 0;
   text-align: center;
 
@@ -63,7 +88,6 @@ ion-content {
 }
 
 .user-list {
-  background: #ffffff;
   margin: 16px;
   border-radius: 10px;
   padding: 8px 0;
@@ -97,7 +121,7 @@ ion-content {
   ion-label {
     h2 {
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 500;
       color: #000000;
       margin: 0 0 4px;
     }

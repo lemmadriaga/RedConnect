@@ -8,6 +8,37 @@
   --avatar-size: 40px;
   --max-message-width: 75%;
   --input-max-height: 100px;
+
+  body.dark & {
+    ion-header {
+      ion-toolbar {
+        --background: oklch(27.8% 0.033 256.848);
+
+        .user-info{
+          .user-details{
+            .user-name{
+              color: white;
+            }
+          }
+        }
+      }
+      
+    }
+    ion-content {
+      --background: oklch(21% 0.034 264.665);
+    }
+    ion-footer{
+      background:oklch(27.8% 0.033 256.848);
+      ion-toolbar{
+        ion-item{
+          ion-input{
+            color: white;
+          }
+        }
+      }
+    }
+
+  }
 }
 
 ion-header {

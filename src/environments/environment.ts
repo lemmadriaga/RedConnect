@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: 'AIzaSyD4DTbem3STG29Xw4D7L12HEgsF4qJLnYE',
-    authDomain: 'safetalks-v2.firebaseapp.com',
-    projectId: 'safetalks-v2',
-    storageBucket: 'safetalks-v2.appspot.com',
-    messagingSenderId: '724307836074',
-    appId: '1:724307836074:web:7646cf89dcc780000f64d3',
-    measurementId: 'G-W1M5076PJ9',
+    apiKey: "AIzaSyD4DTbem3STG29Xw4D7L12HEgsF4qJLnYE",
+    authDomain: "safetalks-v2.firebaseapp.com",
+    projectId: "safetalks-v2",
+    storageBucket: "safetalks-v2.appspot.com",
+    messagingSenderId: "724307836074",
+    appId: "1:724307836074:web:7646cf89dcc780000f64d3",
+    measurementId: "G-W1M5076PJ9"
   },
 };
 
