@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Location } from '@angular/common';
+import { DarkModeService } from 'src/app/services/dark-mode.service';
 @Component({
   selector: 'app-feedback-modal',
   templateUrl: './feedback-modal.page.html',
@@ -20,8 +21,15 @@ export class FeedbackModalPage {
     private alertController: AlertController,
     private router: Router,
     private auth: AngularFireAuth,
-    private location: Location
+    private location: Location,
+    private darkModeService: DarkModeService
   ) {}
+
+  ngOnInit() {
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.darkModeEnabled = isDarkMode;
+    });
+  }
 
   setRating(star: number) {
     this.rating = star;
