@@ -1,3 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:host {
+  body.dark & {
+    ion-content {
+      --background: oklch(21% 0.034 264.665);
+    }
+    .profile-header {
+      h2 {
+        color: white;
+      }
+      p {
+        color: white;
+      }
+    }
+    ion-list {
+      background: oklch(27.8% 0.033 256.848);
+      ion-item {
+        --background: oklch(27.8% 0.033 256.848);
+        --color: #ffffff;
+        ion-icon {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
 .profile-container {
   display: flex;
   flex-direction: column;

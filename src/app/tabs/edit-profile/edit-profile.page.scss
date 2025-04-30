@@ -2,17 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-
+:host {
+  body.dark & {
+    ion-header {
+      --background: oklch(21% 0.034 264.665) !important; 
+    }
+    ion-toolbar {
+      ion-title {
+        color: white !important;
+      }
+      ion-button {
+      color: white !important; 
+    }
+    ion-list {
+      --background: oklch(27.8% 0.033 256.848);
+      ion-item {
+        --background: oklch(27.8% 0.033 256.848);
+        --color: #ffffff !important;
+        ion-icon {
+          color: #ffffff !important;
+        }
+      }
+    }
+    ion-content {
+      --background: oklch(21% 0.034 264.665) !important; 
+    }
+    .profile-header {
+      h2 {
+        color: white;
+      }
+      p {
+        color: white;
+      }
+    }
+  }
+}
+}
 ion-header {
-    --background: transparent !important; 
+    --background: oklch(21% 0.034 264.665) !important; 
   }
   
   ion-toolbar {
-    --background: transparent !important; 
+    --background: oklch(21% 0.034 264.665) !important; 
   }
   
   ion-content {
-    --background: transparent !important; 
+    --background: oklch(21% 0.034 264.665) !important; 
   }
 
 .profile-container {
@@ -97,17 +132,72 @@ p {
 
 ion-list {
   width: 100%;
+  --background: transparent
 }
 
 ion-item {
-  --background: #fff;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  transition: background 0.3s ease;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --border-radius: 8px;
+  --background: transparent;
+  --color: var(--ion-color-medium);
+  --min-height: auto;
+}
 
-  &:hover {
-    --background: #e2e6ea;
-  }
+ion-label {
+  font-weight: 500;
+  color: var(--ion-color-medium);
+}
+
+ion-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-padding-top: 0;
+  --inner-padding-bottom: 0;
+  --border-radius: 0;
+  --color: var(--ion-color-medium);
+}
+
+ion-select {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --border-radius: 8px;
+  --color: var(--ion-color-medium);
+  --background: transparent;
+}
+
+ion-select::part(native) {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--ion-color-medium);
+}
+
+ion-select::part(icon) {
+  color: var(--ion-color-medium);
+}
+
+ion-select-option {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --border-radius: 8px;
+  --background: transparent;
+  --color: var(--ion-color-medium);
+}
+
+ion-select-option.selected {
+  --background: var(--ion-color-primary);
+  --color: white;
 }
 
 button {
