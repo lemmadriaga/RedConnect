@@ -34,6 +34,9 @@
     ion-item {
       --background: oklch(27.8% 0.033 256.848);
       --color: #ffffff !important;
+      ion-label{
+        color: white;
+      }
       ion-input {
         --background: oklch(27.8% 0.033 256.848);
         color: #ffffff !important;
@@ -41,7 +44,12 @@
       ion-textarea {
         --background: oklch(27.8% 0.033 256.848);
         color: #ffffff !important;
+        
       }
+    }
+    .add-image-button{
+      color: white;
+      border-color: white;
     }
   }
 }
@@ -63,6 +71,7 @@
   position: relative;
   max-width: 28rem; 
   margin: auto;
+  margin-top: 50px;
   background-color: white;
   padding: 2rem;
   border-radius: 1rem;
@@ -82,7 +91,7 @@
 ion-item.rounded-input ion-input,
 ion-item.rounded-input ion-textarea {
   border-radius: 0.75rem;
-  background-color: #f1f1f1;
+  // background-color: #f1f1f1;
 }
 
 ion-button {
