@@ -13,29 +13,29 @@
   
   
   <div *ngIf="events.length > 0; else noEvents" class="event-list mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    <div *ngFor="let event of events" class="bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 p-6">
+    <div *ngFor="let event of events" class="bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 p-6 dark:bg-gray-800 dark:shadow-[0_0_10px_4px_rgba(255,0,0,0.7)]">
       <img [src]="event.thumbnailUrl" alt="Event Thumbnail" class="w-full h-48 object-cover rounded-t-lg mb-4" />
       
       <div class="p-4">
         <h3 class="text-xl font-bold text-gray-800 mb-3">{{ event.title }}</h3>
         
         <div class="space-y-1">
-          <div class="flex items-center text-gray-600">
+          <div class="flex items-center text-gray-600 dark:text-white">
             <ion-icon name="calendar-outline" class="mr-2 text-lg"></ion-icon>
             <p class="text-sm"><strong>Date:</strong> {{ event.date | date }}</p>
           </div>
           
-          <div class="flex items-center text-gray-600">
+          <div class="flex items-center text-gray-600 dark:text-white">
             <ion-icon name="time-outline" class="mr-2 text-lg"></ion-icon>
             <p class="text-sm"><strong>Time:</strong> {{ event.time }}</p>
           </div>
           
-          <div class="flex items-center text-gray-600">
+          <div class="flex items-center text-gray-600 dark:text-white">
             <ion-icon name="location-outline" class="mr-2 text-lg"></ion-icon>
             <p class="text-sm"><strong>Location:</strong> {{ event.location }}</p>
           </div>
           
-          <div class="text-gray-600">
+          <div class="flex items-center text-gray-600 dark:text-white">
             <ion-icon name="information-circle-outline" class="mr-2 text-lg"></ion-icon>
             <p class="text-sm"><strong>Description:</strong> {{ event.description }}</p>
           </div>
