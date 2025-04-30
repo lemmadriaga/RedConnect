@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap, forkJoin, of, combineLatest } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+
+interface PostWithAuthorPic extends Post {
+  authorProfilePictureUrl?: string;
+}
 
 export interface Post {
   id?: string;
@@ -80,6 +84,40 @@ export class ForumService {
           })
         ),
         map((posts) => posts.filter((post) => post.approved))
+      );
+  }
+
+  getPostsWithAuthorProfilePic(): Observable<PostWithAuthorPic[]> {
+    return this.firestore
+      .collection('posts', (ref) => ref.orderBy('timestamp', 'desc'))
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as Post;
+            const id = a.payload.doc.id;
+            return { ...data, id };
+          })
+        ),
+        map((posts) => posts.filter((post) => post.approved)),
+        switchMap((posts) => {
+          if (!posts.length) return of([]);
+          const postsWithUser$ = posts.map((post) =>
+            this.firestore
+              .collection('users')
+              .doc(post.userId)
+              .valueChanges()
+              .pipe(
+                map((userData: any) => ({
+                  ...post,
+                  authorProfilePictureUrl:
+                    userData?.profilePictureUrl ||
+                    './assets/profile-placeholder.jpg',
+                }))
+              )
+          );
+          return combineLatest(postsWithUser$); // 🔥 Use combineLatest instead of forkJoin
+        })
       );
   }
 

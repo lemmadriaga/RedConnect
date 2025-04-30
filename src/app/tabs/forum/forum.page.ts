@@ -37,8 +37,9 @@ export class ForumPage implements OnInit {
       console.log(data);
     });
 
-    this.forumService.getPosts().subscribe((posts) => {
+    this.forumService.getPostsWithAuthorProfilePic().subscribe((posts) => {
       this.posts = posts;
+      console.log('posts', posts);
     });
     this.listenForNotifications();
   }

@@ -2,7 +2,7 @@
 <ion-header class="ion-no-border">
   <div class="sticky top-0 z-10 bg-white  dark:bg-gray-900 shadow-sm ">
     <!-- Top Navigation Bar -->
-    <div class="flex items-center justify-between py-2 px-4">
+    <div class="flex items-center justify-center py-2 px-4">
       <!-- Logo and Brand -->
       <div class="flex items-center">
         <img src="assets/logo-no-text.png" alt="BatStateU Logo" class="h-10 w-10" />
@@ -12,7 +12,7 @@
       </div>
       
       <!-- Right Side Actions -->
-      <div class="flex items-center space-x-3">
+      <!-- <div class="flex items-center space-x-3">
         <button class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
           <ion-icon name="search-outline" size="small"></ion-icon>
         </button>
@@ -20,7 +20,7 @@
           <ion-icon name="moon-outline" size="small"></ion-icon>
         </button>
 
-      </div>
+      </div> -->
     </div>
   </div>
 </ion-header>
@@ -107,7 +107,7 @@
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-3">
                 <img
-                  [src]="post.authorAvatar || '/assets/default-avatar.png'"
+                  [src]="post.authorProfilePictureUrl || '/assets/default-avatar.png'"
                   class="w-10 h-10 rounded-full object-cover"
                   alt="Author Picture"
                 />
@@ -214,7 +214,7 @@
           </div>
           
           <!-- Quick Comment Input -->
-          <div class="px-4 pt-4 pb-4 flex items-center space-x-2 border-t border-gray-100 dark:border-gray-700">
+          <!-- <div class="px-4 pt-4 pb-4 flex items-center space-x-2 border-t border-gray-100 dark:border-gray-700">
             <img
               [src]="userData?.profilePictureUrl || './assets/profile-placeholder.jpg'"
               class="w-8 h-8 rounded-full object-cover"
@@ -226,7 +226,7 @@
             >
               Write a comment...
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- <div class="h-1 border border-gray-100"></div> -->

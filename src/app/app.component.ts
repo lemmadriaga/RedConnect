@@ -26,7 +26,17 @@ export class AppComponent implements OnInit {
         console.log('error fcm: ', e);
       });
   }
+  toggleDarkMode() {
+    const newMode = localStorage.getItem('darkMode');
+
+    if (newMode.toLocaleLowerCase() === 'true') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }
   async ngOnInit() {
+    this.toggleDarkMode();
     await PushNotifications.requestPermissions();
     PushNotifications.register();
     this.messagingService.requestPermission();
