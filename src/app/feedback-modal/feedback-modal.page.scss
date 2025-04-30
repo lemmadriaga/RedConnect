@@ -2,6 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+:host {
+  body.dark & {
+    ion-header {
+      --background: oklch(21% 0.034 264.665) !important;
+    }
+    ion-toolbar {
+      --background: oklch(27.8% 0.033 256.848);
+      ion-title {
+        color: white !important;
+      }
+      ion-button {
+        color: red !important;
+      }
+    }
+    ion-content {
+      --background: oklch(21% 0.034 264.665) !important;
+    }
+    .feedback-modal-container {
+      background-color: oklch(27.8% 0.033 256.848);
+      h2 {
+        color: white;
+      }
+      p {
+        color: white;
+      }
+      ion-item {
+        --background: oklch(27.8% 0.033 256.848);
+        --color: white;
+      }
+      ion-textarea {
+        --background: oklch(27.8% 0.033 256.848);
+        --color: white;
+      }
+      ion-icon {
+        color: white;
+      }
+      ion-label {
+        color: white;
+      }
+      ion-button {
+        color: white !important;
+      }
+      ion-button.fill {
+        color: white !important;
+      }
+      ion-button.fill {
+        color: white !important;
+      }
+    }
+  }
+}
+
 .feedback-modal-content {
   display: flex;
   align-items: center;
@@ -20,7 +72,7 @@
   width: 400px;
   max-height: 80vh;
   margin: auto;
-  margin-top: 50%;
+  margin-top: 300px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
   overflow-y: auto;
 }

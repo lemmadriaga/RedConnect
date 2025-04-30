@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ReportService } from 'src/app/report.service';
 import { OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/authentication.service';
+import { DarkModeService } from 'src/app/services/dark-mode.service';
 
 @Component({
   selector: 'app-report',
@@ -14,11 +15,14 @@ export class ReportPage implements OnInit {
   selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
   lastSolvedReportMessage: string | null = null;
+  darkModeEnabled: boolean = false;
 
-
-  constructor(private reportService: ReportService, private router: Router, private authService: AuthenticationService) {}
+  constructor(private reportService: ReportService, private router: Router, private authService: AuthenticationService, private darkModeService: DarkModeService) {}
   ngOnInit() {
     this.checkLastSolvedReport();
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.darkModeEnabled = isDarkMode;
+    });
   }
   goBack() {
     this.router.navigate(['/student-dashboard/profile']);

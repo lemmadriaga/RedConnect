@@ -5,28 +5,35 @@
 :host {
   body.dark & {
     ion-header {
-      --background: oklch(21% 0.034 264.665) !important; 
+      --background: oklch(21% 0.034 264.665) !important;
     }
     ion-toolbar {
+      --background: oklch(27.8% 0.033 256.848);
       ion-title {
         color: white !important;
       }
       ion-button {
-      color: white !important; 
+        color: white !important;
+      }
     }
+
     ion-list {
-      --background: oklch(27.8% 0.033 256.848);
+      background: oklch(27.8% 0.033 256.848);
       ion-item {
         --background: oklch(27.8% 0.033 256.848);
         --color: #ffffff !important;
         ion-icon {
           color: #ffffff !important;
         }
+        ion-input {
+          color: #ffffff !important;
+        }
       }
     }
     ion-content {
-      --background: oklch(21% 0.034 264.665) !important; 
+      --background: oklch(21% 0.034 264.665) !important;
     }
+
     .profile-header {
       h2 {
         color: white;
@@ -37,18 +44,6 @@
     }
   }
 }
-}
-ion-header {
-    --background: oklch(21% 0.034 264.665) !important; 
-  }
-  
-  ion-toolbar {
-    --background: oklch(21% 0.034 264.665) !important; 
-  }
-  
-  ion-content {
-    --background: oklch(21% 0.034 264.665) !important; 
-  }
 
 .profile-container {
   display: flex;
@@ -132,7 +127,7 @@ p {
 
 ion-list {
   width: 100%;
-  --background: transparent
+  --background: transparent;
 }
 
 ion-item {

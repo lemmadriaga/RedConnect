@@ -30,6 +30,10 @@ export class EditProfilePage implements OnInit {
       this.darkModeEnabled = isDarkMode;
     });
   }
+  
+  toggleDarkMode() {
+    this.darkModeService.toggleDarkMode();
+  }
 
   initializeForm() {
     this.editForm = this.formBuilder.group({
