@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthenticationService } from 'src/app/authentication.service';
 import { Geolocation } from '@capacitor/geolocation';
+import { DarkModeService } from 'src/app/services/dark-mode.service'; 
 
 @Component({
   selector: 'app-event-details',
@@ -19,15 +20,20 @@ export class EventDetailsPage implements OnInit {
   userSection: string | null = null;
   isSectionValid: boolean = true;
   isSectionLocked: boolean = false;
+  darkModeEnabled: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private firestore: AngularFirestore,
     private authService: AuthenticationService,
-    public router: Router
+    public router: Router,
+    private darkModeService: DarkModeService 
   ) {}
 
   ngOnInit() {
+    this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
+      this.darkModeEnabled = isDarkMode;
+    });
     const eventId = this.route.snapshot.paramMap.get('id');
     if (eventId) {
       this.authService.getUserId().subscribe((id) => {
