@@ -13,6 +13,7 @@ export class FeedbackModalPage {
   feedback: string = '';
   rating: number = 0;
   isSubmitting: boolean = false;
+  darkModeEnabled: boolean = false;
 
   constructor(
     private firestore: AngularFirestore,

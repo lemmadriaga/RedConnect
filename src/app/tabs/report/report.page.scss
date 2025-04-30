@@ -2,16 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-ion-header {
-  --background: #990008;
-  --color: white;
+:host {
+  body.dark & {
+    ion-header {
+      --background: oklch(21% 0.034 264.665) !important;
+    }
+    ion-toolbar {
+      --background: oklch(27.8% 0.033 256.848);
+      ion-title {
+        color: white !important;
+      }
+      ion-button {
+        color: white !important;
+      }
+    }
+    ion-content {
+      --background: oklch(21% 0.034 264.665) !important;
+    }
+    .report-container {
+      background-color: oklch(27.8% 0.033 256.848);
+      h2 {
+        color: white;
+      }
+      p {
+        color: white;
+      }
+      .add-image-button {
+        color: white !important;
+      }
+    }
+    ion-item {
+      --background: oklch(27.8% 0.033 256.848);
+      --color: #ffffff !important;
+      ion-input {
+        --background: oklch(27.8% 0.033 256.848);
+        color: #ffffff !important;
+      }
+      ion-textarea {
+        --background: oklch(27.8% 0.033 256.848);
+        color: #ffffff !important;
+      }
+    }
+  }
 }
-
-ion-content {
-  background-color: #f7f7f7;
-  position: relative;
-}
-
 
 .background-logo {
   position: absolute;
