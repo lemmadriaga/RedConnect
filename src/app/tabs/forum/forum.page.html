@@ -26,24 +26,36 @@
 </ion-header>
 
 
-  <ion-content class="ion-no-padding ion-no-margin bg-transparent w-full" [fullscreen]="true">
-    <div class="mx-auto pt-16 h-full bg-gray-100 w-full dark:bg-darkBackground px-4">
+  <ion-content class="ion-no-padding ion-no-margin bg-transparent w-full">
+    <div class="mx-auto bg-gray-100 w-full dark:bg-darkBackground px-4 space-y-4 pt-4 pb-4">
     
     
       <!-- Create Post Card -->
       
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md my-6 p-4 flex flex-col items-center max-w-md mx-auto">
-        <div class="flex items-center w-full mb-3">
-          <img
-            [src]="userData?.profilePictureUrl || './assets/profile-placeholder.jpg'"
-            class="w-11 h-11 rounded-full object-cover border border-gray-200 dark:border-gray-700"
-            alt="Profile Picture"
-          />
-          <div class="ml-3 flex-1">
-            <span class="block font-semibold text-darkBackground dark:text-gray-100">{{ userData?.displayName || 'User' }}</span>
-            <span class="block text-xs text-gray-500 dark:text-gray-400">Share your thoughts with the community</span>
-          </div>
+      <div class="bg-white dark:bg-gray-800  space-y-3 rounded-xl shadow-md p-4 flex flex-col items-center max-w-md mx-auto">
+        <div class="flex items-center w-full">
+          <!-- Avatar -->
+          <ng-container *ngIf="userData; else loadingSkeleton">
+            <img
+              [src]="userData?.profilePictureUrl || './assets/profile-placeholder.jpg'"
+              class="w-11 h-11 rounded-full object-cover border border-gray-200 dark:border-gray-700"
+              alt="Profile Picture"
+            />
+            <div class="ml-3 flex-1">
+              <span class="block font-semibold text-darkBackground dark:text-gray-100">{{ userData?.fullName || 'User' }}</span>
+              <span class="block text-xs text-gray-500 dark:text-gray-400">{{ userData?.email }} • {{ userData?.role }}</span>
+            </div>
+          </ng-container>
+          <!-- Skeleton Loader -->
+          <ng-template #loadingSkeleton>
+            <div class="w-11 h-11 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+            <div class="ml-3 flex-1">
+              <div class="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"></div>
+              <div class="h-3 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            </div>
+          </ng-template>
         </div>
+        
         <!-- Status Update Input -->
         <textarea
           [(ngModel)]="newPostContent"
@@ -88,8 +100,8 @@
   
   
       <!-- Posts Feed -->
-      <div class="space-y-4 max-w-md mx-auto">
-        <div *ngFor="let post of posts" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm mx-4">
+      <div class="max-w-md mx-auto space-y-4">
+        <div *ngFor="let post of posts" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
           <!-- Post Header -->
           <div class="p-4">
             <div class="flex items-center justify-between">
@@ -105,30 +117,38 @@
                     <span *ngIf="post.authorRole" class="ml-2 px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-xs rounded-full text-gray-600 dark:text-gray-300">{{ post.authorRole }}</span>
                   </div>
                   <div class="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                    <span>{{ convertTimestampToDate(post.timestamp) ? (convertTimestampToDate(post.timestamp) | date:'MMM d, y • h:mm a') : 'Date unavailable' }}</span>
-                    <span class="mx-1">•</span>
-                    <ion-icon name="globe-outline" size="small"></ion-icon>
+                    <span>{{ convertTimestampToDate(post.timestamp) ? (convertTimestampToDate(post.timestamp) | date:'MMM d, y • h:mm a') : 'Date unavailable' }}</span>  
                   </div>
                 </div>
               </div>
   
               <!-- Post Actions -->
               <div class="relative">
-                <button class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+                <button
+                  class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                  (click)="toggleMenu(post.id)"
+                  [attr.aria-expanded]="openedMenuPostId === post.id"
+                  type="button"
+                >
                   <ion-icon name="ellipsis-horizontal"></ion-icon>
                 </button>
-                
-                <!-- Delete option (shown on click, simplified here) -->
-                <div *ngIf="post.userId === userData?.uid" class="absolute right-0 mt-1 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 border border-gray-200 dark:border-gray-700">
+              
+                <div
+                  *ngIf="openedMenuPostId === post.id"
+                  class="absolute right-0 mt-1 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 border border-gray-200 dark:border-gray-700"
+                >
                   <button
-                    (click)="deletePost(post)"
+                    (click)="deletePost(post); closeMenu()"
                     class="flex items-center space-x-2 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <ion-icon name="trash-outline"></ion-icon>
-                    <span>Delete post</span>
+                    <span *ngIf="openedMenuPostId === post.id" >Delete post {{post.userId}} | {{userData?.uid}}</span>
                   </button>
                 </div>
               </div>
+              
+              
+        
             </div>
   
             <!-- Post Content -->
@@ -173,6 +193,19 @@
               <ion-icon [name]="post.likes?.includes(userData?.uid) ? 'thumbs-up' : 'thumbs-up-outline'"></ion-icon>
               <span>Like</span>
             </button>
+
+            <!-- <button
+                (click)="toggleDislike(post)"
+                class="flex items-center justify-center space-x-1 flex-1 py-2 text-sm font-medium rounded-md"
+                [class.text-red-600]="post.dislikes?.includes(userData?.uid)"
+                [class.text-gray-600]="!post.dislikes?.includes(userData?.uid)"
+                [class.dark:text-red-400]="post.dislikes?.includes(userData?.uid)"
+                [class.dark:text-gray-400]="!post.dislikes?.includes(userData?.uid)"
+              >
+                <ion-icon [name]="post.dislikes?.includes(userData?.uid) ? 'thumbs-down' : 'thumbs-down-outline'"></ion-icon>
+                <span>Dislike</span>
+              </button> -->
+
             
             <button
               (click)="openCommentModal(post.id)"
@@ -182,12 +215,7 @@
               <span>Comment</span>
             </button>
             
-            <button
-              class="flex items-center justify-center space-x-1 flex-1 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-md"
-            >
-              <ion-icon name="share-social-outline"></ion-icon>
-              <span>Share</span>
-            </button>
+            
           </div>
           
           <!-- Quick Comment Input -->
@@ -206,6 +234,7 @@
           </div>
         </div>
       </div>
+      <div class="h-1 border border-gray-100"></div>
       
       <!-- Loading Indicator -->
       <div *ngIf="isLoading" class="flex justify-center py-6">
