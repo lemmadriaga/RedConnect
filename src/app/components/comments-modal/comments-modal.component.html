@@ -1,98 +1,107 @@
+
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Comments</ion-title>
+  <ion-toolbar color="danger" class="shadow-md">
+    <ion-title class="text-lg font-bold text-white">Comments</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">
-        <ion-icon name="close"></ion-icon>
-      </ion-button>
+      <ion-button (click)="closeModal()" class="text-white">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-avatar>
-        <img [src]="post?.authorAvatar" />
-      </ion-avatar>
-      <ion-card-subtitle>{{
-        getUserLabel(post?.authorId, post?.authorRole)
-      }}</ion-card-subtitle>
-      <ion-card-title>{{ post?.content }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content *ngIf="post?.imageUrl">
-      <img [src]="post.imageUrl" alt="Post image" />
-    </ion-card-content>
-  </ion-card>
-
-  <ion-list class="comment-thread">
-    <ng-container *ngFor="let comment of post?.comments">
-      <ion-item class="comment-item">
-        <ion-avatar slot="start">
-          <img [src]="comment.authorAvatar" />
-        </ion-avatar>
-        <ion-label class="ion-text-wrap">
-          <h3>{{ getUserLabel(comment.authorId, comment.authorRole) }}</h3>
-          <ion-note>{{
-            comment.timestamp?.toDate() | date : "short"
-          }}</ion-note>
-          <p>{{ comment.content }}</p>
-        </ion-label>
-      </ion-item>
-
-      <!-- Display replies -->
-      <ion-list class="reply-list">
-        <ion-item *ngFor="let reply of comment.replies" class="reply-item">
-          <ion-avatar slot="start">
-            <img [src]="reply.authorAvatar" />
-          </ion-avatar>
-          <ion-label class="ion-text-wrap">
-            <h3>{{ getUserLabel(reply.authorId, reply.authorRole) }}</h3>
-            <p>{{ reply.content }}</p>
-            <ion-note>{{
-              reply.timestamp?.toDate() | date : "short"
-            }}</ion-note>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-
-      <!-- Reply input -->
-      <ion-item lines="none" class="reply-input">
-        <ion-input
-          [(ngModel)]="newReply[comment.id]"
-          placeholder="Reply..."
-        ></ion-input>
-        <ion-button
-          fill="clear"
-          (click)="
-            replyToComment(comment, newReply[comment.id]);
-            newReply[comment.id] = ''
-          "
-        >
-          <ion-icon name="send-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
-    </ng-container>
-  </ion-list>
-</ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-item lines="none" class="comment-input">
-      <ion-avatar slot="start">
-        <img [src]="userAvatar" />
-      </ion-avatar>
-      <ion-input
-        [(ngModel)]="newComment"
-        (ionInput)="newComment = $event.target.value"
-        placeholder="Add a comment..."
-      ></ion-input>
-      <ion-button
-        fill="clear"
-        (click)="addComment(post, newComment); newComment = ''"
+<ion-content class="bg-gray-100 dark:bg-darkBackground p-4">
+  <!-- Scrollable Comments List Container -->
+  <div class="comments-container max-h-[60vh] overflow-y-auto space-y-6">
+    <ng-container *ngFor="let comment of comments">
+      <div
+        *ngIf="!comment.parentCommentId"
+        class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700"
       >
-        <ion-icon name="send-outline"></ion-icon>
+        <div class="flex items-start space-x-4">
+          <img
+            [src]="comment.authorAvatar || './assets/profile-placeholder.jpg'"
+            (error)="this.src = './assets/profile-placeholder.jpg'"
+            alt="Author Avatar"
+            class="w-12 h-12 rounded-full object-cover border border-gray-300 dark:border-gray-700"
+          />
+          <div class="flex-1">
+            <strong class="text-gray-900 dark:text-gray-100 font-semibold">{{
+              comment.authorName
+            }}</strong>
+            <p class="text-gray-700 dark:text-gray-200 mt-1">{{ comment.content }}</p>
+            <ion-button
+              fill="clear"
+              (click)="replyToComment(comment.id)"
+              class="text-sm font-medium mt-2"
+              color="danger"
+            >
+              Reply
+            </ion-button>
+          </div>
+        </div>
+
+        <!-- Inline Reply Input -->
+        <div *ngIf="replyingToCommentId === comment.id" class="pl-12 mt-3">
+          <ion-textarea
+            [(ngModel)]="newCommentContent"
+            placeholder="Write a reply..."
+            class="w-full bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-2 text-sm text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          ></ion-textarea>
+          <ion-button
+            color="danger"
+            (click)="addComment()"
+            class="mt-2 text-white font-semibold rounded-lg shadow-md"
+          >
+            Post Reply
+          </ion-button>
+        </div>
+
+        <!-- Replies Section -->
+        <div class="pl-14 mt-3 space-y-3">
+          <div
+            *ngFor="let reply of getReplies(comment.id)"
+            class="flex items-start space-x-3 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg"
+          >
+            <img
+              [src]="reply.authorAvatar || './assets/profile-placeholder.jpg'"
+              (error)="this.src = './assets/profile-placeholder.jpg'"
+              alt="Reply Author Avatar"
+              class="w-10 h-10 rounded-full object-cover border border-gray-300 dark:border-gray-700"
+            />
+            <div class="flex-1">
+              <strong class="text-gray-800 dark:text-gray-100 font-medium font-semibold">{{
+                reply.authorName
+              }}</strong>
+              <p class="text-gray-700 dark:text-gray-200 mt-1">{{ reply.content }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Non-Scrollable Comment Input Section -->
+  <div
+    class="flex items-start space-x-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 mt-4 sticky bottom-0"
+  >
+    <img
+      *ngIf="userData"
+      [src]="userData.profilePictureUrl || './assets/profile-placeholder.jpg'"
+      alt="User Avatar"
+      class="w-12 h-12 rounded-full object-cover border border-gray-300 dark:border-gray-700"
+    />
+    <div class="flex-1">
+      <ion-textarea
+        [(ngModel)]="newCommentContent"
+        placeholder="Write a comment..."
+        class="w-full bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-2 text-sm text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      ></ion-textarea>
+      <ion-button
+        (click)="addComment()"
+        color="danger"
+        class="mt-4 text-white font-semibold rounded-lg shadow-md"
+      >
+        Post
       </ion-button>
-    </ion-item>
-  </ion-toolbar>
-</ion-footer>
+    </div>
+  </div>
+</ion-content>
