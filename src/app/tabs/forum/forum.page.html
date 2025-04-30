@@ -125,12 +125,12 @@
               <!-- Post Actions -->
               <div *ngIf="post.userId === userData?.uid" class="relative" >
                 <button
-                  class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                  class="rounded-full flex justify-center items-center text-gray-500 hover:text-gray-700 dark:text-gray-400  hover:bg-gray-100 dark:hover:bg-gray-700"
                   (click)="toggleMenu(post.id)"
                   [attr.aria-expanded]="openedMenuPostId === post.id"
                   type="button"
                 >
-                  <ion-icon name="ellipsis-horizontal"></ion-icon>
+                  <ion-icon name="ellipsis-horizontal" class="p-2"></ion-icon>
                 </button>
               
                 <div
@@ -162,7 +162,7 @@
   
           <!-- Engagement Stats -->
           <div class="px-4 py-2 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
-            <div class="flex items-center space-x-1">
+            <div *ngIf="post.likes?.length > 0" class="flex items-center space-x-1">
               <div class="flex -space-x-1">
                 <div class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
                   <ion-icon name="thumbs-up" class="text-white text-xs"></ion-icon>
@@ -171,12 +171,7 @@
                   <ion-icon name="thumbs-down" class="text-white text-xs"></ion-icon>
                 </div>
               </div>
-              <span>{{ (post.likes?.length || 0) + (post.dislikes?.length || 0) }}</span>
-            </div>
-            
-            <div class="flex space-x-3">
-              <span *ngIf="post.comments?.length">{{ post.comments?.length }} comments</span>
-              <span>0 shares</span>
+              <span>{{ post.likes?.length }}</span>
             </div>
           </div>
   
@@ -234,7 +229,7 @@
           </div>
         </div>
       </div>
-      <div class="h-1 border border-gray-100"></div>
+      <!-- <div class="h-1 border border-gray-100"></div> -->
       
       <!-- Loading Indicator -->
       <div *ngIf="isLoading" class="flex justify-center py-6">

@@ -7,8 +7,12 @@
     ion-tab-bar{
       --background:oklch(27.8% 0.033 256.848);
     }
+    ion-tabs {
+      background-color: #1a1a2e
+    }
   }
 }
+
 
 ion-tab-bar {
   --background: rgb(255, 255, 255);
@@ -86,4 +90,9 @@ ion-tab-button:nth-child(2).tab-selected {
 }
 ion-tab-button:nth-child(4).tab-selected {
   background-color: #cfa865;
+}
+
+
+ion-tabs {
+  background-color: #f3f4f6
 }
