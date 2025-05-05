@@ -187,6 +187,11 @@ form.sign-in-form {
   transition: 0.3s;
 }
 
+button {
+  border-color: #f21622;
+  border-width: 10px;
+}
+
 .google-btn {
   display: flex;
   align-items: center;
@@ -234,6 +239,21 @@ form.sign-in-form {
     background-color: #cccccc;
     color: #888888;
     cursor: not-allowed;
+  }
+}
+
+.forgot-password-btn {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #f21622;
+  text-decoration: none;
+  margin-top: 10px;
+  transition: color 0.3s ease-in-out;
+  background-color: white;
+
+  &:hover {
+    color: #cfa865;
+    text-decoration: underline;
   }
 }
 

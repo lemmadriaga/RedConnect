@@ -81,6 +81,7 @@
 
   <!-- Non-Scrollable Comment Input Section -->
   <div
+  *ngIf="replyingToCommentId === null"
     class="flex items-start space-x-4 p-4 bg-white dark:bg-darkBackground   rounded-lg shadow border border-gray-200 dark:border-gray-700 mt-4 sticky bottom-0 z-10"
   >
     <img

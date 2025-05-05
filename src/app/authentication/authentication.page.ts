@@ -72,7 +72,6 @@ export class AuthenticationPage implements AfterViewInit {
 
       try {
         const user = await this.authService.registerUser(
-          
           email,
           password,
           fullName,
@@ -85,7 +84,7 @@ export class AuthenticationPage implements AfterViewInit {
           const alert = await this.alertCtrl.create({
             header: 'Verify Your Email',
             message:
-              'We have sent you an email. Please verify your account before logging in.',
+              'We have sent you an email. Please verify your account before logging in. If not found, please also check the spam/junk folders. Thank you',
             buttons: ['OK'],
           });
           await alert.present();
