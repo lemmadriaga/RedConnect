@@ -92,6 +92,12 @@ export class AuthenticationPage implements AfterViewInit {
         }
       } catch (error) {
         console.error('Registration error:', error);
+        const alert = await this.alertCtrl.create({
+          header: 'An error occured',
+          message: error.message,
+          buttons: ['OK'],
+        });
+        await alert.present();
         loading.dismiss();
       }
     } else {
