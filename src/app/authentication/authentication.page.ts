@@ -105,6 +105,21 @@ export class AuthenticationPage implements AfterViewInit {
     }
   }
 
+  getFriendlyError(error: any): string {
+    // If it's a Firebase error
+    if (error?.code) {
+      // Example: auth/email-already-in-use
+      return error.code.replace('auth/', '').replace(/-/g, ' ');
+    }
+
+    // If it's a regular JS error
+    if (error?.message) {
+      return error.message;
+    }
+
+    return 'An unknown error occurred.';
+  }
+
   async signIn() {
     const loading = await this.loadingCtrl.create();
     await loading.present();
