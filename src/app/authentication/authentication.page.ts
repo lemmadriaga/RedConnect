@@ -162,10 +162,10 @@ export class AuthenticationPage implements AfterViewInit {
           }
           this.loginForm.reset();
         } else {
-          this.errorMessage = 'Please check your email and password';
+          this.errorMessage = 'Invalid email and password';
         }
       } catch (error) {
-        this.errorMessage = 'Please check your email and password';
+        this.errorMessage = 'Invalid email and password';
         console.error('Error during sign-in:', error);
         await this.router.navigate(['/authentication']);
       } finally {
