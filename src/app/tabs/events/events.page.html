@@ -1,4 +1,27 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding hide-scrollbar">
+  <!-- Global styles for hiding scrollbars -->
+  <style>
+    .hide-scrollbar {
+      scrollbar-width: none !important; /* Firefox */
+      -ms-overflow-style: none !important; /* IE and Edge */
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none !important; /* Chrome, Safari, Opera */
+      width: 0 !important;
+      height: 0 !important;
+    }
+    
+    /* Apply to ion-content scrollable area */
+    ion-content::part(scroll) {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    ion-content::part(scroll)::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  </style>
 
   <div class="background-animation dark:bg-gray-900 shadow-sm">
     <ion-icon name="heart" class="icon-animation" style="top: 10%; left: 20%;"></ion-icon>
@@ -12,12 +35,12 @@
   </div>
   
   
-  <div *ngIf="events.length > 0; else noEvents" class="event-list mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div *ngIf="events.length > 0; else noEvents" class="event-list mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hide-scrollbar">
     <div *ngFor="let event of events" class="bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 p-6 dark:bg-gray-800 dark:shadow-[0_0_10px_4px_rgba(255,0,0,0.7)]">
       <img [src]="event.thumbnailUrl" alt="Event Thumbnail" class="w-full h-48 object-cover rounded-t-lg mb-4" />
       
       <div class="p-4">
-        <h3 class="text-xl font-bold text-gray-800 mb-3">{{ event.title }}</h3>
+        <h3 class="text-xl font-bold text-gray-800 mb-3 dark:text-white">{{ event.title }}</h3>
         
         <div class="space-y-1">
           <div class="flex items-center text-gray-600 dark:text-white">
