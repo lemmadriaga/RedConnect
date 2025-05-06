@@ -25,14 +25,38 @@
   </div>
 </ion-header>
 
+<!-- Global styles for hiding scrollbars -->
+<style>
+  .hide-scrollbar {
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE and Edge */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none !important; /* Chrome, Safari, Opera */
+    width: 0 !important;
+    height: 0 !important;
+  }
+  
+  /* Apply to ion-content scrollable area */
+  ion-content::part(scroll) {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ion-content::part(scroll)::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+</style>
 
-  <ion-content class="ion-no-padding ion-no-margin bg-transparent w-full">
-    <div class="mx-auto bg-gray-100 w-full dark:bg-darkBackground px-4 space-y-4 pt-4 pb-4">
+
+  <ion-content class="ion-no-padding ion-no-margin bg-transparent w-full hide-scrollbar">
+    <div class="mx-auto bg-gray-100 w-full dark:bg-darkBackground px-4 space-y-4 pt-4 pb-4 hide-scrollbar">
     
     
       <!-- Create Post Card -->
       
-      <div class="bg-white dark:bg-gray-800  space-y-3 rounded-xl shadow-md p-4 flex flex-col items-center max-w-md mx-auto">
+      <div class="bg-white dark:bg-gray-800 space-y-3 rounded-xl shadow-md p-4 flex flex-col items-center max-w-md mx-auto">
         <div class="flex items-center w-full">
           <!-- Avatar -->
           <ng-container *ngIf="userData; else loadingSkeleton">
@@ -61,7 +85,7 @@
           [(ngModel)]="newPostContent"
           placeholder="What's on your mind?"
           maxlength="2800 "
-          class="w-full mb-3 p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+          class="w-full mb-3 p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition hide-scrollbar"
           style="resize: none; field-sizing: content; max-height: 112px;"
         ></textarea>
         <button
@@ -100,8 +124,8 @@
   
   
       <!-- Posts Feed -->
-      <div class="max-w-md mx-auto space-y-4">
-        <div *ngFor="let post of posts" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+      <div class="max-w-md mx-auto space-y-4 hide-scrollbar">
+        <div *ngFor="let post of posts" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm hide-scrollbar">
           <!-- Post Header -->
           <div class="p-4">
             <div class="flex items-center justify-between">
