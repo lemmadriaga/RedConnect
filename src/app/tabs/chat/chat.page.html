@@ -1,4 +1,27 @@
-<ion-content>
+<ion-content class="hide-scrollbar">
+  <!-- Global styles for hiding scrollbars -->
+  <style>
+    .hide-scrollbar {
+      scrollbar-width: none !important; /* Firefox */
+      -ms-overflow-style: none !important; /* IE and Edge */
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none !important; /* Chrome, Safari, Opera */
+      width: 0 !important;
+      height: 0 !important;
+    }
+    
+    /* Apply to ion-content scrollable area */
+    ion-content::part(scroll) {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    ion-content::part(scroll)::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  </style>
   <!-- Top image -->
   <div class="top-image">
     <img
@@ -25,7 +48,7 @@
   </ion-segment>
 
   <!-- Chats Section -->
-  <ion-list *ngIf="segmentValue === 'chats'" class="user-list">
+  <ion-list *ngIf="segmentValue === 'chats'" class="user-list hide-scrollbar">
     <ion-item
       *ngFor="let chat of recentChats"
       lines="none"
@@ -51,7 +74,7 @@
   </ion-list>
 
   <!-- Active Section -->
-  <ion-list *ngIf="segmentValue === 'active'" class="user-list active-section">
+  <ion-list *ngIf="segmentValue === 'active'" class="user-list active-section hide-scrollbar">
     <ion-item *ngFor="let user of activeUsers" (click)="startChat(user.id)">
       <ion-avatar slot="start">
         <img [src]="user.avatar" />
