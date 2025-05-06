@@ -25,6 +25,14 @@
         }
       }
     }
+    
+    .sign-out-item {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      
+      ion-icon, ion-label {
+        color: var(--ion-color-danger);
+      }
+    }
   }
 }
 .profile-container {
@@ -140,5 +148,28 @@ button {
 
   &:hover {
     background-color: #a00;
+  }
+}
+
+/* Sign out button styling */
+.sign-out-item {
+  --background: transparent;
+  --background-hover: rgba(var(--ion-color-danger-rgb), 0.08);
+  --background-activated: rgba(var(--ion-color-danger-rgb), 0.12);
+  --background-focused: rgba(var(--ion-color-danger-rgb), 0.12);
+  --ripple-color: rgba(var(--ion-color-danger-rgb), 0.1);
+  
+  margin-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 8px;
+  
+  ion-icon {
+    color: var(--ion-color-danger);
+    font-size: 20px;
+  }
+  
+  ion-label {
+    color: var(--ion-color-danger);
+    font-weight: 500;
   }
 }

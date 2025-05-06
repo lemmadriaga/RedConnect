@@ -13,10 +13,33 @@
 </ion-header>
 
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding hide-scrollbar">
+  <!-- Global styles for hiding scrollbars -->
+  <style>
+    .hide-scrollbar {
+      scrollbar-width: none !important; /* Firefox */
+      -ms-overflow-style: none !important; /* IE and Edge */
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none !important; /* Chrome, Safari, Opera */
+      width: 0 !important;
+      height: 0 !important;
+    }
+    
+    /* Apply to ion-content scrollable area */
+    ion-content::part(scroll) {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    ion-content::part(scroll)::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  </style>
   
   <div class="background-logo"></div>
-  <div class="profile-container">
+  <div class="profile-container hide-scrollbar">
     <div class="profile-header">
       <div class="profile-image" (click)="uploadImage()">
         <img
@@ -31,8 +54,8 @@
       <p>Edit Profile</p>
     </div>
 
-    <form [formGroup]="editForm" (ngSubmit)="updateProfile()" class="w-full max-w-md mx-auto">
-      <ion-list lines="none">
+    <form [formGroup]="editForm" (ngSubmit)="updateProfile()" class="w-full max-w-md mx-auto hide-scrollbar">
+      <ion-list lines="none" class="hide-scrollbar">
         <ion-item class="mb-4">
           <ion-label position="floating">Full Name</ion-label>
           <ion-input type="text" formControlName="fullName"></ion-input>
@@ -45,7 +68,7 @@
 
         <ion-item class="mb-4">
           <ion-label position="stacked">Department</ion-label>
-          <ion-select formControlName="department" placeholder="Select Department">
+          <ion-select formControlName="department" placeholder="Select Department" class="hide-scrollbar">
             <ion-select-option value="CICS">College of Informatics and Computing Sciences (CICS)</ion-select-option>
             <ion-select-option value="CET">College of Engineering Technology (CET)</ion-select-option>
             <ion-select-option value="CTE">College of Teacher Education (CTE)</ion-select-option>
