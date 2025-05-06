@@ -6,6 +6,7 @@
   body.dark & {
     ion-content {
       --background: oklch(21% 0.034 264.665);
+      margin-bottom: 1.2rem;
     }
     .profile-header {
       h2 {

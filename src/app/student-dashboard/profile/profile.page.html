@@ -11,6 +11,53 @@
       height: 0 !important;
     }
     
+    /* Sign out button styling - improved design with system red color */
+    .sign-out-container {
+      margin-top: 32px;
+      padding: 0 16px;
+      padding-bottom: 32px; /* Increased padding at bottom for more space above navbar */
+    }
+    
+    .sign-out-button {
+      --background: var(--ion-color-danger);
+      --background-hover: rgba(var(--ion-color-danger-rgb), 0.9);
+      --background-activated: rgba(var(--ion-color-danger-rgb), 0.85);
+      --background-focused: rgba(var(--ion-color-danger-rgb), 0.85);
+      --color: var(--ion-color-light);
+      --border-radius: 12px;
+      --box-shadow: 0 4px 8px rgba(var(--ion-color-danger-rgb), 0.3);
+      --padding-top: 16px;
+      --padding-bottom: 16px;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      text-transform: none;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .sign-out-button:hover {
+      --box-shadow: 0 6px 12px rgba(var(--ion-color-danger-rgb), 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .sign-out-button ion-icon {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+    
+    /* Add this to ensure the content has enough height */
+    .profile-container {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Push the sign-out container to the bottom with space */
+    ion-list {
+      flex: 1;
+    }
+    
     /* Apply to ion-content scrollable area */
     ion-content::part(scroll) {
       scrollbar-width: none !important;
@@ -70,10 +117,18 @@
         <ion-icon name="flag-outline" slot="start"></ion-icon>
         <ion-label>Report</ion-label>
       </ion-item>
-      <ion-item>
-        <button expand="block" (click)="signOut()" class="mb-2">Sign Out</button>
-      </ion-item>
     </ion-list>
     
+    <!-- Sign Out Button with system red color -->
+    <div class="sign-out-container">
+      <ion-button 
+        class="sign-out-button" 
+        expand="block"
+        color="danger"
+        (click)="signOut()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Sign Out
+      </ion-button>
+    </div>
   </div>
 </ion-content>
