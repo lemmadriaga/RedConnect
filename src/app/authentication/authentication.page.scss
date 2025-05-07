@@ -770,3 +770,70 @@ ion-select::part(text) {
 .floating-input-field ion-input.has-focus::part(native) {
   border-bottom: 2px solid #f21622;
 }
+
+
+/* Reduce the size of floating input fields */
+.floating-input-field {
+  height: 45px; /* Reduced from 55px */
+  max-width: 340px; /* Reduced from 380px */
+  margin: 8px 0; /* Reduced from 10px 0 */
+}
+
+/* Adjust the icon size and positioning */
+.floating-input-field .icon-left {
+  font-size: 1.2rem; /* Reduced from 1.5rem */
+  margin-left: 8px; /* Reduced from 10px */
+  margin-right: 8px; /* Reduced from 10px */
+}
+
+/* Adjust font size in input fields */
+.floating-input-field ion-input {
+  font-size: 0.9rem; /* Reduced from 1rem */
+  padding-top: 16px; /* Reduced from 20px */
+}
+
+/* Adjust label font size */
+.floating-input-field label {
+  font-size: 0.9rem; /* Reduced from 1rem */
+}
+
+/* Adjust floating label when focused or with value */
+.floating-input-field ion-input:focus + label,
+.floating-input-field ion-input.has-value + label {
+  font-size: 0.7rem; /* Reduced from 0.75rem */
+  padding: 3px 5px; /* Reduced from 5px and 6px */
+}
+
+/* Adjust password toggle icon position */
+.password-toggle-icon {
+  right: 12px; /* Reduced from 15px */
+  font-size: 1.1rem; /* Add this to reduce icon size */
+}
+
+/* Adjust validation error text */
+.validation-error {
+  font-size: 0.75rem; /* Reduced from 0.8rem */
+  margin-left: 35px; /* Reduced from 45px */
+  margin-top: 3px; /* Reduced from 5px */
+}
+
+/* Adjust button size */
+.btn {
+  height: 42px; /* Reduced from 49px */
+  width: 140px; /* Reduced from 150px */
+  font-size: 0.85rem; /* Slightly reduced font size */
+}
+
+/* Adjust spacing in sign-in and sign-up forms */
+form {
+  padding: 0rem 4rem; /* Reduced from 5rem */
+}
+
+/* Reduce logo sizes */
+.image1 {
+  width: 35%; /* Reduced from 40% */
+}
+
+.image2 {
+  width: 25%; /* Reduced from 30% */
+}
