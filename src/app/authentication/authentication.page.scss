@@ -724,6 +724,25 @@ ion-input.ion-touched:not(.ion-valid):not(.ion-invalid) {
   --border-color: #ffc107;
 }
 
+/* Remove problematic custom properties and fix overflow for ion-select */
+ion-select {
+  --highlight-color: none;
+  max-width: 100%;
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Optional: Ensure the selected text inside ion-select is also truncated */
+ion-select::part(text) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
 /* For sign-in form with floating labels */
 .floating-input-field ion-input {
   --background: transparent;
