@@ -199,6 +199,35 @@
             </ion-text>
           </div>
 
+          <!-- Confirm Password -->
+          <div class="floating-input-field password-field" [ngClass]="{
+            'is-valid': regForm.controls?.['confirmPassword'].valid && regForm.controls?.['confirmPassword'].touched,
+            'is-invalid': regForm.controls?.['confirmPassword'].invalid && regForm.controls?.['confirmPassword'].touched
+          }">
+            <ion-icon [name]="regForm.controls?.['confirmPassword']?.valid ? 'lock-closed' : 'lock-closed-outline'" class="icon-left"></ion-icon>
+            <div class="input-container">
+              <ion-input
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                formControlName="confirmPassword"
+                required
+              ></ion-input>
+              <label>Confirm Password</label>
+            </div>
+            <ion-icon
+              [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
+              (click)="toggleConfirmPasswordVisibility()"
+              class="password-toggle-icon"
+            ></ion-icon>
+          </div>
+          <div *ngIf="regForm.controls?.['confirmPassword'].touched && regForm.controls?.['confirmPassword'].invalid" class="validation-error">
+            <ion-text *ngIf="regForm.controls?.['confirmPassword'].errors?.['required']">
+              Confirm password is required
+            </ion-text>
+            <ion-text *ngIf="regForm.controls?.['confirmPassword'].errors?.['mismatch']">
+              Passwords do not match
+            </ion-text>
+          </div>
+
           <!-- Department -->
           <div class="floating-input-field overflow-ellipsis">
             <ion-icon name="school" class="icon-left"></ion-icon>

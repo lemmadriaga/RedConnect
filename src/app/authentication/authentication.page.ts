@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { AuthenticationService } from '../authentication.service';
@@ -16,6 +16,7 @@ export class AuthenticationPage implements AfterViewInit {
   loginForm: FormGroup;
   errorMessage: string | null = null;
   showPassword = false;
+  showConfirmPassword = false;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -42,8 +43,9 @@ export class AuthenticationPage implements AfterViewInit {
         ],
       ],
       password: ['', [Validators.required, Validators.pattern('.{8,}')]],
+      confirmPassword: ['', [Validators.required]],
       department: ['', [Validators.required]],
-    });
+    }, { validators: this.passwordsMatchValidator });
 
     this.loginForm = this.formBuilder.group({
       email: [
@@ -60,6 +62,24 @@ export class AuthenticationPage implements AfterViewInit {
   get errorControl() {
     return this.regForm?.controls, this.loginForm?.controls;
   }
+  // Custom validator to check if password and confirmPassword match
+  passwordsMatchValidator(form: AbstractControl): ValidationErrors | null {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    
+    if (password !== confirmPassword) {
+      form.get('confirmPassword')?.setErrors({ mismatch: true });
+      return { mismatch: true };
+    } else {
+      // Only clear mismatch error if there are no other errors
+      if (form.get('confirmPassword')?.hasError('mismatch')) {
+        const confirmPasswordControl = form.get('confirmPassword');
+        confirmPasswordControl?.setErrors(null);
+      }
+      return null;
+    }
+  }
+
   async signUp() {
     const loading = await this.loadingCtrl.create();
     await loading.present();
@@ -245,6 +265,10 @@ export class AuthenticationPage implements AfterViewInit {
   }
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   setupFloatingLabels() {
