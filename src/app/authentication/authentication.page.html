@@ -7,89 +7,80 @@
     <div class="forms-container">
       <div class="signin-signup">
         <form
-          class="sign-in-form"
-          [formGroup]="loginForm"
-          novalidate
-          class="sign-in-form"
-        >
-          <ion-img src="./assets/LOGO.png" class="image1"></ion-img>
-          <h2 class="title">Sign in</h2>
-          <p>Enter your email and password below to Login.</p>
-          <div *ngIf="errorMessage" class="error-message">
-            <ion-text color="danger">{{ errorMessage }}</ion-text>
-          </div>
-          <div class="input-field">
-            <ion-icon name="mail" class="icon-left"></ion-icon>
-            <ion-input
-              type="text"
-              placeholder="Email"
-              class=".input-with-icon"
-              formControlName="email"
-            ></ion-input>
-          </div>
-          <div
-            *ngIf="loginForm.controls?.['email'].touched && loginForm.controls?.['email'].invalid"
-          >
-            <ion-text
-              *ngIf="loginForm.controls?.['email'].errors?.['required']"
-            >
-              Email is required
-            </ion-text>
-            <ion-text *ngIf="loginForm.controls?.['email'].errors?.['pattern']">
-              Enter a valid email
-            </ion-text>
-          </div>
-          <div class="input-field password-field">
-            <ion-icon name="lock-closed-outline" class="icon-left"></ion-icon>
-            <ion-input
-              [type]="showPassword ? 'text' : 'password'"
-              placeholder="Password"
-              class=".input-with-icon"
-              formControlName="password"
-            ></ion-input>
-            <ion-icon
-              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
-              (click)="togglePasswordVisibility()"
-              class="password-toggle-icon"
-            ></ion-icon>
-   
-          </div>
-          
-          <div
-            *ngIf="loginForm.controls?.['password'].touched && loginForm.controls?.['password'].invalid"
-          >
-            <ion-text
-              *ngIf="loginForm.controls?.['password'].errors?.['required']"
-            >
-              Password is required
-            </ion-text>
-            <ion-text
-              *ngIf="loginForm.controls?.['password'].errors?.['pattern']"
-            >
-              Password must contain 8 characters
-            </ion-text>
-          </div>
+  class="sign-in-form"
+  [formGroup]="loginForm"
+  novalidate
+>
+  <ion-img src="./assets/LOGO.png" class="image1"></ion-img>
+  <h2 class="title">Sign in</h2>
+  <p>Enter your email and password below to Login.</p>
+  <div *ngIf="errorMessage" class="error-message">
+    <ion-text color="danger">{{ errorMessage }}</ion-text>
+  </div>
+  
+  <!-- Email field with floating label -->
+  <div class="floating-input-field">
+    <ion-icon name="mail" class="icon-left"></ion-icon>
+    <div class="input-container">
+      <ion-input 
+        type="text" 
+        formControlName="email"
+        required
+      ></ion-input>
+      <label>Email</label>
+    </div>
+  </div>
+  <div *ngIf="loginForm.controls?.['email'].touched && loginForm.controls?.['email'].invalid" class="validation-error">
+    <ion-text *ngIf="loginForm.controls?.['email'].errors?.['required']">
+      Email is required
+    </ion-text>
+    <ion-text *ngIf="loginForm.controls?.['email'].errors?.['pattern']">
+      Enter a valid email
+    </ion-text>
+  </div>
+  
+  <!-- Password field with floating label -->
+  <div class="floating-input-field password-field">
+    <ion-icon name="lock-closed-outline" class="icon-left"></ion-icon>
+    <div class="input-container">
+      <ion-input 
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
+        required
+      ></ion-input>
+      <label>Password</label>
+    </div>
+    <ion-icon
+      [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+      (click)="togglePasswordVisibility()"
+      class="password-toggle-icon"
+    ></ion-icon>
+  </div>
+  <div *ngIf="loginForm.controls?.['password'].touched && loginForm.controls?.['password'].invalid" class="validation-error">
+    <ion-text *ngIf="loginForm.controls?.['password'].errors?.['required']">
+      Password is required
+    </ion-text>
+    <ion-text *ngIf="loginForm.controls?.['password'].errors?.['pattern']">
+      Password must contain 8 characters
+    </ion-text>
+  </div>
 
-          <button
-            type="submit"
-            class="btn solid"
-            (click)="signIn()"
-            [disabled]="!loginForm.valid"
-          >
-            Login
-          </button>
-        <button
-          type="button"
-          class="forgot-password-btn"
-          (click)="resetPassword()"
-        >
-          Forgot Password?
-        </button>
-          <!-- <p class="social-text">Or Sign in with your Google account</p>
-          <a (click)="googleSignIn()" class="google-btn">
-            <ion-icon name="logo-google"></ion-icon> Continue with Google
-          </a> -->
-        </form>
+  <button
+    type="submit"
+    class="btn solid"
+    (click)="signIn()"
+    [disabled]="!loginForm.valid"
+  >
+    Login
+  </button>
+  <button
+    type="button"
+    class="forgot-password-btn"
+    (click)="resetPassword()"
+  >
+    Forgot Password?
+  </button>
+</form>
 
         <form
           class="sign-up-form"

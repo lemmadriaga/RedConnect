@@ -225,6 +225,8 @@ export class AuthenticationPage implements AfterViewInit {
     const sign_up_btn = document.querySelector('#sign-up-btn');
     const container = document.querySelector('.container');
 
+    this.setupFloatingLabels();
+
     if (sign_up_btn && container) {
       sign_up_btn.addEventListener('click', () => {
         container.classList.add('sign-up-mode');
@@ -243,5 +245,47 @@ export class AuthenticationPage implements AfterViewInit {
   }
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  setupFloatingLabels() {
+    // Apply 'has-value' class to inputs with values
+    const applyHasValueClass = () => {
+      const inputs = document.querySelectorAll('ion-input');
+      inputs.forEach((input) => {
+        const ionInput = input as HTMLIonInputElement;
+
+        // Check if input has value and add class accordingly
+        ionInput.getInputElement().then((inputEl) => {
+          if (inputEl.value !== '') {
+            ionInput.classList.add('has-value');
+          } else {
+            ionInput.classList.remove('has-value');
+          }
+        });
+
+        // Listen for changes
+        ionInput.addEventListener('ionChange', () => {
+          ionInput.getInputElement().then((inputEl) => {
+            if (inputEl.value !== '') {
+              ionInput.classList.add('has-value');
+            } else {
+              ionInput.classList.remove('has-value');
+            }
+          });
+        });
+      });
+    };
+
+    // Initial setup
+    setTimeout(applyHasValueClass, 500);
+
+    // Update when form values change
+    this.loginForm.valueChanges.subscribe(() => {
+      setTimeout(applyHasValueClass, 100);
+    });
+
+    this.regForm.valueChanges.subscribe(() => {
+      setTimeout(applyHasValueClass, 100);
+    });
   }
 }
