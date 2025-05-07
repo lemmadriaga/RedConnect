@@ -19,8 +19,15 @@
   </div>
   
   <!-- Email field with floating label -->
-  <div class="floating-input-field">
-    <ion-icon name="mail" class="icon-left"></ion-icon>
+  <div class="floating-input-field" [ngClass]="{
+    'is-valid': loginForm.controls?.['email'].valid && loginForm.controls?.['email'].touched,
+    'is-invalid': loginForm.controls?.['email'].invalid && loginForm.controls?.['email'].touched
+  }">
+  <ion-icon 
+  [name]="loginForm.controls?.['email']?.valid ? 'mail' : 'mail-outline'" 
+  class="icon-left">
+</ion-icon>
+
     <div class="input-container">
       <ion-input 
         type="text" 
@@ -40,8 +47,11 @@
   </div>
   
   <!-- Password field with floating label -->
-  <div class="floating-input-field password-field">
-    <ion-icon name="lock-closed-outline" class="icon-left"></ion-icon>
+  <div class="floating-input-field password-field" [ngClass]="{
+    'is-valid': loginForm.controls?.['password'].valid && loginForm.controls?.['password'].touched,
+    'is-invalid': loginForm.controls?.['password'].invalid && loginForm.controls?.['password'].touched
+  }">
+    <ion-icon [name]="loginForm.controls?.['password']?.valid ? 'lock-closed' : 'lock-closed-outline'" class="icon-left"></ion-icon>
     <div class="input-container">
       <ion-input 
         [type]="showPassword ? 'text' : 'password'"
@@ -90,7 +100,7 @@
         >
           <ion-img src="./assets/LOGO.png" class="image2"></ion-img>
           <h2 class="title">Sign up</h2>
-          <div class="input-field">
+          <div class="floating-input-field">
             <ion-icon name="person" class="icon-left"></ion-icon>
             <ion-input
               type="text"

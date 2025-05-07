@@ -114,6 +114,8 @@ form.sign-in-form {
   margin-left: 10px;
 }
 
+
+
 .input-with-icon {
   display: flex;
   align-items: center;
@@ -596,6 +598,11 @@ button {
   flex-shrink: 0;
 }
 
+
+.floating-input-field:has(.ion-valid) .icon-left {
+  color: #28a745;
+}
+
 .floating-input-field .input-container {
   position: relative;
   width: 100%;
@@ -630,9 +637,20 @@ button {
 /* This handles the floating effect */
 .floating-input-field ion-input:focus + label,
 .floating-input-field ion-input.has-value + label {
-  top: 25%;
+  top: 0;
+  background-color: #f0f0f0;
+  padding: 5px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border-radius: 5px;
   font-size: 0.75rem;
+  margin-bottom: 8px;
   color: #f21622;
+}
+
+.floating-input-field:has(.ion-valid) ion-input:focus + label,
+.floating-input-field:has(.ion-valid) ion-input.has-value + label{
+  color: #28a745;
 }
 
 /* Password field specific styles */
@@ -654,14 +672,7 @@ button {
   margin-left: 45px;
   margin-top: 5px;
 }
-
-/* Make sure to keep select field styles consistent */
-ion-select {
-  width: 100%;
-  height: 100%;
-  padding-top: 15px;
-  --padding-start: 0;
-}
+  
 
 /* Department select field with floating label */
 .floating-input-field .select-container {
@@ -686,6 +697,57 @@ ion-select {
   border: 1px solid #f21622;
 }
 
-.floating-input-field:focus-within .icon-left {
-  color: #f21622;
+
+
+ion-input {
+  --border-color: #d7d8da;
+  --border-radius: 4px;
+  --border-style: solid;
+  --border-width: 1px;
+  --highlight-color-focused: #f21622;
+  --highlight-color-valid: #28a745;
+  --highlight-color-invalid: #f21622;
+  --highlight-height: 0px;
+}
+
+/* Custom styles for different validation states */
+ion-input.ion-valid {
+  --highlight-color: none;
+}
+
+ion-input.ion-invalid {
+  --highlight-color: none;
+}
+
+ion-input.ion-touched:not(.ion-valid):not(.ion-invalid) {
+  --highlight-color: #ffc107;
+  --border-color: #ffc107;
+}
+
+/* For sign-in form with floating labels */
+.floating-input-field ion-input {
+  --background: transparent;
+  --border-width: 0;
+  --border-style: none;
+  --padding-start: 0;
+}
+
+/* Add bottom line specifically for floating inputs */
+.floating-input-field ion-input::part(native) {
+  border-bottom: 1px solid #d7d8da;
+  padding-bottom: 8px;
+}
+
+/* Change bottom line color based on validation state */
+.floating-input-field:has(.ion-valid) {
+  border: 1px solid #28a745;
+}
+
+.floating-input-field:has(.ion-invalid) {
+  border: 1px solid #f21622;
+}
+
+/* Special styling for input focus state */
+.floating-input-field ion-input.has-focus::part(native) {
+  border-bottom: 2px solid #f21622;
 }
