@@ -36,10 +36,10 @@
       ion-item {
         --background: oklch(27.8% 0.033 256.848);
         --color: #ffffff;
-        --border-color: #2e8b57; /* Green separator in dark mode */
+        --border-color: rgba(150, 150, 150, 0.3); /* Consistent gray separator with reduced opacity in dark mode */
         
         &:not(:last-child) {
-          border-bottom: 1px solid #2e8b57;
+          border-bottom: 1px solid rgba(150, 150, 150, 0.3);
         }
       }
       
@@ -114,10 +114,10 @@ ion-content {
   --inner-padding-end: 0;
   --background: transparent;
   --min-height: 70px;
-  --border-color: #2e8b57; /* Green separator for all items */
+  --border-color: rgba(150, 150, 150, 0.3); /* Consistent gray separator for all items */
 
   &:not(:last-child) {
-    border-bottom: 1px solid #2e8b57;
+    border-bottom: 1px solid rgba(150, 150, 150, 0.3);
   }
 
   ion-avatar {
