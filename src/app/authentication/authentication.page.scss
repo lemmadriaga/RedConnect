@@ -269,7 +269,7 @@ button {
 .panels-container {
   position: absolute;
   height: 100%;
-  width: 100%;
+  width: 100dvw;
   top: 0;
   left: 0;
   display: grid;
@@ -433,6 +433,7 @@ button {
 
   .right-panel {
     grid-row: 3 / 4;
+    margin-top: 50px;
   }
 
   .left-panel {
@@ -479,8 +480,9 @@ button {
   }
 
   .container.sign-up-mode:before {
-    transform: translate(-50%, 100%);
-    bottom: 32%;
+    transform: translate(-50%, 102%);
+    
+  // background-image: linear-gradient(-45deg, #16f216 0%, #6ef216 100%);
     right: initial;
   }
 
