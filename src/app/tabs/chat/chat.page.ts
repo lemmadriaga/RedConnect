@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { DarkModeService } from 'src/app/services/dark-mode.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
@@ -26,40 +27,48 @@ export class ChatPage implements OnInit, OnDestroy {
     private chatService: ChatService,
     private authService: AuthenticationService,
     private router: Router,
+    private afAuth: AngularFireAuth,
     private darkModeService: DarkModeService
   ) {}
 
   ngOnInit() {
+    // Listen for auth state changes
+    this.afAuth.authState.subscribe(async (user) => {
+      if (user) {
+        this.currentUserId = user.uid;
+        await this.authService.updateUserStatus(this.currentUserId, true);
+
+        // Now you can load other services that depend on the user ID
+        this.loadRecentChats();
+        this.loadActiveUsers();
+      } else {
+        console.log('No user logged in');
+      }
+    });
+
     this.darkModeService.getDarkModeStatus().subscribe((isDarkMode) => {
       this.darkModeEnabled = isDarkMode;
     });
-    this.authService.getCurrentUserId().then((userId) => {
-      this.currentUserId = userId;
-      if (userId) {
-        this.chatService.updateUserStatus(userId, true);
-      }
-    });
-    this.loadRecentChats();
-    this.loadActiveUsers();
-    this.listenForNotifications();
+
+    // this.listenForNotifications();
   }
 
-  listenForNotifications() {
-    PushNotifications.addListener(
-      'pushNotificationReceived',
-      (notification) => {
-        console.log('Push notification received:', notification);
+  // listenForNotifications() {
+  //   PushNotifications.addListener(
+  //     'pushNotificationReceived',
+  //     (notification) => {
+  //       console.log('Push notification received:', notification);
 
-        if (notification.data.type === 'chat') {
-          alert(
-            `New message from ${notification.data.senderName}: ${notification.body}`
-          );
-        } else if (notification.data.type === 'forum') {
-          alert(`New forum post: ${notification.body}`);
-        }
-      }
-    );
-  }
+  //       if (notification.data.type === 'chat') {
+  //         alert(
+  //           `New message from ${notification.data.senderName}: ${notification.body}`
+  //         );
+  //       } else if (notification.data.type === 'forum') {
+  //         alert(`New forum post: ${notification.body}`);
+  //       }
+  //     }
+  //   );
+  // }
 
   ngOnDestroy() {
     if (this.chatSubscription) {
@@ -130,6 +139,7 @@ export class ChatPage implements OnInit, OnDestroy {
         console.error('Error loading active users:', error);
       }
     );
+    console.log(this.activeUsersSubscription);
   }
 
   onSegmentChange(event: any) {

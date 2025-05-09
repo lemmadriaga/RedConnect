@@ -256,20 +256,17 @@ export class ChatService {
   }
 
   getActiveUsers(): Observable<any[]> {
-    const activeUsersQuery = this.firestore.collection('userStatus', (ref) =>
-      ref.where('isOnline', '==', true)
-    );
-
-    return combineLatest([
-      activeUsersQuery.valueChanges({ idField: 'id' }),
-      this.firestore.collection('users').valueChanges({ idField: 'id' }),
-    ]).pipe(
-      map(([activeStatuses, users]) => {
-        return users.filter((user) =>
-          activeStatuses.some((status) => status.id === user.id)
-        );
-      })
-    );
+    return this.firestore
+      .collection('userStatus', (ref) => ref.where('isOnline', '==', true))
+      .valueChanges({ idField: 'uid' })
+      .pipe(
+        switchMap((statuses) => {
+          const userIds = statuses.map((s) => s.uid);
+          return this.firestore
+            .collection('users', (ref) => ref.where('uid', 'in', userIds))
+            .valueChanges();
+        })
+      );
   }
 
   // getActiveUsers(): Observable<any[]> {

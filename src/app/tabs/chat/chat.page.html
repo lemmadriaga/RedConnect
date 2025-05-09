@@ -40,10 +40,10 @@
       value="chats"
       class="custom-segment-button dark:text-darkText"
     >
-      <ion-label>Chats {{ currentUserId }}</ion-label>
+      <ion-label>Chats ({{ recentChats.length }})</ion-label>
     </ion-segment-button>
     <ion-segment-button value="active" class="custom-segment-button">
-      <ion-label>Active {{ activeUsers.length }}</ion-label>
+      <ion-label>Active ({{ activeUsers.length }})</ion-label>
     </ion-segment-button>
   </ion-segment>
 
@@ -76,10 +76,14 @@
 </ion-list>
 
   <!-- Active Section -->
-  <ion-list *ngIf="segmentValue === 'active' && activeUsers.length > 0" class="user-list active-section hide-scrollbar">
-    <ion-item  *ngFor="let user of activeUsers" (click)="startChat(user.id)">
+  <ion-list *ngIf="segmentValue === 'active' && activeUsers.length > 0" class="user-list hide-scrollbar">
+    <ion-item 
+      *ngFor="let user of activeUsers" 
+      lines="none"
+      class="user-item active-item"
+      (click)="startChat(user.id)">
       <ion-avatar slot="start">
-        <img [src]="user.avatar" />
+        <img [src]="user.avatar || './assets/profile-placeholder.jpg'" />
       </ion-avatar>
       <ion-label>
         <h2>{{ user.fullName || 'Unknown User' }}</h2>
@@ -93,7 +97,32 @@
       ></ion-icon>
     </ion-item>
   </ion-list>
-  <div *ngIf="activeUsers.length === 0">
-    <h2>No active users.</h2>
+  <div *ngIf="segmentValue === 'active' && activeUsers.length === 0" style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    margin: 1rem;
+    border-radius: 12px;
+    background-color: var(--ion-card-background);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-height: 150px;">
+    <ion-icon name="people-outline" style="
+      font-size: 48px;
+      color: var(--ion-color-medium);
+      margin-bottom: 1rem;"></ion-icon>
+    <h2
+    id="no-active-user"
+     style="
+      margin: 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--ion-text-color);">No active users</h2>
+    <p style="
+      margin-top: 0.5rem;
+      font-size: 14px;
+      color: var(--ion-color-medium);">Check back later or start a new conversation</p>
   </div>
 </ion-content>
