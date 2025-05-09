@@ -106,7 +106,7 @@
             'is-valid': regForm.controls?.['fullname'].valid && regForm.controls?.['fullname'].touched,
             'is-invalid': regForm.controls?.['fullname'].invalid && regForm.controls?.['fullname'].touched
           }">
-            <ion-icon name="person-outline" class="icon-left"></ion-icon>
+            <ion-icon  [name]="regForm.controls?.['fullname']?.valid ? 'person' : 'person-outline'" class="icon-left"></ion-icon>
             <div class="input-container">
               <ion-input
                 type="text"
@@ -130,7 +130,7 @@
             <ion-icon [name]="regForm.controls?.['email']?.valid ? 'mail' : 'mail-outline'" class="icon-left"></ion-icon>
             <div class="input-container">
               <ion-input
-                type="text"
+                type="email"
                 formControlName="email"
                 required
               ></ion-input>
@@ -151,7 +151,7 @@
             'is-valid': regForm.controls?.['contact'].valid && regForm.controls?.['contact'].touched,
             'is-invalid': regForm.controls?.['contact'].invalid && regForm.controls?.['contact'].touched
           }">
-            <ion-icon name="call-outline" class="icon-left"></ion-icon>
+            <ion-icon [name]="regForm.controls?.['contact']?.valid ? 'call' : 'call-outline'"  class="icon-left"></ion-icon>
             <div class="input-container">
               <ion-input
                 type="tel"
@@ -230,7 +230,7 @@
 
           <!-- Department -->
           <div class="floating-input-field overflow-ellipsis">
-            <ion-icon name="school" class="icon-left"></ion-icon>
+            <ion-icon [name]="regForm.controls?.['department']?.valid ? 'school' : 'school-outline'"  class="icon-left"></ion-icon>
             <ion-select
               formControlName="department"
               placeholder="Select your department"

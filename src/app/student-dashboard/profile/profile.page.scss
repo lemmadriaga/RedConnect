@@ -5,7 +5,7 @@
 :host {
   body.dark & {
     ion-content {
-      --background: oklch(21% 0.034 264.665);
+      --background: #111827;
       margin-bottom: 1.2rem;
     }
     .profile-header {
@@ -36,6 +36,12 @@
     }
   }
 }
+
+ion-content {
+  --background: #f3f4f6;
+  margin-bottom: 1.2rem;
+}
+
 .profile-container {
   display: flex;
   flex-direction: column;

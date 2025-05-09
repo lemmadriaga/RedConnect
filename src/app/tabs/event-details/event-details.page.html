@@ -1,4 +1,3 @@
-<body class="bg-white dark:bg-gray-900 shadow-sm">
 
   <ion-header class="bg-red-700">
     <ion-toolbar color="danger">
@@ -86,6 +85,15 @@
               class="text-lg font-semibold"
             >
               Register to this Event
+            </ion-button>
+            <ion-button
+              *ngIf="isRegistered && !isEventToday()"
+              disabled
+              expand="block"
+              color="success"
+              class="text-lg font-semibold"
+            >
+              REGISTERED
             </ion-button>
             <ion-button
               *ngIf="isRegistered && !isAttended && isEventToday()"

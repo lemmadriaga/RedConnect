@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthenticationService } from 'src/app/authentication.service';
 import { Geolocation } from '@capacitor/geolocation';
-import { DarkModeService } from 'src/app/services/dark-mode.service'; 
+import { DarkModeService } from 'src/app/services/dark-mode.service';
 
 @Component({
   selector: 'app-event-details',
@@ -27,7 +27,7 @@ export class EventDetailsPage implements OnInit {
     private firestore: AngularFirestore,
     private authService: AuthenticationService,
     public router: Router,
-    private darkModeService: DarkModeService 
+    private darkModeService: DarkModeService
   ) {}
 
   ngOnInit() {
@@ -87,7 +87,12 @@ export class EventDetailsPage implements OnInit {
           this.isRegistered = doc.exists;
           this.isAttended = doc.data()?.['status'] === 'Attended';
           this.isSectionLocked = this.isRegistered;
-          console.log('isRegistered:', this.isRegistered, 'isAttended:', this.isAttended);
+          console.log(
+            'isRegistered:',
+            this.isRegistered,
+            'isAttended:',
+            this.isAttended
+          );
         });
     }
   }
@@ -121,7 +126,7 @@ export class EventDetailsPage implements OnInit {
         .set(attendeeData)
         .then(() => {
           this.isRegistered = true;
-          this.isSectionLocked = true; 
+          this.isSectionLocked = true;
         })
         .catch((error) => console.error('Error registering attendee:', error));
     } else {
@@ -148,19 +153,33 @@ export class EventDetailsPage implements OnInit {
   // //   return today >= eventStart && today <= eventEnd;
   // // }
   isEventToday(): boolean {
-    if (!this.event || !this.event.date || !this.event.time || !this.event.duration) {
+    if (
+      !this.event ||
+      !this.event.date ||
+      !this.event.time ||
+      !this.event.duration
+    ) {
       return false;
     }
-  
+
     const eventStart = new Date(`${this.event.date}T${this.event.time}`);
-    const eventEnd = new Date(eventStart.getTime() + this.event.duration * 60 * 60 * 1000);
-  
+    const eventEnd = new Date(
+      eventStart.getTime() + this.event.duration * 60 * 60 * 1000
+    );
+
     const now = new Date();
-    console.log('Event Start:', eventStart, 'Event End:', eventEnd, 'Now:', now);
-  
+    console.log(
+      'Event Start:',
+      eventStart,
+      'Event End:',
+      eventEnd,
+      'Now:',
+      now
+    );
+
     return now >= eventStart && now <= eventEnd;
   }
-  
+
   async checkLocationAndMarkAttendance() {
     if (
       navigator.geolocation &&
