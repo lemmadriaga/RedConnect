@@ -403,7 +403,8 @@ button {
 @media (max-width: 870px) {
   .container {
     min-height: 800px;
-    height: 100vh;
+    height: 150dvh;
+
   }
 
   .signin-signup {
@@ -480,10 +481,10 @@ button {
   }
 
   .container.sign-up-mode:before {
-    transform: translate(-50%, 102%);
-    
+    transform: translate(-50%, 102%);;
   // background-image: linear-gradient(-45deg, #16f216 0%, #6ef216 100%);
-    right: initial;
+    bottom: 0%;  
+  right: initial;
   }
 
   .container.sign-up-mode .left-panel .image3,
@@ -671,8 +672,6 @@ button {
 .validation-error {
   font-size: 0.8rem;
   color: #f21622;
-  margin-left: 45px;
-  margin-top: 5px;
 }
   
 
@@ -815,8 +814,6 @@ ion-select::part(text) {
 /* Adjust validation error text */
 .validation-error {
   font-size: 0.75rem; /* Reduced from 0.8rem */
-  margin-left: 35px; /* Reduced from 45px */
-  margin-top: 3px; /* Reduced from 5px */
 }
 
 /* Adjust button size */

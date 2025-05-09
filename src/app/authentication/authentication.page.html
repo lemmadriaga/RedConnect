@@ -13,7 +13,7 @@
 >
   <ion-img src="./assets/LOGO.png" class="image1"></ion-img>
   <h2 class="title">Sign in</h2>
-  <p>Enter your email and password below to Login.</p>
+  <p class="w-full text-center" style="width: 100%; text-align: center;">Enter your email and password below to Login.</p>
   <div *ngIf="errorMessage" class="error-message">
     <ion-text color="danger">{{ errorMessage }}</ion-text>
   </div>
@@ -99,7 +99,7 @@
         >
           <ion-img src="./assets/LOGO.png" class="image2"></ion-img>
           <h2 class="title">Sign up</h2>
-          <p style="margin-bottom: 10px;">Create your account to get started.</p>
+          <p style="margin-bottom: 10px; width: 100%; text-align: center;">Create your account to get started.</p>
           
           <!-- Username -->
           <div class="floating-input-field" [ngClass]="{
@@ -138,7 +138,7 @@
             </div>
           </div>
           <div *ngIf="regForm.controls?.['email'].touched && regForm.controls?.['email'].invalid" class="validation-error">
-            <ion-text *ngIf="regForm.controls?.['email'].errors?.['required']">
+            <ion-text *ngIf="regForm.controls?.['email'].errors?.['required']" >
               Email is required
             </ion-text>
             <ion-text *ngIf="regForm.controls?.['email'].errors?.['pattern']">
@@ -256,6 +256,7 @@
           </div>
           <div
             *ngIf="regForm.controls?.['department'].touched && regForm.controls?.['department'].invalid"
+            class="validation-error"
           >
             <ion-text
               *ngIf="regForm.controls?.['department'].errors?.['required']"
@@ -295,5 +296,7 @@
         </div>
       </div>
     </div>
+
+
   </div>
 </ion-content>
