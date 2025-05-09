@@ -9,8 +9,14 @@ import { BehaviorSubject } from 'rxjs';
 import 'firebase/compat/firestore';
 import { serverTimestamp } from '@angular/fire/firestore';
 
+// interface UserStatus {
+//   isOnline: boolean;
+// }
+
 interface UserStatus {
+  id: string; // Firestore document ID
   isOnline: boolean;
+  lastActive: firebase.firestore.Timestamp; // Firestore timestamp type
 }
 
 interface Message {
@@ -174,7 +180,6 @@ export class ChatService {
       })
     );
   }
-
   getRecentChats(): Observable<Chat[]> {
     return this.authService.getUserData$().pipe(
       switchMap((profile) => {
@@ -213,7 +218,7 @@ export class ChatService {
                           ...chat,
                           otherParticipant: {
                             uid: otherUserId,
-                            fullName: otherUser?.fullName || 'Unknown User',
+                            fullName: otherUser?.fullName?.trim() || '',
                             profilePictureUrl:
                               otherUser?.profilePictureUrl &&
                               otherUser.profilePictureUrl.trim() !== ''
@@ -228,24 +233,18 @@ export class ChatService {
                     );
                 }
 
-                return of({
-                  ...chat,
-                  otherParticipant: {
-                    uid: '',
-                    fullName: 'Unknown User',
-                    profilePictureUrl: './assets/profile-placeholder.jpg',
-                  },
-                  lastMessage: chat.lastMessage || {
-                    content: 'No messages yet',
-                  },
-                });
+                return of(null); // If no otherUserId, return null
               });
 
               return combineLatest(userObservables);
             }),
             map((chats) => {
-              console.log('Final processed chats:', chats);
-              return chats;
+              const filteredChats = chats.filter(
+                (chat) => chat && chat.otherParticipant.fullName !== ''
+              ); // Filter out users with no fullName
+
+              console.log('Final processed chats:', filteredChats);
+              return filteredChats;
             }),
             catchError((error) => {
               console.error('Error fetching recent chats:', error);
@@ -272,6 +271,51 @@ export class ChatService {
       })
     );
   }
+
+  // getActiveUsers(): Observable<any[]> {
+  //   const activeUsersQuery = this.firestore.collection<any>(
+  //     'userStatus',
+  //     (ref) => ref.where('isOnline', '==', true)
+  //   );
+
+  //   const recentThreshold = 50 * 1000; // 30 seconds in milliseconds
+
+  //   return combineLatest([
+  //     activeUsersQuery.valueChanges({ idField: 'id' }),
+  //     this.firestore.collection('users').valueChanges({ idField: 'id' }),
+  //   ]).pipe(
+  //     map(([activeStatuses, users]) => {
+  //       return users.filter((user: any) => {
+  //         const status = activeStatuses.find((status) => status.id === user.id);
+  //         // const status = activeStatuses.find((s) => s.id === user.id) as any;
+  //         if (status && status.isOnline && status.lastActive) {
+  //           const currentTimestamp = Date.now(); // current time in ms
+
+  //           // Firestore Timestamp (seconds + nanos converted to ms)
+  //           const lastActiveMillis =
+  //             status.lastActive.seconds * 1000 +
+  //             status.lastActive.nanoseconds / 1_000_000;
+
+  //           // Time difference in ms
+  //           const timeDifference = currentTimestamp - lastActiveMillis;
+
+  //           // Readable times
+  //           const lastActiveTime = new Date(lastActiveMillis).toLocaleString();
+  //           const currentTime = new Date(currentTimestamp).toLocaleString();
+
+  //           console.log(user.email);
+  //           console.log('🕒 Last Active Time:', lastActiveTime);
+  //           console.log('🕒 Current Time:', currentTime);
+  //           console.log('⏱️  Time Difference (ms):', timeDifference);
+  //           // Return active status
+  //           return timeDifference <= recentThreshold;
+  //         }
+
+  //         return false;
+  //       });
+  //     })
+  //   );
+  // }
 
   async createOrGetChat(userId: string): Promise<string | null> {
     console.log('Creating or getting chat with userId:', userId);

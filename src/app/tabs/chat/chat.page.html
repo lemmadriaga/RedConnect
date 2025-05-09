@@ -40,17 +40,18 @@
       value="chats"
       class="custom-segment-button dark:text-darkText"
     >
-      <ion-label>Chats</ion-label>
+      <ion-label>Chats {{ currentUserId }}</ion-label>
     </ion-segment-button>
     <ion-segment-button value="active" class="custom-segment-button">
-      <ion-label>Active</ion-label>
+      <ion-label>Active {{ activeUsers.length }}</ion-label>
     </ion-segment-button>
   </ion-segment>
 
   <!-- Chats Section -->
-  <ion-list *ngIf="segmentValue === 'chats'" class="user-list hide-scrollbar">
+<ion-list *ngIf="segmentValue === 'chats'" class="user-list hide-scrollbar">
+  <ng-container *ngFor="let chat of recentChats">
     <ion-item
-      *ngFor="let chat of recentChats"
+      *ngIf="chat.otherParticipant?.fullName"
       lines="none"
       class="user-item"
       (click)="startChat(chat.otherParticipant.uid)"
@@ -71,11 +72,12 @@
         {{ chat.unreadCount }}
       </ion-badge>
     </ion-item>
-  </ion-list>
+  </ng-container>
+</ion-list>
 
   <!-- Active Section -->
-  <ion-list *ngIf="segmentValue === 'active'" class="user-list active-section hide-scrollbar">
-    <ion-item *ngFor="let user of activeUsers" (click)="startChat(user.id)">
+  <ion-list *ngIf="segmentValue === 'active' && activeUsers.length > 0" class="user-list active-section hide-scrollbar">
+    <ion-item  *ngFor="let user of activeUsers" (click)="startChat(user.id)">
       <ion-avatar slot="start">
         <img [src]="user.avatar" />
       </ion-avatar>
@@ -91,4 +93,7 @@
       ></ion-icon>
     </ion-item>
   </ion-list>
+  <div *ngIf="activeUsers.length === 0">
+    <h2>No active users.</h2>
+  </div>
 </ion-content>

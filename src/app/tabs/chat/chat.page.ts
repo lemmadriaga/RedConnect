@@ -12,13 +12,15 @@ import { DarkModeService } from 'src/app/services/dark-mode.service';
 })
 export class ChatPage implements OnInit, OnDestroy {
   darkModeEnabled: boolean = false;
+  heartbeatInterval: any;
+  count = 0;
 
   segmentValue: string = 'chats';
   recentChats: any[] = [];
   activeUsers: any[] = [];
   private chatSubscription: Subscription;
   private activeUsersSubscription: Subscription;
-  private currentUserId: string | null = null;
+  currentUserId: string | null = null;
 
   constructor(
     private chatService: ChatService,
@@ -66,6 +68,7 @@ export class ChatPage implements OnInit, OnDestroy {
     if (this.activeUsersSubscription) {
       this.activeUsersSubscription.unsubscribe();
     }
+    clearInterval(this.heartbeatInterval);
   }
   loadRecentChats() {
     this.chatSubscription = this.chatService.getRecentChats().subscribe(
@@ -154,5 +157,15 @@ export class ChatPage implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Error in startChat:', error);
     }
+  }
+
+  ionViewDidEnter() {
+    console.log('🚀 View entered');
+    // this.startHeartbeat();
+  }
+
+  ionViewWillLeave() {
+    console.log('👋 View leaving');
+    clearInterval(this.heartbeatInterval);
   }
 }

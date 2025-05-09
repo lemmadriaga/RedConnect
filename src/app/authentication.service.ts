@@ -108,7 +108,6 @@ export class AuthenticationService {
             contact,
             role: 'student',
             department,
-          
           };
 
           return this.firestore
@@ -169,6 +168,26 @@ export class AuthenticationService {
       },
       { merge: true }
     );
+  }
+  getCurrentStatusWithTimestamp(userId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.firestore
+        .collection('userStatus')
+        .doc(userId)
+        .valueChanges()
+        .subscribe(
+          (statusData) => {
+            if (statusData) {
+              resolve(statusData); // Resolve with the data
+            } else {
+              reject('User status not found');
+            }
+          },
+          (error) => {
+            reject(error); // Reject on error
+          }
+        );
+    });
   }
 
   googleSignIn(): Promise<firebase.auth.UserCredential> {
@@ -251,6 +270,8 @@ export class AuthenticationService {
 
   async getCurrentUserId(): Promise<string | null> {
     const user = await this.afAuth.currentUser;
+
+    console.log('auth getCurrentUserId', user, this.afAuth.authState);
     return user ? user.uid : null;
   }
 
@@ -339,11 +360,11 @@ export class AuthenticationService {
       .valueChanges()
       .pipe(
         map((users: any[]) => {
-          const monthlyCounts = Array(12).fill(0); 
+          const monthlyCounts = Array(12).fill(0);
           users.forEach((user) => {
-            const createdAt = user.createdAt?.toDate(); 
+            const createdAt = user.createdAt?.toDate();
             if (createdAt) {
-              const month = createdAt.getMonth(); 
+              const month = createdAt.getMonth();
               monthlyCounts[month]++;
             }
           });

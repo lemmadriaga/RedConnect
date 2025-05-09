@@ -84,6 +84,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
       this.chatService.getOtherUser(this.chatId).subscribe(
         (user) => {
           this.otherUser = user;
+          console.log(this.otherUser);
         },
         (error) => {
           console.error('Error loading other user:', error);
