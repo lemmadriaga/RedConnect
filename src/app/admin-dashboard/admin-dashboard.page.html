@@ -405,7 +405,7 @@
             <ion-icon name="close-outline"></ion-icon>
           </ion-button>
 
-          <div class="p-4 sm:p-8 flex-1 flex flex-col overflow-y-auto" style="max-height: 75vh;">
+          <div class="p-4 sm:p-8 flex-1 flex flex-col overflow-y-auto modal-scrollbar" style="max-height: 75vh;">
             <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 text-center pt-2">
               {{ isEditMode ? 'Edit Event' : 'Create Event' }}
             </h2>
@@ -586,7 +586,7 @@
           style="max-height: 80vh"
           (click)="$event.stopPropagation()"
         >
-          <div class="overflow-y-auto" style="max-height: 75vh">
+          <div class="overflow-y-auto modal-scrollbar" style="max-height: 75vh">
           <div class="flex justify-between items-center mb-4 sticky top-0 bg-white z-10 py-2">
             <h2 class="text-lg font-bold">Event Attendees</h2>
             <ion-button fill="clear" (click)="closeEventDetailsModal()"
@@ -746,7 +746,7 @@
           style="max-height: 80vh"
           (click)="$event.stopPropagation()"
         >
-          <div class="overflow-y-auto" style="max-height: 75vh">
+          <div class="overflow-y-auto modal-scrollbar" style="max-height: 75vh">
           <button
             class="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
             (click)="closeReportDetailsModal()"
@@ -785,7 +785,7 @@
       style="max-height: 80vh"
       (click)="$event.stopPropagation()"
     >
-      <div class="overflow-y-auto" style="max-height: 75vh">
+      <div class="overflow-y-auto modal-scrollbar" style="max-height: 75vh">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-bold">{{ selectedDashboardEvent?.title }}</h2>
         <ion-button fill="clear" (click)="closeDashboardEventDetailsModal()"
@@ -863,22 +863,16 @@
   }
   
   /* Scrollbar styling for modal content */
-  .overflow-y-auto::-webkit-scrollbar {
-    width: 6px;
+  /* Hide scrollbars but maintain scrolling functionality */
+  .modal-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
   
-  .overflow-y-auto::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border-radius: 10px;
-  }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: #ef4444;
+  .modal-scrollbar::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+    width: 0;
+    height: 0;
   }
   
   /* Modal animations */

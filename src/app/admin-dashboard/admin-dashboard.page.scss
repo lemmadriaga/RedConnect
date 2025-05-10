@@ -5,6 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide scrollbar completely */
 .hide-scrollbar {
     scrollbar-width: none !important; /* Firefox */
     -ms-overflow-style: none !important; /* IE and Edge */
@@ -25,6 +26,31 @@
     width: 0 !important;
     height: 0 !important;
   }
+
+/* Clean, minimal scrollbar styles */
+.modal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) rgba(243, 244, 246, 0.7);
+}
+
+.modal-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: rgba(243, 244, 246, 0.7);
+  border-radius: 8px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 8px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.7);
+}
 
 .dashboard-container {
   display: flex;
@@ -496,6 +522,7 @@
 
 .overflow-y-auto {
   overflow-y: auto;
+  @extend .modal-scrollbar;
 }
 
 .space-y-4 > * + * {
@@ -511,6 +538,13 @@
   max-width: 600px;
   border-radius: 10px;
   animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Apply modal scrollbar to specific modal containers */
+.modal-container .overflow-y-auto,
+.modal-container2 .overflow-y-auto,
+.event-form-container .overflow-y-auto {
+  @extend .modal-scrollbar;
 }
 
 @keyframes fadeIn {
