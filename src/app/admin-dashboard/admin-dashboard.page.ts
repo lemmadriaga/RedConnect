@@ -96,6 +96,7 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
   paginatedReportList: any[] = [];
   departmentChart: any;
   showEventForm = false;
+  isEditMode = false;
   eventForm = {
     title: '',
     date: '',
@@ -227,9 +228,7 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.showEventForm) {
-      this.initializeMapWithDelay();
-    }
+    // Map initialization will be handled by openEventForm and editEvent methods
   }
   initializeCalendar() {
     this.calendarOptions = {
@@ -543,6 +542,20 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
     return departmentCounts;
   }
   openEventForm() {
+    this.isEditMode = false;
+    this.selectedEventId = null;
+    this.eventForm = {
+      title: '',
+      date: '',
+      time: '',
+      duration: '',
+      location: '',
+      invited: [],
+      description: '',
+      thumbnailUrl: '',
+      latitude: 14.073856,
+      longitude: 121.2612608,
+    };
     this.showEventForm = true;
 
     setTimeout(() => {
@@ -559,6 +572,8 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
       this.marker = null;
     }
     this.showEventForm = false;
+    this.selectedEventId = null;
+    this.isEditMode = false;
   }
 
   submitEventForm() {
@@ -566,7 +581,7 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
       this.eventForm.title &&
       this.eventForm.date &&
       this.eventForm.time &&
-      this.eventForm.thumbnailUrl
+      (this.isEditMode || this.eventForm.thumbnailUrl)
     ) {
       const { date, time } = this.eventForm;
       const [hours, minutes] = time.split(':').map(Number);
@@ -616,6 +631,13 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
   initializeMapWithDelay() {
     if (this.map) {
       this.map.remove();
+      this.map = null;
+    }
+
+    // Set default coordinates if not available
+    if (!this.eventForm.latitude || !this.eventForm.longitude) {
+      this.eventForm.latitude = 14.073856;
+      this.eventForm.longitude = 121.2612608;
     }
 
     setTimeout(() => {
@@ -651,8 +673,10 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
           this.eventForm.longitude = position.lng;
         });
 
+        // Force map to recalculate its container size
         setTimeout(() => {
           this.map?.invalidateSize();
+          this.mapReady = true;
         }, 250);
       } catch (error) {
         console.error('Error initializing map:', error);
@@ -780,12 +804,18 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
   }
 
   editEvent(event: any) {
+    this.isEditMode = true;
+    this.selectedEventId = event.id;
     this.eventForm = {
       ...event,
       invited: [...event.invited],
     };
-    this.selectedEventId = event.id;
     this.showEventForm = true;
+
+    // Initialize map after form is shown
+    setTimeout(() => {
+      this.initializeMapWithDelay();
+    }, 500);
   }
   async deleteEvent(eventId: string) {
     if (
