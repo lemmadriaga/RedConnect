@@ -38,7 +38,7 @@ export class ProfilePage implements OnInit {
   toggleDarkMode() {
     this.darkModeService.toggleDarkMode();
   }
-  
+
   async uploadImage() {
     const input = document.createElement('input');
     input.type = 'file';
@@ -96,6 +96,9 @@ export class ProfilePage implements OnInit {
       .catch((error) => {
         console.error('Error signing out:', error);
       });
+
+    // localStorage.clear();
+    sessionStorage.clear();
   }
 
   navigateToForum() {
