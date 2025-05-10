@@ -51,7 +51,8 @@
 
     <div
       [ngClass]="{'ml-0': !isSidebarVisible, 'lg:ml-64': isSidebarVisible}"
-      class="main-content flex-1 p-6 overflow-y-auto"
+      class="main-content flex-1 p-6"
+      style="min-height: 100vh;"
     >
       <!-- Dashboard Overview -->
       <div *ngIf="currentTab === 'Dashboard'" class="space-y-6">
@@ -159,7 +160,7 @@
 
           <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-lg font-semibold mb-4">Recent Events</h3>
-            <div class="overflow-y-auto max-h-96 space-y-4">
+            <div class="max-h-96 space-y-4 overflow-y-auto scrollbar-hide">
               <!-- Event List -->
               <div
                 *ngFor="let event of sortedEvents"
@@ -274,7 +275,7 @@
       <div
         *ngIf="showEventDetailsModall"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
-        style="z-index: 1000"
+        style="z-index: 2000"
       >
         <div
           class="modal-content bg-white w-full max-w-md h-auto p-4 rounded-lg shadow-lg relative overflow-y-auto"
@@ -565,6 +566,7 @@
       <div
         *ngIf="showEventDetailsModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
+        style="z-index: 2000"
       >
         <div
           class="bg-white w-full max-w-lg h-auto p-4 rounded-lg shadow-lg relative overflow-y-auto"
@@ -717,7 +719,8 @@
       </div>
       <div
         *ngIf="showReportDetailsModal"
-        class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+        class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center"
+        style="z-index: 2000"
         (click)="closeReportDetailsModal()"
       >
         <div
@@ -753,6 +756,7 @@
   <div
     *ngIf="showDashboardEventDetailsModal"
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
+    style="z-index: 2000"
   >
     <div
       class="bg-white w-full max-w-lg h-auto p-4 rounded-lg shadow-lg relative overflow-y-auto"
@@ -782,3 +786,13 @@
     </div>
   </div>
 </ion-content>
+
+<style>
+  .scrollbar-hide {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Webkit */
+  }
+</style>
