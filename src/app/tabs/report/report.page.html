@@ -1,15 +1,15 @@
-<ion-header class="bg-red-700">
-  <ion-toolbar color="danger">
+<ion-header class="bg-white shadow-md dark:bg-black">
+  <ion-toolbar >
     <ion-buttons slot="start">
       <ion-button fill="clear" (click)="goBack()">
         <ion-icon
           name="arrow-back-outline"
           slot="icon-only"
-          class="text-white"
+          class="text-red-700 text-lg dark:text-white"
         ></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="text-white font-bold">Report Issue</ion-title>
+    <ion-title class="text-gray-800 font-semibold text-lg dark:text-white">Report Issue</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -27,7 +27,7 @@
 
     <ion-item class="rounded-input mb-4">
       <ion-label position="stacked" class="text-gray-700">Title</ion-label>
-      <ion-input [(ngModel)]="report.title" name="title" required></ion-input>
+      <ion-input [(ngModel)]="report.title" name="title" required placeholder="Subject of the issue.."></ion-input>
     </ion-item>
 
     <ion-item class="rounded-input mb-4">
@@ -37,7 +37,8 @@
       <ion-textarea
         [(ngModel)]="report.description"
         name="description"
-        placeholder="Describe the issue..."
+        placeholder="Describe the issue.."
+        rows="3"
         required
       ></ion-textarea>
     </ion-item>
