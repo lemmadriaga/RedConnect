@@ -19,15 +19,20 @@ export class PostManagementComponent implements OnInit {
 
   ngOnInit() {
     this.forumService.getPosts().subscribe((posts) => {
-      this.allPosts = posts;
-      this.approvedPosts = posts.filter((post) => post.approved);
-      this.applyFilters();
+      this.approvedPosts = posts;
+      this.updateAllPosts();
     });
 
     this.forumService.getPostsForApproval().subscribe((posts) => {
       this.pendingPosts = posts;
-      this.applyFilters();
+      this.updateAllPosts();
     });
+  }
+
+  private updateAllPosts() {
+    // Combine approved and pending posts for the 'all' filter
+    this.allPosts = [...this.approvedPosts, ...this.pendingPosts];
+    this.applyFilters();
   }
 
   onSearchChange(searchTerm: string) {
@@ -50,7 +55,7 @@ export class PostManagementComponent implements OnInit {
       post.approved = true;
       this.pendingPosts = this.pendingPosts.filter((p) => p.id !== post.id);
       this.approvedPosts.push(post);
-      this.applyFilters();
+      this.updateAllPosts();
     });
   }
 
@@ -58,7 +63,7 @@ export class PostManagementComponent implements OnInit {
     this.forumService.deletePost(post.id!).then(() => {
       this.pendingPosts = this.pendingPosts.filter((p) => p.id !== post.id);
       this.approvedPosts = this.approvedPosts.filter((p) => p.id !== post.id);
-      this.applyFilters();
+      this.updateAllPosts();
     });
   }
 
