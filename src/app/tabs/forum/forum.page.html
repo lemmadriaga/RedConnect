@@ -135,12 +135,12 @@
                   class="w-10 h-10 rounded-full object-cover"
                   alt="Author Picture"
                 />
-                <div>
+                <div class="">
                   <div class="flex items-center">
-                    <h3 class="font-semibold text-gray-800 dark:text-white">{{ post.authorName }}</h3>
-                    <span *ngIf="post.authorRole" class="ml-2 px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-xs rounded-full text-gray-600 dark:text-gray-300">{{ post.authorRole }}</span>
+                    <h3 class=" font-semibold text-gray-800 dark:text-white">{{ post.authorName }}</h3>
+                    <ion-icon [name]="post.authorRole === 'student' ? 'school' : 'business'" *ngIf="post.authorRole" class="ml-2 mb-[1.5] p-1 bg-gray-100 dark:bg-gray-700 text-xs rounded-full text-gray-600 dark:text-gray-300"/>
                   </div>
-                  <div class="flex items-center text-xs text-gray-500 dark:text-gray-400">
+                  <div class="mt-1 flex items-center text-xs text-gray-500 dark:text-gray-400">
                     <span>{{ convertTimestampToDate(post.timestamp) ? (convertTimestampToDate(post.timestamp) | date:'MMM d, y • h:mm a') : 'Date unavailable' }}</span>  
                   </div>
                 </div>
