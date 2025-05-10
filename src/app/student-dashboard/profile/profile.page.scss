@@ -47,8 +47,16 @@ ion-content {
   flex-direction: column;
   align-items: center;
   height: 100%;
-  padding: 20px;
+  padding-top: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
   background-color: transparent;
+  margin-top: -10px;
+}
+
+.sign-out-container {
+  margin-top: 16px !important;
+  margin-bottom: 0!important;
 }
 
 .background-logo {
