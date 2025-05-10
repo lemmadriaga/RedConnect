@@ -460,6 +460,11 @@
   }
 }
 
+ion-input {
+    --highlight-color: none !important;
+    padding-left: 10px !important; padding-right: 10px !important;
+}
+
 @media (max-width: 1024px) {
   .event-form-container {
     width: 100vw;

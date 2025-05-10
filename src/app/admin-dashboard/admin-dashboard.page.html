@@ -274,8 +274,8 @@
       <!-- Event Details Modal -->
       <div
         *ngIf="showEventDetailsModall"
-        class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4"
-        style="z-index: 9999"
+        class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 overflow-hidden"
+        style="z-index: 9999; backdrop-filter: blur(2px); position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;"
         (click)="closeEventDetailsModall()"
       >
         <div
@@ -386,8 +386,8 @@
       <!-- Event Form Modal -->
       <div
         *ngIf="showEventForm"
-        class="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center px-2 sm:px-4"
-        style="backdrop-filter: blur(2px);"
+        class="fixed inset-0 z-[9999] bg-black bg-opacity-70 flex items-center justify-center px-2 sm:px-4 overflow-hidden"
+        style="backdrop-filter: blur(2px); position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;"
         (click)="closeEventForm()"
       >
         <div
@@ -432,7 +432,8 @@
                     [(ngModel)]="eventForm.date"
                     name="date"
                     required
-                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white text-black"
+                    style="color-scheme: light; color: black;"
                   />
                 </div>
                 <div>
@@ -442,7 +443,8 @@
                     [(ngModel)]="eventForm.time"
                     name="time"
                     required
-                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white text-black"
+                    style="color-scheme: light; color: black;"
                   />
                 </div>
                 <div>
@@ -453,7 +455,7 @@
                     name="duration"
                     required
                     min="1"
-                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white text-black"
                     placeholder="e.g. 2"
                   ></ion-input>
                 </div>
@@ -467,7 +469,7 @@
                   name="location"
                   required
                   (ionBlur)="setLocationFromAddress()"
-                  class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                  class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white"
                   placeholder="Enter address or venue"
                 ></ion-input>
               </div>
@@ -491,7 +493,7 @@
                     name="latitude"
                     required
                     (ionBlur)="updateMarkerPosition()"
-                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white"
                     placeholder="Latitude"
                   ></ion-input>
                 </div>
@@ -503,7 +505,7 @@
                     name="longitude"
                     required
                     (ionBlur)="updateMarkerPosition()"
-                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                    class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white"
                     placeholder="Longitude"
                   ></ion-input>
                 </div>
@@ -517,7 +519,7 @@
                   name="invited"
                   multiple="true"
                   required
-                  class="w-full border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 p-2 sm:p-3"
+                  class="w-full border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 p-2 sm:p-3 bg-white"
                   placeholder="Select invited groups"
                 >
                   <ion-select-option value="Student">Student</ion-select-option>
@@ -532,7 +534,7 @@
                   [(ngModel)]="eventForm.description"
                   name="description"
                   rows="3"
-                  class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                  class="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white"
                   placeholder="Describe the event"
                 ></ion-textarea>
               </div>
@@ -577,8 +579,8 @@
       <!-- Event Details Modal -->
       <div
         *ngIf="showEventDetailsModal"
-        class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4"
-        style="z-index: 9999; backdrop-filter: blur(2px);"
+        class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 overflow-hidden"
+        style="z-index: 9999; backdrop-filter: blur(2px); position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;"
         (click)="closeEventDetailsModal()"
       >
         <div
@@ -737,8 +739,8 @@
       </div>
       <div
         *ngIf="showReportDetailsModal"
-        class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center"
-        style="z-index: 9999; backdrop-filter: blur(2px);"
+        class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center overflow-hidden"
+        style="z-index: 9999; backdrop-filter: blur(2px); position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;"
         (click)="closeReportDetailsModal()"
       >
         <div
@@ -776,8 +778,8 @@
   <!-- Dashboard Event Details Modal -->
   <div
     *ngIf="showDashboardEventDetailsModal"
-    class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4"
-    style="z-index: 9999; backdrop-filter: blur(2px);"
+    class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 overflow-hidden"
+    style="z-index: 9999; backdrop-filter: blur(2px); position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;"
     (click)="closeDashboardEventDetailsModal()"
   >
     <div
@@ -836,6 +838,13 @@
     overflow: hidden;
   }
   
+  /* Date and time input styling - UPDATED to show black icons */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    /* Removed filter: invert(1); to keep icons black */
+    opacity: 0.8;
+  }
+  
   /* Responsive modal animations */
   @media (max-width: 640px) {
     @keyframes slideInBottom {
@@ -860,6 +869,12 @@
     position: fixed;
     width: 100%;
     height: 100%;
+    touch-action: none;
+  }
+  
+  /* Prevent scrolling when modal is open */
+  :host ::ng-deep ion-content.modal-open {
+    --overflow: hidden;
   }
   
   /* Scrollbar styling for modal content */
