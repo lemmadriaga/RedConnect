@@ -53,6 +53,7 @@ interface Attendee {
 export class AdminDashboardPage implements OnInit, AfterViewInit {
   showDashboardEventDetailsModal: boolean = false;
   selectedDashboardEvent: Event | null = null;
+  private previousTab: string = 'Dashboard';
 
   sortedEvents: Event[] = [];
   averageRegistrationGrowthRate: number = 0;
@@ -321,7 +322,17 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
   selectTab(tab: TabItem) {
     this.tabs.forEach((t) => (t.active = false));
     tab.active = true;
+    const oldTab = this.currentTab;
     this.currentTab = tab.label;
+
+    // If switching to Dashboard, re-initialize charts
+    if (this.currentTab === 'Dashboard' && oldTab !== 'Dashboard') {
+      setTimeout(() => {
+        this.recreateDashboardCharts();
+      }, 0);
+    }
+
+    this.previousTab = oldTab;
   }
 
   async approvePost(postId: string) {
@@ -1075,5 +1086,37 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
           console.error('Error fetching events:', error);
         },
       });
+  }
+
+  // Helper to destroy and re-create all dashboard charts
+  recreateDashboardCharts() {
+    // Destroy existing charts if they exist
+    if (this.ratingsChart) {
+      this.ratingsChart.destroy();
+      this.ratingsChart = null;
+    }
+    if (this.monthlyRegistrationsChart) {
+      this.monthlyRegistrationsChart.destroy();
+      this.monthlyRegistrationsChart = null;
+    }
+    if (this.departmentChart) {
+      this.departmentChart.destroy();
+      this.departmentChart = null;
+    }
+
+    // Re-create charts with current data
+    if (this.feedbackList && this.feedbackList.length > 0) {
+      this.createRatingsChart(
+        this.feedbackList.map((feedback) => feedback.rating)
+      );
+    }
+
+    this.loadMonthlyRegistrationChart();
+
+    this.authService.getUserDepartmentCounts().subscribe((departmentCounts) => {
+      this.createDepartmentChart(departmentCounts);
+    });
+
+    this.rankEvents(); // This will call loadEventChart
   }
 }
