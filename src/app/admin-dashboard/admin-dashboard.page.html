@@ -19,7 +19,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding hide-scrollbar">
   <div class="dashboard-container flex flex-col lg:flex-row h-full">
     <!-- Sidebar -->
     <div
@@ -51,11 +51,11 @@
 
     <div
       [ngClass]="{'ml-0': !isSidebarVisible, 'lg:ml-64': isSidebarVisible}"
-      class="main-content flex-1 p-6"
+      class="main-content flex-1 p-6 hide-scrollbar"
       style="min-height: 100vh;"
     >
       <!-- Dashboard Overview -->
-      <div *ngIf="currentTab === 'Dashboard'" class="space-y-6">
+      <div *ngIf="currentTab === 'Dashboard'" class="space-y-6 hide-scrollbar">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <!-- Total Users Card -->
           <div class="bg-white rounded-lg shadow p-6">
