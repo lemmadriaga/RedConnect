@@ -45,6 +45,8 @@
   }
 }
 
+
+
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -128,13 +130,14 @@ p {
 ion-list {
   width: 100%;
   --background: transparent;
+  border-radius: 12px;
 }
 
 ion-item {
   --padding-start: 16px;
   --padding-end: 16px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
+  --padding-top: 5px;
+  --padding-bottom: 5px;
   --border-radius: 8px;
   --background: transparent;
   --color: var(--ion-color-medium);

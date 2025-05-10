@@ -13,7 +13,7 @@
 </ion-header>
 
 
-<ion-content class="ion-padding hide-scrollbar">
+<ion-content class="ion-padding hide-scrollbar rounded-md">
   <!-- Global styles for hiding scrollbars -->
   <style>
     .hide-scrollbar {
@@ -36,10 +36,15 @@
       width: 0 !important;
       height: 0 !important;
     }
+
+    ion-content {
+      --border-radius: 12px !important;
+      border-radius: 12px !important;
+    }
   </style>
   
   <div class="background-logo"></div>
-  <div class="profile-container hide-scrollbar">
+  <div class="profile-container hide-scrollbar rounded-md">
     <div class="profile-header">
       <div class="profile-image" (click)="uploadImage()">
         <img
@@ -54,19 +59,19 @@
       <p>Edit Profile</p>
     </div>
 
-    <form [formGroup]="editForm" (ngSubmit)="updateProfile()" class="w-full max-w-md mx-auto hide-scrollbar">
-      <ion-list lines="none" class="hide-scrollbar">
-        <ion-item class="mb-4">
+    <form [formGroup]="editForm" (ngSubmit)="updateProfile()" class="w-full max-w-md mx-auto hide-scrollbar ">
+      <ion-list lines="none" class="hide-scrollbar rounded-md">
+        <ion-item>
           <ion-label position="floating">Full Name</ion-label>
           <ion-input type="text" formControlName="fullName"></ion-input>
         </ion-item>
 
-        <ion-item class="mb-4">
+        <ion-item>
           <ion-label position="floating">Contact Number</ion-label>
           <ion-input type="tel" formControlName="contact"></ion-input>
         </ion-item>
 
-        <ion-item class="mb-4">
+        <ion-item>
           <ion-label position="stacked">Department</ion-label>
           <ion-select formControlName="department" placeholder="Select Department" class="hide-scrollbar">
             <ion-select-option value="CICS">College of Informatics and Computing Sciences (CICS)</ion-select-option>
