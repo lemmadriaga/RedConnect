@@ -747,17 +747,19 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
   }
 
   filterEvents() {
-    if (this.selectedInvitedType) {
-      this.filteredEvents = this.events.filter(
-        (event) =>
-          event.invited.includes(this.selectedInvitedType) &&
-          !event.invited.includes('alumni')
-      );
-    } else {
-      this.filteredEvents = this.events.filter(
-        (event) => !event.invited.includes('alumni')
+    // Start with all events that don't include 'alumni'
+    let filtered = this.events.filter(
+      (event) => !event.invited.includes('alumni')
+    );
+
+    // Apply invited filter if selected and not empty
+    if (this.selectedInvitedType && this.selectedInvitedType !== '') {
+      filtered = filtered.filter((event) =>
+        event.invited.includes(this.selectedInvitedType)
       );
     }
+
+    this.filteredEvents = filtered;
   }
 
   downloadPDF() {
@@ -1110,6 +1112,7 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
           });
 
           this.sortedEvents = [...this.events];
+          this.filterEvents(); // Call filterEvents to populate filteredEvents on page load
           console.log('Sorted Events:', this.sortedEvents);
         },
         error: (error) => {
