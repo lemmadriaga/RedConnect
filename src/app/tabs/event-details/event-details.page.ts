@@ -98,7 +98,7 @@ export class EventDetailsPage implements OnInit {
   }
   validateSection(value: string) {
     const trimmedValue = value.trim();
-    const regex = /^[A-Z0-9-]+$/;
+    const regex = /^[A-Z]{4}-\d{4}$/; 
     this.isSectionValid = regex.test(trimmedValue);
     this.userSection = trimmedValue;
   }
