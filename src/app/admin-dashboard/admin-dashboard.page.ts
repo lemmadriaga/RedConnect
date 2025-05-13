@@ -586,9 +586,16 @@ export class AdminDashboardPage implements OnInit, AfterViewInit {
       const { date, time } = this.eventForm;
       const [hours, minutes] = time.split(':').map(Number);
       const [year, month, day] = date.split('-').map(Number);
-      const timestamp = new Date(
-        Date.UTC(year, month - 1, day, hours, minutes)
-      ).getTime();
+      const eventDateTime = new Date(year, month - 1, day, hours, minutes);
+      const currentDateTime = new Date();
+
+      // Check if the event date is in the past
+      if (eventDateTime < currentDateTime) {
+        alert('Cannot create an event with a past date and time.');
+        return;
+      }
+
+      const timestamp = eventDateTime.getTime();
 
       this.eventForm.invited = this.eventForm.invited.map((role: string) =>
         role.toLowerCase()
