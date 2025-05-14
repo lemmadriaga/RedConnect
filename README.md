@@ -105,6 +105,16 @@ For any questions or feedback, feel free to reach out:
 
 
 
+## 👥 Contributors
+• Caguicla, Fhil Joshua P.
+• Guernaldo, Mardyson Justin D.
+• Lecaroz, Diomael Francis S.
+• Madriaga, Lemuel C.
+
+---
+
+
+
 ## 📚 Acknowledgement
 We would like to take this opportunity to express our sincere gratitude toward Ms. Fatima for her empathetic guidance and support during our Software Engineering course. Her experience with UML diagrams, version control, Trello, and project planning has enriched our knowledge of real-world software development practices. Her engaging lectures and hands-on activities helped us develop an appreciation for the complexities of software engineering. We are indeed thankful for the priceless knowledge and skills imparted by her in our journey.
 
