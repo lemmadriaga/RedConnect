@@ -9,7 +9,9 @@
         <form class="sign-in-form" [formGroup]="loginForm" novalidate>
           <ion-img src="./assets/LOGO.png" class="image1"></ion-img>
           <h2 class="title">Sign in</h2>
-          <p>Enter your email and password below to Login.</p>
+          <p style="text-align: center">
+            Enter your email and password below to Login.
+          </p>
           <div *ngIf="errorMessage" class="error-message">
             <ion-text color="danger">{{ errorMessage }}</ion-text>
           </div>
@@ -135,7 +137,7 @@
           >
             <ion-icon name="person" class="icon-left"></ion-icon>
             <div class="field-container">
-              <span class="floating-label">Full Name</span>
+              <span class="floating-label">Username</span>
               <ion-input
                 type="text"
                 formControlName="fullname"
@@ -321,58 +323,6 @@
             </ng-container>
           </div>
 
-          <!-- Enhanced Department Select -->
-          <div
-            class="input-field"
-            [ngClass]="{
-                 'focused': departmentFocused,
-                 'has-content': regForm.controls['department'].value,
-                 'valid-input': regForm.controls['department'].valid && regForm.controls['department'].touched,
-                 'invalid-input': regForm.controls['department'].invalid && regForm.controls['department'].touched
-               }"
-          >
-            <ion-icon name="school" class="icon-left"></ion-icon>
-            <div class="field-container">
-              <span class="floating-label">Department</span>
-              <ion-select
-                formControlName="department"
-                interface="popover"
-                (ionFocus)="departmentFocused = true"
-                (ionBlur)="departmentFocused = false"
-              >
-                <ion-select-option value="CICS"
-                  >College of Informatics and Computing Sciences
-                  (CICS)</ion-select-option
-                >
-                <ion-select-option value="CET"
-                  >College of Engineering Technology (CET)</ion-select-option
-                >
-                <ion-select-option value="CTE"
-                  >College of Teacher Education (CTE)</ion-select-option
-                >
-                <ion-select-option value="CAS"
-                  >College of Arts and Sciences (CAS)</ion-select-option
-                >
-                <ion-select-option value="CABEIHM"
-                  >College of Accountancy, Business, Economics and International
-                  Hospitality Management (CABEIHM)</ion-select-option
-                >
-              </ion-select>
-            </div>
-          </div>
-
-          <!-- Department Error Message -->
-          <div
-            class="form-error"
-            [ngClass]="{'visible': regForm.controls['department'].touched && regForm.controls['department'].invalid}"
-          >
-            <ng-container
-              *ngIf="regForm.controls['department'].errors?.['required']"
-            >
-              Department selection is required
-            </ng-container>
-          </div>
-
           <button type="submit" class="btn solid" [disabled]="!regForm.valid">
             Sign up
           </button>
@@ -384,11 +334,7 @@
       <div class="panel left-panel">
         <div class="content">
           <h3>Let's connect, spartan!</h3>
-          <p>
-            Become part of something bigger. Join us and be a part of the
-            Spartan legacy. <br />
-            Connect, learn, and grow with RedConnect+!
-          </p>
+          <p>Become part of something bigger.</p>
 
           <button
             class="btn transparent"

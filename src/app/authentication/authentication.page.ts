@@ -39,7 +39,7 @@ export class AuthenticationPage implements OnInit, AfterViewInit {
   contactFocused: boolean = false;
   regPasswordFocused: boolean = false;
   confirmPasswordFocused: boolean = false;
-  departmentFocused: boolean = false;
+  // departmentFocused: boolean = false;  // Temporarily commented out
 
   constructor(
     private formBuilder: FormBuilder,
@@ -98,7 +98,7 @@ export class AuthenticationPage implements OnInit, AfterViewInit {
           ],
         ],
         confirmPassword: ['', Validators.required],
-        department: ['', Validators.required],
+        // department: ['', Validators.required],  // Temporarily commented out
       },
       { validators: this.passwordsMatchValidator }
     );
@@ -156,15 +156,15 @@ export class AuthenticationPage implements OnInit, AfterViewInit {
       const password = this.regForm.value.password;
       const fullName = this.regForm.value.fullname;
       const contact = this.regForm.value.contact;
-      const department = this.regForm.value.department;
+      // const department = this.regForm.value.department;  // Temporarily commented out
 
       try {
         const user = await this.authService.registerUser(
           email,
           password,
           fullName,
-          contact,
-          department
+          contact
+          // department  // Temporarily commented out
         );
         if (user) {
           await this.authService.sendVerificationEmail();
@@ -213,9 +213,9 @@ export class AuthenticationPage implements OnInit, AfterViewInit {
       case 'contact':
         isFocused = this.contactFocused;
         break;
-      case 'department':
-        isFocused = this.departmentFocused;
-        break;
+      // case 'department':  // Temporarily commented out
+      //   isFocused = this.departmentFocused;
+      //   break;
     }
 
     return {

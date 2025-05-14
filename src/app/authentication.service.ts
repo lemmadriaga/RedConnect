@@ -94,7 +94,7 @@ export class AuthenticationService {
     password: string,
     fullName: string,
     contact: string,
-    department: string
+    department?: string
   ): Promise<any> {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
@@ -107,7 +107,7 @@ export class AuthenticationService {
             fullName,
             contact,
             role: 'student',
-            department,
+            ...(department && { department }),
           };
 
           return this.firestore
