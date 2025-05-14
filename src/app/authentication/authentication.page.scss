@@ -93,105 +93,178 @@ form.sign-in-form {
   width: 100%;
   background-color: #f0f0f0;
   margin: 10px 0;
-  height: 50px;
+  height: 55px;
   border-radius: 55px;
-  padding: 0 0.4rem;
-  align-items: center;
-  display: flex;
-}
-
-.input-field ion-icon {
-  text-align: center;
-  line-height: 45px;
-  color: #acacac;
-  transition: 0.5s;
-  font-size: 2rem;
-  margin-left: 10px;
-}
-
-.icon-left {
-  margin-right: 11px;
-  margin-left: 10px;
-}
-
-
-
-.input-with-icon {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.input-field.focused {
   background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.input-with-icon ion-icon {
+.input-field.valid-input {
+  border-color: #4caf50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+.input-field.invalid-input {
+  border-color: #f44336;
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.input-field ion-icon.icon-left {
+  margin-left: 15px;
   margin-right: 10px;
+  color: #acacac;
+  transition: color 0.3s ease;
+  font-size: 1.5rem;
+  min-width: 24px;
 }
 
-.input-field ion-input {
-  background: none;
-  outline: none;
-  border: none;
-  line-height: 1;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #333;
-  opacity: 50%;
-  margin-left: 5px;
+.input-field.valid-input ion-icon.icon-left {
+  color: #4caf50;
 }
 
-.input-field input::placeholder {
-  color: #aaa;
-  font-weight: 600;
+.input-field.invalid-input ion-icon.icon-left {
+  color: #f44336;
 }
 
-.forgot-password {
+.field-container {
+  position: relative;
+  flex: 1;
+  height: 100%;
+}
+
+.floating-label {
   position: absolute;
-  bottom: -30px;
-  right: 10px;
-  font-size: 0.9rem;
-  background-color: transparent;
-  text-decoration: none;
-}
-
-.forgot-password a {
-  color: #f21622;
-  text-decoration: none;
-}
-
-.forgot-password a:hover {
-  text-decoration: none;
-}
-
-.social-text {
-  padding: 0.7rem 0;
-  font-size: 1rem;
-}
-
-.social-media {
-  display: flex;
-  justify-content: center;
-}
-
-.social-icon {
-  height: 46px;
-  width: 46px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0.45rem;
-  color: #333;
-  border-radius: 50%;
-  border: 1px solid #333;
-  text-decoration: none;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 1.1rem;
-  transition: 0.3s;
+  color: #aaa;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  padding-left: 2px;
 }
 
-button {
-  border-color: #f21622;
-  border-width: 10px;
+.input-field.has-content .floating-label,
+.input-field.focused .floating-label {
+  top: 10px;
+  transform: translateY(0);
+  font-size: 0.8rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.input-field.valid-input .floating-label {
+  color: #4caf50;
+}
+
+.input-field.invalid-input .floating-label {
+  color: #f44336;
+}
+
+.input-field ion-input,
+.input-field ion-select {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.1rem;
+  color: #333;
+  padding-top: 12px !important;
+  --padding-start: 0 !important;
+  --padding-end: 12px !important;
+}
+
+.password-field {
+  padding-right: 40px;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 15px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+.password-toggle-icon:hover {
+  color: #f21622;
+}
+
+.form-error {
+  color: #f44336;
+  font-size: 0.8rem;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  width: 100%;
+  padding-left: 0;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.form-error.visible {
+  opacity: 1;
+  max-height: 20px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  width: 150px;
+  background-color: #f21622;
+  border: 2px solid transparent;
+  outline: none;
+  height: 49px;
+  border-radius: 49px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover:not(:disabled) {
+  background-color: #d91320;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(242, 22, 34, 0.2);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(242, 22, 34, 0.2);
+}
+
+.btn:disabled {
+  background-color: #cccccc;
+  color: #888888;
+  cursor: not-allowed;
+}
+
+.forgot-password-btn {
+  background: none;
+  border: none;
+  color: #f21622;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: color 0.3s ease;
+}
+
+.forgot-password-btn:hover {
+  color: #d91320;
+  text-decoration: underline;
 }
 
 .google-btn {
@@ -203,12 +276,13 @@ button {
   border: 1px solid #ddd;
   width: 100%;
   max-width: 380px;
-  padding: 10px;
+  padding: 12px;
   border-radius: 25px;
   font-size: 1.1rem;
   font-weight: 600;
   text-decoration: none;
-  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+  transition: all 0.3s ease;
+  margin-top: 10px;
 
   ion-icon {
     font-size: 1.5rem;
@@ -217,59 +291,22 @@ button {
   }
 
   &:hover {
-    background-color: #f0f0f0;
-    border: 1px solid #f21622;
+    background-color: #f5f5f5;
+    border-color: #f21622;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-}
 
-.btn {
-  width: 150px;
-  background-color: #f21622;
-  border-color: #fff;
-  border-width: 2;
-  outline: none;
-  height: 49px;
-  border-radius: 49px;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin: 10px 0;
-  cursor: pointer;
-  transition: 0.5s;
-
-  &:disabled {
-    background-color: #cccccc;
-    color: #888888;
-    cursor: not-allowed;
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-}
-
-.forgot-password-btn {
-  display: inline-block;
-  font-size: 0.9rem;
-  color: #f21622;
-  text-decoration: none;
-  margin-top: 10px;
-  transition: color 0.3s ease-in-out;
-  background-color: white;
-
-  &:hover {
-    color: #cfa865;
-    text-decoration: underline;
-  }
-}
-
-.btn:hover {
-  background-color: #fff;
-  color: #cfa865;
-  border-color: #cfa865;
-  border: 1px solid;
 }
 
 .panels-container {
   position: absolute;
   height: 100%;
-  width: 100dvw;
+  width: 100%;
   top: 0;
   left: 0;
   display: grid;
@@ -401,10 +438,12 @@ button {
 }
 
 @media (max-width: 870px) {
+  .form-error {
+    padding-left: 50px;
+  }
   .container {
     min-height: 800px;
-    height: 150dvh;
-
+    height: 100vh;
   }
 
   .signin-signup {
@@ -434,7 +473,6 @@ button {
 
   .right-panel {
     grid-row: 3 / 4;
-    margin-top: 50px;
   }
 
   .left-panel {
@@ -481,10 +519,9 @@ button {
   }
 
   .container.sign-up-mode:before {
-    transform: translate(-50%, 102%);;
-  // background-image: linear-gradient(-45deg, #16f216 0%, #6ef216 100%);
-    bottom: 0%;  
-  right: initial;
+    transform: translate(-50%, 100%);
+    bottom: 32%;
+    right: initial;
   }
 
   .container.sign-up-mode .left-panel .image3,
@@ -506,15 +543,18 @@ button {
     top: 5%;
     transform: translate(-50%, 0);
   }
-}
-.password-toggle-icon {
-  position: absolute;
-  right: 10px;
-  cursor: pointer;
-  z-index: 1050;
+
+  .input-field.has-content .floating-label,
+  .input-field.focused .floating-label {
+    top: 8px;
+    font-size: 0.75rem;
+  }
 }
 
 @media (max-width: 600px) {
+  .form-error {
+    padding-left: 50px;
+  }
   .panel .content p {
     font-size: 0.9rem;
     line-height: 1.4;
@@ -544,9 +584,25 @@ button {
   .panel .content {
     padding: 0 1rem;
   }
+
+  .floating-label {
+    font-size: 1rem;
+  }
+
+  .input-field {
+    height: 50px;
+  }
+}
+@media (max-width: 2560px) {
+  .form-error {
+    padding-left: 250px;
+  }
 }
 
 @media (max-width: 570px) {
+  .form-error {
+    padding-left: 50px;
+  }
   form {
     padding: 0 1.5rem;
   }
@@ -572,267 +628,4 @@ button {
     bottom: 23%;
     left: 50%;
   }
-}
-
-
-/* Add these styles to your authentication.page.scss file */
-
-/* Floating label styles */
-.floating-input-field {
-  position: relative;
-  max-width: 380px;
-  width: 100%;
-  background-color: #f0f0f0;
-  margin: 10px 0;
-  height: 55px;
-  border-radius: 55px;
-  display: flex;
-  align-items: center;
-  padding: 0 0.4rem;
-}
-
-.floating-input-field .icon-left {
-  text-align: center;
-  color: #acacac;
-  transition: 0.5s;
-  font-size: 1.5rem;
-  margin-left: 10px;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
-
-
-.floating-input-field:has(.ion-valid) .icon-left {
-  color: #28a745;
-}
-
-.floating-input-field .input-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.floating-input-field ion-input {
-  width: 100%;
-  height: 100%;
-  background: none;
-  outline: none;
-  border: none;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #333;
-  padding-top: 20px;
-  --padding-start: 0;
-}
-
-.floating-input-field label {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #aaa;
-  font-weight: 500;
-  font-size: 1rem;
-  pointer-events: none;
-  transition: 0.3s;
-}
-
-/* This handles the floating effect */
-.floating-input-field ion-input:focus + label,
-.floating-input-field ion-input.has-value + label {
-  top: 0;
-  background-color: #f0f0f0;
-  padding: 5px;
-  padding-left: 6px;
-  padding-right: 6px;
-  border-radius: 5px;
-  font-size: 0.75rem;
-  margin-bottom: 8px;
-  color: #f21622;
-}
-
-.floating-input-field:has(.ion-valid) ion-input:focus + label,
-.floating-input-field:has(.ion-valid) ion-input.has-value + label{
-  color: #28a745;
-}
-
-/* Password field specific styles */
-.floating-input-field.password-field {
-  padding-right: 2.5rem;
-}
-
-.password-toggle-icon {
-  position: absolute;
-  right: 15px;
-  cursor: pointer;
-  z-index: 10;
-}
-
-/* Validation error styles */
-.validation-error {
-  font-size: 0.8rem;
-  color: #f21622;
-}
-  
-
-/* Department select field with floating label */
-.floating-input-field .select-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.floating-input-field .select-container label {
-  position: absolute;
-  left: 0;
-  top: 30%;
-  font-size: 0.75rem;
-  color: #f21622;
-  pointer-events: none;
-}
-
-/* Focus style enhancements */
-.floating-input-field:focus-within {
-  border: 1px solid #f21622;
-}
-
-
-
-ion-input {
-  --border-color: #d7d8da;
-  --border-radius: 4px;
-  --border-style: solid;
-  --border-width: 1px;
-  --highlight-color-focused: #f21622;
-  --highlight-color-valid: #28a745;
-  --highlight-color-invalid: #f21622;
-  --highlight-height: 0px;
-}
-
-/* Custom styles for different validation states */
-ion-input.ion-valid {
-  --highlight-color: none;
-}
-
-ion-input.ion-invalid {
-  --highlight-color: none;
-}
-
-ion-input.ion-touched:not(.ion-valid):not(.ion-invalid) {
-  --highlight-color: #ffc107;
-  --border-color: #ffc107;
-}
-
-/* Remove problematic custom properties and fix overflow for ion-select */
-ion-select {
-  --highlight-color: none;
-  max-width: 100%;
-  width: 100%;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Optional: Ensure the selected text inside ion-select is also truncated */
-ion-select::part(text) {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
-/* For sign-in form with floating labels */
-.floating-input-field ion-input {
-  --background: transparent;
-  --border-width: 0;
-  --border-style: none;
-  --padding-start: 0;
-}
-
-/* Add bottom line specifically for floating inputs */
-.floating-input-field ion-input::part(native) {
-  border-bottom: 1px solid #d7d8da;
-  padding-bottom: 8px;
-}
-
-/* Change bottom line color based on validation state */
-.floating-input-field:has(.ion-valid) {
-  border: 1px solid #28a745;
-}
-
-.floating-input-field:has(.ion-invalid) {
-  border: 1px solid #f21622;
-}
-
-/* Special styling for input focus state */
-.floating-input-field ion-input.has-focus::part(native) {
-  border-bottom: 2px solid #f21622;
-}
-
-
-/* Reduce the size of floating input fields */
-.floating-input-field {
-  height: 45px; /* Reduced from 55px */
-  max-width: 340px; /* Reduced from 380px */
-  margin: 8px 0; /* Reduced from 10px 0 */
-}
-
-/* Adjust the icon size and positioning */
-.floating-input-field .icon-left {
-  font-size: 1.2rem; /* Reduced from 1.5rem */
-  margin-left: 8px; /* Reduced from 10px */
-  margin-right: 8px; /* Reduced from 10px */
-}
-
-/* Adjust font size in input fields */
-.floating-input-field ion-input {
-  font-size: 0.9rem; /* Reduced from 1rem */
-  padding-top: 16px; /* Reduced from 20px */
-}
-
-/* Adjust label font size */
-.floating-input-field label {
-  font-size: 0.9rem; /* Reduced from 1rem */
-}
-
-/* Adjust floating label when focused or with value */
-.floating-input-field ion-input:focus + label,
-.floating-input-field ion-input.has-value + label {
-  font-size: 0.7rem; /* Reduced from 0.75rem */
-  padding: 3px 5px; /* Reduced from 5px and 6px */
-}
-
-/* Adjust password toggle icon position */
-.password-toggle-icon {
-  right: 12px; /* Reduced from 15px */
-  font-size: 1.1rem; /* Add this to reduce icon size */
-}
-
-/* Adjust validation error text */
-.validation-error {
-  font-size: 0.75rem; /* Reduced from 0.8rem */
-}
-
-/* Adjust button size */
-.btn {
-  height: 42px; /* Reduced from 49px */
-  width: 140px; /* Reduced from 150px */
-  font-size: 0.85rem; /* Slightly reduced font size */
-}
-
-/* Adjust spacing in sign-in and sign-up forms */
-form {
-  padding: 0rem 4rem; /* Reduced from 5rem */
-}
-
-/* Reduce logo sizes */
-.image1 {
-  width: 35%; /* Reduced from 40% */
-}
-
-.image2 {
-  width: 25%; /* Reduced from 30% */
 }

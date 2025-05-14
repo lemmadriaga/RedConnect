@@ -3,186 +3,75 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense"> </ion-header>
 
-  <div class="container">
+  <div class="container" [ngClass]="{'sign-up-mode': isSignUpMode}">
     <div class="forms-container">
       <div class="signin-signup">
-        <form
-  class="sign-in-form"
-  [formGroup]="loginForm"
-  novalidate
->
-  <ion-img src="./assets/LOGO.png" class="image1"></ion-img>
-  <h2 class="title">Sign in</h2>
-  <p class="w-full text-center" style="width: 100%; text-align: center;">Enter your email and password below to Login.</p>
-  <div *ngIf="errorMessage" class="error-message">
-    <ion-text color="danger">{{ errorMessage }}</ion-text>
-  </div>
-  
-  <!-- Email field with floating label -->
-  <div class="floating-input-field" [ngClass]="{
-    'is-valid': loginForm.controls?.['email'].valid && loginForm.controls?.['email'].touched,
-    'is-invalid': loginForm.controls?.['email'].invalid && loginForm.controls?.['email'].touched
-  }">
-  <ion-icon 
-  [name]="loginForm.controls?.['email']?.valid ? 'mail' : 'mail-outline'" 
-  class="icon-left">
-</ion-icon>
-
-    <div class="input-container">
-      <ion-input 
-        type="text" 
-        formControlName="email"
-        required
-      ></ion-input>
-      <label>Email</label>
-    </div>
-  </div>
-  <div *ngIf="loginForm.controls?.['email'].touched && loginForm.controls?.['email'].invalid" class="validation-error">
-    <ion-text *ngIf="loginForm.controls?.['email'].errors?.['required']">
-      Email is required
-    </ion-text>
-    <ion-text *ngIf="loginForm.controls?.['email'].errors?.['pattern']">
-      Enter a valid email
-    </ion-text>
-  </div>
-  
-  <!-- Password field with floating label -->
-  <div class="floating-input-field password-field" [ngClass]="{
-    'is-valid': loginForm.controls?.['password'].valid && loginForm.controls?.['password'].touched,
-    'is-invalid': loginForm.controls?.['password'].invalid && loginForm.controls?.['password'].touched
-  }">
-    <ion-icon [name]="loginForm.controls?.['password']?.valid ? 'lock-closed' : 'lock-closed-outline'" class="icon-left"></ion-icon>
-    <div class="input-container">
-      <ion-input 
-        [type]="showPassword ? 'text' : 'password'"
-        formControlName="password"
-        required
-      ></ion-input>
-      <label>Password</label>
-    </div>
-    <ion-icon
-      [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
-      (click)="togglePasswordVisibility()"
-      class="password-toggle-icon"
-    ></ion-icon>
-  </div>
-  <div *ngIf="loginForm.controls?.['password'].touched && loginForm.controls?.['password'].invalid" class="validation-error">
-    <ion-text *ngIf="loginForm.controls?.['password'].errors?.['required']">
-      Password is required
-    </ion-text>
-    <ion-text *ngIf="loginForm.controls?.['password'].errors?.['pattern']">
-      Password must contain 8 characters
-    </ion-text>
-  </div>
-
-  <button
-    type="submit"
-    class="btn solid"
-    (click)="signIn()"
-    [disabled]="!loginForm.valid"
-  >
-    Login
-  </button>
-  <button
-    type="button"
-    class="forgot-password-btn"
-    (click)="resetPassword()"
-  >
-    Forgot Password?
-  </button>
-</form>
-
-        <form
-          class="sign-up-form"
-          [formGroup]="regForm"
-          novalidate
-        >
-          <ion-img src="./assets/LOGO.png" class="image2"></ion-img>
-          <h2 class="title">Sign up</h2>
-          <p style="margin-bottom: 10px; width: 100%; text-align: center;">Create your account to get started.</p>
-          
-          <!-- Username -->
-          <div class="floating-input-field" [ngClass]="{
-            'is-valid': regForm.controls?.['fullname'].valid && regForm.controls?.['fullname'].touched,
-            'is-invalid': regForm.controls?.['fullname'].invalid && regForm.controls?.['fullname'].touched
-          }">
-            <ion-icon  [name]="regForm.controls?.['fullname']?.valid ? 'person' : 'person-outline'" class="icon-left"></ion-icon>
-            <div class="input-container">
-              <ion-input
-                type="text"
-                formControlName="fullname"
-                required
-              ></ion-input>
-              <label>Username</label>
-            </div>
-          </div>
-          <div *ngIf="regForm.controls?.['fullname'].touched && regForm.controls?.['fullname'].invalid" class="validation-error">
-            <ion-text *ngIf="regForm.controls?.['fullname'].errors?.['required']">
-              Username is required
-            </ion-text>
+        <form class="sign-in-form" [formGroup]="loginForm" novalidate>
+          <ion-img src="./assets/LOGO.png" class="image1"></ion-img>
+          <h2 class="title">Sign in</h2>
+          <p>Enter your email and password below to Login.</p>
+          <div *ngIf="errorMessage" class="error-message">
+            <ion-text color="danger">{{ errorMessage }}</ion-text>
           </div>
 
-          <!-- Email -->
-          <div class="floating-input-field" [ngClass]="{
-            'is-valid': regForm.controls?.['email'].valid && regForm.controls?.['email'].touched,
-            'is-invalid': regForm.controls?.['email'].invalid && regForm.controls?.['email'].touched
-          }">
-            <ion-icon [name]="regForm.controls?.['email']?.valid ? 'mail' : 'mail-outline'" class="icon-left"></ion-icon>
-            <div class="input-container">
+          <!-- Enhanced Email Input -->
+          <div
+            class="input-field"
+            [ngClass]="{
+                 'focused': emailFocused,
+                 'has-content': loginForm.controls['email'].value,
+                 'valid-input': loginForm.controls['email'].valid && loginForm.controls['email'].touched,
+                 'invalid-input': loginForm.controls['email'].invalid && loginForm.controls['email'].touched
+               }"
+          >
+            <ion-icon name="mail" class="icon-left"></ion-icon>
+            <div class="field-container">
+              <span class="floating-label">Email</span>
               <ion-input
                 type="email"
                 formControlName="email"
-                required
+                (ionFocus)="emailFocused = true"
+                (ionBlur)="emailFocused = false"
               ></ion-input>
-              <label>Email</label>
             </div>
           </div>
-          <div *ngIf="regForm.controls?.['email'].touched && regForm.controls?.['email'].invalid" class="validation-error">
-            <ion-text *ngIf="regForm.controls?.['email'].errors?.['required']" >
+
+          <!-- Email Error Messages -->
+          <div
+            class="form-error"
+            [ngClass]="{'visible': loginForm.controls['email'].touched && loginForm.controls['email'].invalid}"
+          >
+            <ng-container
+              *ngIf="loginForm.controls['email'].errors?.['required']"
+            >
               Email is required
-            </ion-text>
-            <ion-text *ngIf="regForm.controls?.['email'].errors?.['pattern']">
-              Please use your GSuite account
-            </ion-text>
+            </ng-container>
+            <ng-container
+              *ngIf="loginForm.controls['email'].errors?.['pattern']"
+            >
+              Enter a valid email
+            </ng-container>
           </div>
 
-          <!-- Contact Number -->
-          <div class="floating-input-field" [ngClass]="{
-            'is-valid': regForm.controls?.['contact'].valid && regForm.controls?.['contact'].touched,
-            'is-invalid': regForm.controls?.['contact'].invalid && regForm.controls?.['contact'].touched
-          }">
-            <ion-icon [name]="regForm.controls?.['contact']?.valid ? 'call' : 'call-outline'"  class="icon-left"></ion-icon>
-            <div class="input-container">
-              <ion-input
-                type="tel"
-                formControlName="contact"
-                required
-              ></ion-input>
-              <label>Contact Number</label>
-            </div>
-          </div>
-          <div *ngIf="regForm.controls?.['contact'].touched && regForm.controls?.['contact'].invalid" class="validation-error">
-            <ion-text *ngIf="regForm.controls?.['contact'].errors?.['required']">
-              Contact number is required
-            </ion-text>
-            <ion-text *ngIf="regForm.controls?.['contact'].errors?.['pattern']">
-              Enter a valid 11 digits mobile number
-            </ion-text>
-          </div>
-
-          <!-- Password -->
-          <div class="floating-input-field password-field" [ngClass]="{
-            'is-valid': regForm.controls?.['password'].valid && regForm.controls?.['password'].touched,
-            'is-invalid': regForm.controls?.['password'].invalid && regForm.controls?.['password'].touched
-          }">
-            <ion-icon [name]="regForm.controls?.['password']?.valid ? 'lock-closed' : 'lock-closed-outline'" class="icon-left"></ion-icon>
-            <div class="input-container">
+          <!-- Enhanced Password Input -->
+          <div
+            class="input-field password-field"
+            [ngClass]="{
+                 'focused': passwordFocused,
+                 'has-content': loginForm.controls['password'].value,
+                 'valid-input': loginForm.controls['password'].valid && loginForm.controls['password'].touched,
+                 'invalid-input': loginForm.controls['password'].invalid && loginForm.controls['password'].touched
+               }"
+          >
+            <ion-icon name="lock-closed-outline" class="icon-left"></ion-icon>
+            <div class="field-container">
+              <span class="floating-label">Password</span>
               <ion-input
                 [type]="showPassword ? 'text' : 'password'"
                 formControlName="password"
-                required
+                (ionFocus)="passwordFocused = true"
+                (ionBlur)="passwordFocused = false"
               ></ion-input>
-              <label>Password</label>
             </div>
             <ion-icon
               [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
@@ -190,28 +79,223 @@
               class="password-toggle-icon"
             ></ion-icon>
           </div>
-          <div *ngIf="regForm.controls?.['password'].touched && regForm.controls?.['password'].invalid" class="validation-error">
-            <ion-text *ngIf="regForm.controls?.['password'].errors?.['required']">
+
+          <!-- Password Error Messages -->
+          <div
+            class="form-error"
+            [ngClass]="{'visible': loginForm.controls['password'].touched && loginForm.controls['password'].invalid}"
+          >
+            <ng-container
+              *ngIf="loginForm.controls['password'].errors?.['required']"
+            >
               Password is required
-            </ion-text>
-            <ion-text *ngIf="regForm.controls?.['password'].errors?.['pattern']">
+            </ng-container>
+            <ng-container
+              *ngIf="loginForm.controls['password'].errors?.['pattern']"
+            >
               Password must contain 8 characters
-            </ion-text>
+            </ng-container>
           </div>
 
-          <!-- Confirm Password -->
-          <div class="floating-input-field password-field" [ngClass]="{
-            'is-valid': regForm.controls?.['confirmPassword'].valid && regForm.controls?.['confirmPassword'].touched,
-            'is-invalid': regForm.controls?.['confirmPassword'].invalid && regForm.controls?.['confirmPassword'].touched
-          }">
-            <ion-icon [name]="regForm.controls?.['confirmPassword']?.valid ? 'lock-closed' : 'lock-closed-outline'" class="icon-left"></ion-icon>
-            <div class="input-container">
+          <button
+            type="submit"
+            class="btn solid"
+            (click)="signIn()"
+            [disabled]="!loginForm.valid"
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            class="forgot-password-btn"
+            (click)="resetPassword()"
+          >
+            Forgot Password?
+          </button>
+        </form>
+
+        <form
+          class="sign-up-form"
+          [formGroup]="regForm"
+          (ngSubmit)="signUp()"
+          novalidate
+        >
+          <ion-img src="./assets/LOGO.png" class="image2"></ion-img>
+          <h2 class="title">Sign up</h2>
+
+          <!-- Enhanced Full Name Input -->
+          <div
+            class="input-field"
+            [ngClass]="{
+                 'focused': fullnameFocused,
+                 'has-content': regForm.controls['fullname'].value,
+                 'valid-input': regForm.controls['fullname'].valid && regForm.controls['fullname'].touched,
+                 'invalid-input': regForm.controls['fullname'].invalid && regForm.controls['fullname'].touched
+               }"
+          >
+            <ion-icon name="person" class="icon-left"></ion-icon>
+            <div class="field-container">
+              <span class="floating-label">Full Name</span>
+              <ion-input
+                type="text"
+                formControlName="fullname"
+                (ionFocus)="fullnameFocused = true"
+                (ionBlur)="fullnameFocused = false"
+              ></ion-input>
+            </div>
+          </div>
+
+          <!-- Full Name Error Message -->
+          <div
+            class="form-error"
+            [ngClass]="{'visible': regForm.controls['fullname'].touched && regForm.controls['fullname'].invalid}"
+          >
+            <ng-container
+              *ngIf="regForm.controls['fullname'].errors?.['required']"
+            >
+              Full Name is required
+            </ng-container>
+          </div>
+
+          <!-- Enhanced Registration Email Input -->
+          <div
+            class="input-field"
+            [ngClass]="{
+                 'focused': regEmailFocused,
+                 'has-content': regForm.controls['email'].value,
+                 'valid-input': regForm.controls['email'].valid && regForm.controls['email'].touched,
+                 'invalid-input': regForm.controls['email'].invalid && regForm.controls['email'].touched
+               }"
+          >
+            <ion-icon name="mail" class="icon-left"></ion-icon>
+            <div class="field-container">
+              <span class="floating-label">Email</span>
+              <ion-input
+                type="email"
+                formControlName="email"
+                (ionFocus)="regEmailFocused = true"
+                (ionBlur)="regEmailFocused = false"
+              ></ion-input>
+            </div>
+          </div>
+
+          <!-- Registration Email Error Message -->
+          <div
+            class="form-error"
+            [ngClass]="{'visible': regForm.controls['email'].touched && regForm.controls['email'].invalid}"
+          >
+            <ng-container
+              *ngIf="regForm.controls['email'].errors?.['required']"
+            >
+              Email is required
+            </ng-container>
+            <ng-container *ngIf="regForm.controls['email'].errors?.['pattern']">
+              Enter a School Email
+            </ng-container>
+          </div>
+
+          <!-- Enhanced Contact Input -->
+          <div
+            class="input-field"
+            [ngClass]="{
+                 'focused': contactFocused,
+                 'has-content': regForm.controls['contact'].value,
+                 'valid-input': regForm.controls['contact'].valid && regForm.controls['contact'].touched,
+                 'invalid-input': regForm.controls['contact'].invalid && regForm.controls['contact'].touched
+               }"
+          >
+            <ion-icon name="call" class="icon-left"></ion-icon>
+            <div class="field-container">
+              <span class="floating-label">Contact Number</span>
+              <ion-input
+                type="tel"
+                formControlName="contact"
+                (ionFocus)="contactFocused = true"
+                (ionBlur)="contactFocused = false"
+              ></ion-input>
+            </div>
+          </div>
+
+          <!-- Contact Error Message -->
+          <div
+            class="form-error"
+            [ngClass]="{'visible': regForm.controls['contact'].touched && regForm.controls['contact'].invalid}"
+          >
+            <ng-container
+              *ngIf="regForm.controls['contact'].errors?.['required']"
+            >
+              Contact number is required
+            </ng-container>
+            <ng-container
+              *ngIf="regForm.controls['contact'].errors?.['pattern']"
+            >
+              Enter a valid 11 digits mobile number
+            </ng-container>
+          </div>
+
+          <!-- Enhanced Registration Password Input -->
+          <div
+            class="input-field password-field"
+            [ngClass]="{
+                 'focused': regPasswordFocused,
+                 'has-content': regForm.controls['password'].value,
+                 'valid-input': regForm.controls['password'].valid && regForm.controls['password'].touched,
+                 'invalid-input': regForm.controls['password'].invalid && regForm.controls['password'].touched
+               }"
+          >
+            <ion-icon name="lock-closed-outline" class="icon-left"></ion-icon>
+            <div class="field-container">
+              <span class="floating-label">Password</span>
+              <ion-input
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                (ionFocus)="regPasswordFocused = true"
+                (ionBlur)="regPasswordFocused = false"
+              ></ion-input>
+            </div>
+            <ion-icon
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+              (click)="togglePasswordVisibility()"
+              class="password-toggle-icon"
+            ></ion-icon>
+          </div>
+
+          <!-- Registration Password Error Message -->
+          <div
+            class="form-error"
+            [ngClass]="{'visible': regForm.controls['password'].touched && regForm.controls['password'].invalid}"
+          >
+            <ng-container
+              *ngIf="regForm.controls['password'].errors?.['required']"
+            >
+              Password is required
+            </ng-container>
+            <ng-container
+              *ngIf="regForm.controls['password'].errors?.['pattern']"
+            >
+              Password must contain 8 characters
+            </ng-container>
+          </div>
+
+          <!-- Enhanced Confirm Password Input -->
+          <div
+            class="input-field password-field"
+            [ngClass]="{
+                 'focused': confirmPasswordFocused,
+                 'has-content': regForm.controls['confirmPassword'].value,
+                 'valid-input': regForm.controls['confirmPassword'].valid && regForm.controls['confirmPassword'].touched,
+                 'invalid-input': regForm.controls['confirmPassword'].invalid && regForm.controls['confirmPassword'].touched
+               }"
+          >
+            <ion-icon name="lock-closed-outline" class="icon-left"></ion-icon>
+            <div class="field-container">
+              <span class="floating-label">Confirm Password</span>
               <ion-input
                 [type]="showConfirmPassword ? 'text' : 'password'"
                 formControlName="confirmPassword"
-                required
+                (ionFocus)="confirmPasswordFocused = true"
+                (ionBlur)="confirmPasswordFocused = false"
               ></ion-input>
-              <label>Confirm Password</label>
             </div>
             <ion-icon
               [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
@@ -219,53 +303,77 @@
               class="password-toggle-icon"
             ></ion-icon>
           </div>
-          <div *ngIf="regForm.controls?.['confirmPassword'].touched && regForm.controls?.['confirmPassword'].invalid" class="validation-error">
-            <ion-text *ngIf="regForm.controls?.['confirmPassword'].errors?.['required']">
+
+          <!-- Confirm Password Error Message -->
+          <div
+            class="form-error"
+            [ngClass]="{'visible': regForm.controls['confirmPassword'].touched && regForm.controls['confirmPassword'].invalid}"
+          >
+            <ng-container
+              *ngIf="regForm.controls['confirmPassword'].errors?.['required']"
+            >
               Confirm password is required
-            </ion-text>
-            <ion-text *ngIf="regForm.controls?.['confirmPassword'].errors?.['mismatch']">
+            </ng-container>
+            <ng-container
+              *ngIf="regForm.controls['confirmPassword'].errors?.['mismatch']"
+            >
               Passwords do not match
-            </ion-text>
+            </ng-container>
           </div>
 
-          <!-- Department -->
-          <div class="floating-input-field overflow-ellipsis">
-            <ion-icon [name]="regForm.controls?.['department']?.valid ? 'school' : 'school-outline'"  class="icon-left"></ion-icon>
-            <ion-select
-              formControlName="department"
-              placeholder="Select your department"
-            >
-              <ion-select-option value="CICS"
-                >College of Informatics and Computing Sciences
-                (CICS)</ion-select-option
-              >
-              <ion-select-option value="CET"
-                >College of Engineering Technology (CET)</ion-select-option
-              >
-              <ion-select-option value="CAFAD"
-                >College of Architecture, Fine Arts, and Design (CAFAD)</ion-select-option
-              >
-              <ion-select-option value="CoE"
-                >College of Engineering (CoE)</ion-select-option
-              >
-            </ion-select>
-          </div>
+          <!-- Enhanced Department Select -->
           <div
-            *ngIf="regForm.controls?.['department'].touched && regForm.controls?.['department'].invalid"
-            class="validation-error"
+            class="input-field"
+            [ngClass]="{
+                 'focused': departmentFocused,
+                 'has-content': regForm.controls['department'].value,
+                 'valid-input': regForm.controls['department'].valid && regForm.controls['department'].touched,
+                 'invalid-input': regForm.controls['department'].invalid && regForm.controls['department'].touched
+               }"
           >
-            <ion-text
-              *ngIf="regForm.controls?.['department'].errors?.['required']"
+            <ion-icon name="school" class="icon-left"></ion-icon>
+            <div class="field-container">
+              <span class="floating-label">Department</span>
+              <ion-select
+                formControlName="department"
+                interface="popover"
+                (ionFocus)="departmentFocused = true"
+                (ionBlur)="departmentFocused = false"
+              >
+                <ion-select-option value="CICS"
+                  >College of Informatics and Computing Sciences
+                  (CICS)</ion-select-option
+                >
+                <ion-select-option value="CET"
+                  >College of Engineering Technology (CET)</ion-select-option
+                >
+                <ion-select-option value="CTE"
+                  >College of Teacher Education (CTE)</ion-select-option
+                >
+                <ion-select-option value="CAS"
+                  >College of Arts and Sciences (CAS)</ion-select-option
+                >
+                <ion-select-option value="CABEIHM"
+                  >College of Accountancy, Business, Economics and International
+                  Hospitality Management (CABEIHM)</ion-select-option
+                >
+              </ion-select>
+            </div>
+          </div>
+
+          <!-- Department Error Message -->
+          <div
+            class="form-error"
+            [ngClass]="{'visible': regForm.controls['department'].touched && regForm.controls['department'].invalid}"
+          >
+            <ng-container
+              *ngIf="regForm.controls['department'].errors?.['required']"
             >
               Department selection is required
-            </ion-text>
+            </ng-container>
           </div>
-          <button 
-            type="submit" 
-            class="btn solid" 
-            (click)="signUp()"
-            [disabled]="!regForm.valid"
-          >
+
+          <button type="submit" class="btn solid" [disabled]="!regForm.valid">
             Sign up
           </button>
         </form>
@@ -277,22 +385,33 @@
         <div class="content">
           <h3>Let's connect, spartan!</h3>
           <p>
-            Become part of something bigger.<br />
-            Connect, learn, and grow with RedConnect+
+            Become part of something bigger. Join us and be a part of the
+            Spartan legacy. <br />
+            Connect, learn, and grow with RedConnect+!
           </p>
 
-          <button class="btn transparent" id="sign-up-btn">Sign up</button>
+          <button
+            class="btn transparent"
+            id="sign-up-btn"
+            (click)="toggleMode(true)"
+          >
+            Sign up
+          </button>
         </div>
       </div>
       <div class="panel right-panel">
         <div class="content">
           <h3>Already have an account?</h3>
-          <p>Click the button to Sign-in!</p>
-          <button class="btn transparent" id="sign-in-btn">Sign in</button>
+          <p>Click the button to LOGIN!</p>
+          <button
+            class="btn transparent"
+            id="sign-in-btn"
+            (click)="toggleMode(false)"
+          >
+            Sign in
+          </button>
         </div>
       </div>
     </div>
-
-
   </div>
 </ion-content>

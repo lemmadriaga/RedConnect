@@ -1,5 +1,17 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  AfterViewInit,
+  ElementRef,
+} from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { AuthenticationService } from '../authentication.service';
@@ -11,72 +23,128 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './authentication.page.html',
   styleUrls: ['./authentication.page.scss'],
 })
-export class AuthenticationPage implements AfterViewInit {
+export class AuthenticationPage implements OnInit, AfterViewInit {
   regForm: FormGroup;
   loginForm: FormGroup;
-  errorMessage: string | null = null;
-  showPassword = false;
+  errorMessage: string = '';
+  showPassword: boolean = false;
   showConfirmPassword = false;
+  isSignUpMode: boolean = false;
+
+  // Input field focus state tracking
+  emailFocused: boolean = false;
+  passwordFocused: boolean = false;
+  fullnameFocused: boolean = false;
+  regEmailFocused: boolean = false;
+  contactFocused: boolean = false;
+  regPasswordFocused: boolean = false;
+  confirmPasswordFocused: boolean = false;
+  departmentFocused: boolean = false;
 
   constructor(
-    public formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
+    private renderer: Renderer2,
+    private el: ElementRef,
     private router: Router,
     public loadingCtrl: LoadingController,
     public authService: AuthenticationService,
     public alertCtrl: AlertController
-  ) {}
-
-  ngOnInit() {
-    this.initializeForms();
-  }
-
-  private initializeForms() {
-    this.regForm = this.formBuilder.group({
-      fullname: ['', [Validators.required]],
-      contact: ['', [Validators.required, Validators.pattern('^09\\d{9}$')]],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email,
-          Validators.pattern('^[a-z0-9._%+-]+@g\\.batstate-u\\.edu\\.ph$'),
-        ],
-      ],
-      password: ['', [Validators.required, Validators.pattern('.{8,}')]],
-      confirmPassword: ['', [Validators.required]],
-      department: ['', [Validators.required]],
-    }, { validators: this.passwordsMatchValidator });
-
+  ) {
+    // Initialize login form
     this.loginForm = this.formBuilder.group({
       email: [
         '',
         [
           Validators.required,
-          Validators.email,
-          Validators.pattern('^[a-z0-9._%+-]+@g\\.batstate-u\\.edu\\.ph$'),
+          Validators.pattern(
+            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'
+          ),
         ],
       ],
-      password: ['', [Validators.required, Validators.pattern('.{8,}')]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^.{8,}$'), // At least 8 characters
+        ],
+      ],
     });
+
+    // Initialize registration form
+    this.regForm = this.formBuilder.group(
+      {
+        fullname: ['', Validators.required],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(
+              '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'
+            ),
+          ],
+        ],
+        contact: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^[0-9]{11}$'), // 11 digits
+          ],
+        ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^.{8,}$'), // At least 8 characters
+          ],
+        ],
+        confirmPassword: ['', Validators.required],
+        department: ['', Validators.required],
+      },
+      { validators: this.passwordsMatchValidator }
+    );
   }
-  get errorControl() {
-    return this.regForm?.controls, this.loginForm?.controls;
+
+  ngOnInit() {
+    this.setupFormSubscriptions();
   }
-  // Custom validator to check if password and confirmPassword match
-  passwordsMatchValidator(form: AbstractControl): ValidationErrors | null {
-    const password = form.get('password')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
-    
-    if (password !== confirmPassword) {
-      form.get('confirmPassword')?.setErrors({ mismatch: true });
-      return { mismatch: true };
+
+  ngAfterViewInit() {
+    // Get sign up button from the DOM
+    const signUpBtn = this.el.nativeElement.querySelector('#sign-up-btn');
+    // Get sign in button from the DOM
+    const signInBtn = this.el.nativeElement.querySelector('#sign-in-btn');
+
+    if (signUpBtn) {
+      this.renderer.listen(signUpBtn, 'click', () => {
+        this.toggleMode(true);
+      });
+    }
+
+    if (signInBtn) {
+      this.renderer.listen(signInBtn, 'click', () => {
+        this.toggleMode(false);
+      });
+    }
+  }
+
+  toggleMode(isSignUp: boolean) {
+    this.isSignUpMode = isSignUp;
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  signIn() {
+    if (this.loginForm.valid) {
+      this.signInWithEmail();
     } else {
-      // Only clear mismatch error if there are no other errors
-      if (form.get('confirmPassword')?.hasError('mismatch')) {
-        const confirmPasswordControl = form.get('confirmPassword');
-        confirmPasswordControl?.setErrors(null);
-      }
-      return null;
+      this.loginForm.markAllAsTouched();
+      this.errorMessage = 'Please check your input fields';
     }
   }
 
@@ -104,7 +172,7 @@ export class AuthenticationPage implements AfterViewInit {
           const alert = await this.alertCtrl.create({
             header: 'Verify Your Email',
             message:
-              'We have sent you an email. Please verify your account before logging in. If not found, please also check the spam/junk folders. Thank you',
+              'We have sent you an email. Please verify your account before logging in.',
             buttons: ['OK'],
           });
           await alert.present();
@@ -112,12 +180,6 @@ export class AuthenticationPage implements AfterViewInit {
         }
       } catch (error) {
         console.error('Registration error:', error);
-        const alert = await this.alertCtrl.create({
-          header: 'An error occured',
-          message: error.message,
-          buttons: ['OK'],
-        });
-        await alert.present();
         loading.dismiss();
       }
     } else {
@@ -125,22 +187,64 @@ export class AuthenticationPage implements AfterViewInit {
     }
   }
 
-  getFriendlyError(error: any): string {
-    // If it's a Firebase error
-    if (error?.code) {
-      // Example: auth/email-already-in-use
-      return error.code.replace('auth/', '').replace(/-/g, ' ');
-    }
-
-    // If it's a regular JS error
-    if (error?.message) {
-      return error.message;
-    }
-
-    return 'An unknown error occurred.';
+  resetPassword() {
+    // Handle password reset logic
+    console.log('Reset password requested');
+    // Implement password reset functionality
   }
 
-  async signIn() {
+  // Validation helper methods
+  getInputFieldClass(controlName: string, formGroup: FormGroup) {
+    const control = formGroup.get(controlName);
+    if (!control) return {};
+
+    // Get the appropriate focus state based on the control name
+    let isFocused = false;
+    switch (controlName) {
+      case 'email':
+        isFocused = this.emailFocused;
+        break;
+      case 'password':
+        isFocused = this.passwordFocused;
+        break;
+      case 'fullname':
+        isFocused = this.fullnameFocused;
+        break;
+      case 'contact':
+        isFocused = this.contactFocused;
+        break;
+      case 'department':
+        isFocused = this.departmentFocused;
+        break;
+    }
+
+    return {
+      focused: isFocused,
+      'has-content': control.value,
+      'valid-input': control.valid && control.touched,
+      'invalid-input': control.invalid && control.touched,
+    };
+  }
+
+  // Custom validator to check if password and confirmPassword match
+  passwordsMatchValidator(form: AbstractControl): ValidationErrors | null {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+
+    if (password !== confirmPassword) {
+      form.get('confirmPassword')?.setErrors({ mismatch: true });
+      return { mismatch: true };
+    } else {
+      // Only clear mismatch error if there are no other errors
+      if (form.get('confirmPassword')?.hasError('mismatch')) {
+        const confirmPasswordControl = form.get('confirmPassword');
+        confirmPasswordControl?.setErrors(null);
+      }
+      return null;
+    }
+  }
+
+  async signInWithEmail() {
     const loading = await this.loadingCtrl.create();
     await loading.present();
 
@@ -236,39 +340,8 @@ export class AuthenticationPage implements AfterViewInit {
     }
   }
 
-  async resetPassword() {
-    return this.router.navigate(['/reset-password']);
-  }
-
-  ngAfterViewInit() {
-    const sign_in_btn = document.querySelector('#sign-in-btn');
-    const sign_up_btn = document.querySelector('#sign-up-btn');
-    const container = document.querySelector('.container');
-
-    this.setupFloatingLabels();
-
-    if (sign_up_btn && container) {
-      sign_up_btn.addEventListener('click', () => {
-        container.classList.add('sign-up-mode');
-      });
-    }
-
-    if (sign_in_btn && container) {
-      sign_in_btn.addEventListener('click', () => {
-        container.classList.remove('sign-up-mode');
-      });
-    }
-  }
-
   tabs() {
     this.router.navigate(['tabs']);
-  }
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  toggleConfirmPasswordVisibility() {
-    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   setupFloatingLabels() {
@@ -310,6 +383,14 @@ export class AuthenticationPage implements AfterViewInit {
 
     this.regForm.valueChanges.subscribe(() => {
       setTimeout(applyHasValueClass, 100);
+    });
+  }
+
+  setupFormSubscriptions() {
+    this.regForm.valueChanges.subscribe(() => {
+      console.log('Form Valid:', this.regForm.valid);
+      console.log('Form Errors:', this.regForm.errors);
+      console.log('Form Values:', this.regForm.value);
     });
   }
 }

@@ -1,26 +1,123 @@
 {
   "project_info": {
-    "project_number": "987601637452",
-    "project_id": "bsu-connect-d111d",
-    "storage_bucket": "bsu-connect-d111d.firebasestorage.app"
+    "project_number": "724307836074",
+    "project_id": "safetalks-v2",
+    "storage_bucket": "safetalks-v2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:987601637452:android:fd9cb460075d147e7da4e9",
+        "mobilesdk_app_id": "1:724307836074:android:1d8dbd5e7cb2c1c40f64d3",
         "android_client_info": {
-          "package_name": "io.bsu.connect"
+          "package_name": "com.alpha.safetalks"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "724307836074-rl2bjqdee1fvhgksrqrl282l2ele54r1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alpha.safetalks",
+            "certificate_hash": "8ae256fa46f2da1f2ce87073d261800f9df1c452"
+          }
+        },
+        {
+          "client_id": "724307836074-4p47034lmtoopt8s30dfmsah6v0ocvpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyD8mhqACLtVmEcQyaJlXH1Lx1kzEFM8PQQ"
+          "current_key": "AIzaSyCYG0OyJiX-E3GmNx8RJDmOhe8Lgr8-zw4"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "724307836074-4p47034lmtoopt8s30dfmsah6v0ocvpa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "724307836074-2tfuojfv8gbbba9990ee8r68l9kjc3fc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.safetalks"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724307836074:android:5e88db88ed17bc340f64d3",
+        "android_client_info": {
+          "package_name": "com.example.safetalks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "724307836074-4p47034lmtoopt8s30dfmsah6v0ocvpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYG0OyJiX-E3GmNx8RJDmOhe8Lgr8-zw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "724307836074-4p47034lmtoopt8s30dfmsah6v0ocvpa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "724307836074-2tfuojfv8gbbba9990ee8r68l9kjc3fc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.safetalks"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724307836074:android:9316244f28ed0a2b0f64d3",
+        "android_client_info": {
+          "package_name": "io.bsu.connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "724307836074-4p47034lmtoopt8s30dfmsah6v0ocvpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYG0OyJiX-E3GmNx8RJDmOhe8Lgr8-zw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "724307836074-4p47034lmtoopt8s30dfmsah6v0ocvpa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "724307836074-2tfuojfv8gbbba9990ee8r68l9kjc3fc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.safetalks"
+              }
+            }
+          ]
         }
       }
     }
