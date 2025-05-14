@@ -364,7 +364,7 @@ button {
 }
 
 .container.sign-up-mode:before {
-  transform: translate(100%, -50%);
+  transform: translate(100%, -100%);
   right: 52%;
 }
 
@@ -403,7 +403,7 @@ button {
 @media (max-width: 870px) {
   .container {
     min-height: 800px;
-    height: 150dvh;
+    height: 100dvh;
 
   }
 
