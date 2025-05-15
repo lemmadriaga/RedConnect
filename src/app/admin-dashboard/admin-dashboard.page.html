@@ -594,7 +594,7 @@
               >Close</ion-button
             >
           </div>
-          <div class="flex space-x-4 mb-4">
+          <div class="grid grid-cols-1 gap-4 items-center mb-4">
             <ion-select
               placeholder="Filter by Department"
               [(ngModel)]="selectedDepartment"
@@ -612,28 +612,13 @@
                 >{{ section }}</ion-select-option
               >
             </ion-select>
-
-            <!-- <ion-select
-              placeholder="Filter by Status"
-              [(ngModel)]="selectedStatus"
-            >
-              <ion-select-option value="present">Present</ion-select-option>
-              <ion-select-option value="registered"
-                >Registered</ion-select-option
-              >
-            </ion-select> -->
-          </div>
-          <div class="flex justify-between items-center mb-4">
             <!-- Filter by Status Dropdown -->
             <ion-select
               placeholder="Filter by Status"
               [(ngModel)]="selectedStatus"
-              class="mr-4"
             >
               <ion-select-option value="present">Present</ion-select-option>
-              <ion-select-option value="registered"
-                >Registered</ion-select-option
-              >
+              <ion-select-option value="registered">Registered</ion-select-option>
             </ion-select>
 
             <!-- Download PDF Button -->
